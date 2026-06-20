@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { z } from 'zod';
+import { ERP_KNOWLEDGE } from '../ai/knowledge/erp-guide.ts';
 
 dotenv.config();
 
@@ -29,7 +30,20 @@ const schema = z.object({
   CHAT_PUBLIC_BASE_URL: z.preprocess(emptyStringToUndefined, z.string().url().optional()),
   FCM_NOTIFICATION_API_URL: z.preprocess(emptyStringToUndefined, z.string().url().optional()),
   FCM_NOTIFICATION_API_TIMEOUT_MS: z.coerce.number().int().min(0).default(60_000),
-  INTERNAL_AUTH_SECRET: z.string().min(16).default('dev-chat-internal-secret-change-me')
+  INTERNAL_AUTH_SECRET: z.string().min(16).default('dev-chat-internal-secret-change-me'),
+  AI_PROVIDER: z.preprocess(emptyStringToUndefined, z.enum(['openai', 'gemini', 'ollama']).optional()),
+  AI_ASSISTANT_NAME: z.string().default('AI Assistant'),
+  AI_SYSTEM_PROMPT: z.string().default('Bạn là trợ lý AI hữu ích...'),
+  AI_MAX_HISTORY_MESSAGES: z.coerce.number().int().min(1).max(50).default(20),
+  AI_REQUEST_TIMEOUT_MS: z.coerce.number().int().min(1000).default(60_000),
+  OPENAI_API_KEY: z.preprocess(emptyStringToUndefined, z.string().optional()),
+  OPENAI_MODEL: z.string().default('gpt-5-mini'),
+  OPENAI_BASE_URL: z.string().url().default('https://api.openai.com/v1'),
+  GEMINI_API_KEY: z.preprocess(emptyStringToUndefined, z.string().optional()),
+  GEMINI_MODEL: z.string().default('gemini-2.5-flash'),
+  GEMINI_BASE_URL: z.string().url().default('https://generativelanguage.googleapis.com/v1beta'),
+  OLLAMA_BASE_URL: z.string().url().default('http://localhost:11434'),
+  OLLAMA_MODEL: z.string().default('llama3.1')
 });
 
 export const env = schema.parse(process.env);

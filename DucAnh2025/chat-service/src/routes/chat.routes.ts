@@ -113,6 +113,38 @@ router.get('/conversations', asyncRoute(async (req: any, res: any) => {
   res.json({ success: true, data });
 }));
 
+router.get('/ai/status', asyncRoute(async (_req: any, res: any) => {
+  res.json({
+    success: true,
+    data: {
+      enabled: Boolean(env.AI_PROVIDER),
+      provider: env.AI_PROVIDER ?? null,
+      assistantName: env.AI_ASSISTANT_NAME
+    }
+  });
+}));
+
+router.get('/ai/conversation', asyncRoute(async (req: any, res: any) => {
+  const data = await chat.ensureAiConversation(req.user);
+  res.json({ success: true, data });
+}));
+
+router.post('/ai/messages', asyncRoute(async (req: any, res: any) => {
+  const data = await chat.sendAiMessage(req.user, {
+    conversationId: req.body.conversationId,
+    clientMessageId: req.body.clientMessageId,
+    body: req.body.body
+  });
+  res.json({
+    success: true,
+    data: {
+      ...data,
+      userMessage: enrichMessageFiles(req, data.userMessage),
+      assistantMessage: enrichMessageFiles(req, data.assistantMessage)
+    }
+  });
+}));
+
 router.post('/conversations/private', asyncRoute(async (req: any, res: any) => {
   const conversationId = await chat.createPrivateConversation(req.user, req.body.targetUserId, req.body.targetUserName);
   res.json({ success: true, data: { conversationId } });
@@ -156,6 +188,22 @@ router.get('/conversations/:id/messages', asyncRoute(async (req: any, res: any) 
 }));
 
 router.post('/conversations/:id/messages', asyncRoute(async (req: any, res: any) => {
+  if (await chat.isAiConversation(req.params.id, req.user.id)) {
+    const data = await chat.sendAiMessage(req.user, {
+      conversationId: req.params.id,
+      clientMessageId: req.body.clientMessageId,
+      body: req.body.body
+    });
+    return res.json({
+      success: true,
+      data: {
+        ...data,
+        userMessage: enrichMessageFiles(req, data.userMessage),
+        assistantMessage: enrichMessageFiles(req, data.assistantMessage)
+      }
+    });
+  }
+
   const data = await chat.sendMessage(req.user, {
     conversationId: req.params.id,
     clientMessageId: req.body.clientMessageId,

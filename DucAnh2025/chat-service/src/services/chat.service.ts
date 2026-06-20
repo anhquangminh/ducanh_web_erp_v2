@@ -4,6 +4,7 @@ import path from "path";
 import type { AuthUser } from "../auth/jwt.ts";
 import { env } from "../config/env.ts";
 import { findExistingUsersByIds } from "../db/sql.ts";
+import { AiService } from "./ai.service.ts";
 import {
   Conversation,
   ConversationMember,
@@ -19,6 +20,7 @@ import { logger, serializeError } from "../utils/logger.ts";
 
 const MUTED_FOREVER = new Date("9999-12-31T23:59:59.999Z");
 const uploadRoot = path.resolve(env.MEDIA_ROOT);
+const AI_USER_ID = "ai-assistant";
 
 type MessageAttachment = {
   type?: string;
@@ -32,6 +34,8 @@ type MessageAttachment = {
 };
 
 export class ChatService {
+  private ai = new AiService();
+
   private isSystemAdmin(actor: AuthUser) {
     return (actor.roles || []).some((role) => /admin/i.test(role));
   }
@@ -147,6 +151,54 @@ export class ChatService {
     return member;
   }
 
+  async ensureAiConversation(actor: AuthUser) {
+    let conversation = await Conversation.findOne({
+      type: "ai",
+      createdBy: actor.id,
+      companyId: actor.companyId,
+      groupId: actor.groupId,
+      isActive: 1,
+    });
+
+    if (!conversation) {
+      conversation = await Conversation.create({
+        type: "ai",
+        title: env.AI_ASSISTANT_NAME,
+        companyId: actor.companyId,
+        groupId: actor.groupId,
+        createdBy: actor.id,
+        lastMessageAt: new Date(),
+      });
+    }
+
+    await ConversationMember.updateOne(
+      { conversationId: conversation._id, userId: actor.id },
+      {
+        $set: {
+          userName: this.displayName(actor),
+          role: "owner",
+          isActive: 1,
+          removedAt: null,
+          hiddenAt: null,
+        },
+        $setOnInsert: { joinedAt: new Date() },
+      },
+      { upsert: true },
+    );
+
+    return conversation.toObject();
+  }
+
+  async isAiConversation(conversationId: string, actorId?: string) {
+    const query: Record<string, unknown> = {
+      _id: conversationId,
+      type: "ai",
+      isActive: 1,
+    };
+    if (actorId) query.createdBy = actorId;
+    return Boolean(await Conversation.exists(query));
+  }
+
   async createPrivateConversation(
     actor: AuthUser,
     targetUserId: string,
@@ -241,6 +293,8 @@ export class ChatService {
   }
 
   async listConversations(actor: AuthUser, limit = 30, before?: string) {
+    await this.ensureAiConversation(actor);
+
     const membership = await ConversationMember.find({ userId: actor.id, isActive: 1 })
       .select('conversationId hiddenAt mutedUntil')
       .lean();
@@ -300,6 +354,11 @@ export class ChatService {
 
       // Now, enhance each conversation
       for (const conversation of conversations) {
+        if (conversation.type === "ai") {
+          conversation.title = conversation.title || env.AI_ASSISTANT_NAME;
+          (conversation as any).isAi = true;
+        }
+
         // Add last message content if available
         if (conversation.lastMessageId) {
           const lastMessage = lastMessageById.get(conversation.lastMessageId.toString());
@@ -449,6 +508,87 @@ export class ChatService {
     );
 
     return message.toObject();
+  }
+
+  private async createAiAssistantMessage(conversationId: string, body: string) {
+    const message = await Message.create({
+      conversationId,
+      clientMessageId: `ai-${new Types.ObjectId().toString()}`,
+      senderId: AI_USER_ID,
+      senderUserName: env.AI_ASSISTANT_NAME,
+      body,
+      type: "text",
+      mentionedUserIds: [],
+    });
+
+    await Conversation.updateOne(
+      { _id: conversationId },
+      {
+        $set: { lastMessageId: message._id, lastMessageAt: message.createdAt },
+      },
+    );
+
+    return message.toObject();
+  }
+
+  private async buildAiHistory(conversationId: string) {
+    const history = await Message.find({
+      conversationId,
+      isActive: 1,
+      recalledAt: { $exists: false },
+      body: { $ne: "" },
+    })
+      .select("senderId body createdAt")
+      .sort({ _id: -1 })
+      .limit(env.AI_MAX_HISTORY_MESSAGES)
+      .lean();
+
+    return history.reverse().map((message) => ({
+      role: message.senderId === AI_USER_ID ? "assistant" as const : "user" as const,
+      content: String(message.body ?? ""),
+    }));
+  }
+
+  async sendAiMessage(
+    actor: AuthUser,
+    input: {
+      conversationId?: string;
+      clientMessageId?: string;
+      body?: string;
+    },
+  ) {
+    const conversation = input.conversationId
+      ? await Conversation.findOne({
+          _id: input.conversationId,
+          type: "ai",
+          createdBy: actor.id,
+          isActive: 1,
+        }).lean()
+      : await this.ensureAiConversation(actor);
+
+    if (!conversation) throw new Error("AI conversation not found.");
+    const body = String(input.body ?? "").trim();
+    if (!body) throw new Error("Message body is required.");
+    if (!this.ai.isEnabled()) throw new Error("AI provider is not configured.");
+
+    const userMessage = await this.sendMessage(actor, {
+      conversationId: String(conversation._id),
+      clientMessageId: input.clientMessageId || `ai-user-${new Types.ObjectId().toString()}`,
+      body,
+      type: "text",
+      mentionedUserIds: [],
+      attachments: [],
+    });
+
+    const history = await this.buildAiHistory(String(conversation._id));
+    const reply = await this.ai.generateReply({ messages: history });
+    const assistantMessage = await this.createAiAssistantMessage(String(conversation._id), reply);
+
+    return {
+      conversationId: String(conversation._id),
+      userMessage,
+      assistantMessage,
+    };
   }
 
   async sendSystemMessage(

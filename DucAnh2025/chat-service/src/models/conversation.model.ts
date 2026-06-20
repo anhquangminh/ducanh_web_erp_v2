@@ -1,10 +1,10 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export type ConversationType = 'private' | 'group';
+export type ConversationType = 'private' | 'group' | 'ai';
 export type MemberRole = 'owner' | 'admin' | 'member';
 
 const conversationSchema = new Schema({
-  type: { type: String, enum: ['private', 'group'], required: true, index: true },
+  type: { type: String, enum: ['private', 'group', 'ai'], required: true, index: true },
   title: { type: String, default: '' },
   avatarUrl: { type: String, default: '' },
   companyId: { type: String, required: true, index: true },
@@ -17,6 +17,7 @@ const conversationSchema = new Schema({
 }, { timestamps: true });
 
 conversationSchema.index({ companyId: 1, groupId: 1, lastMessageAt: -1 });
+conversationSchema.index({ type: 1, createdBy: 1, isActive: 1 });
 
 const conversationMemberSchema = new Schema({
   conversationId: { type: Schema.Types.ObjectId, required: true, ref: 'Conversation', index: true },

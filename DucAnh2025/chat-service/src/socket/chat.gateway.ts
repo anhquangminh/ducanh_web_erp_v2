@@ -75,6 +75,25 @@ export async function configureChatGateway(io: Server) {
 
     socket.on('message:send', async (payload, ack) => {
       try {
+        if (await chat.isAiConversation(payload.conversationId, user.id)) {
+          const result = await chat.sendAiMessage(user, {
+            conversationId: payload.conversationId,
+            clientMessageId: payload.clientMessageId,
+            body: payload.body
+          });
+          const userMessage = env.CHAT_PUBLIC_BASE_URL
+            ? enrichMessageAttachmentUrls(env.CHAT_PUBLIC_BASE_URL, result.userMessage)
+            : result.userMessage;
+          const assistantMessage = env.CHAT_PUBLIC_BASE_URL
+            ? enrichMessageAttachmentUrls(env.CHAT_PUBLIC_BASE_URL, result.assistantMessage)
+            : result.assistantMessage;
+
+          nsp.to(conversationRoom(result.conversationId)).emit('message:new', userMessage);
+          nsp.to(conversationRoom(result.conversationId)).emit('message:new', assistantMessage);
+          ack?.({ success: true, data: { ...result, userMessage, assistantMessage } });
+          return;
+        }
+
         const message = await chat.sendMessage(user, payload);
         const messagePayload = env.CHAT_PUBLIC_BASE_URL
           ? enrichMessageAttachmentUrls(env.CHAT_PUBLIC_BASE_URL, message)
@@ -111,6 +130,29 @@ export async function configureChatGateway(io: Server) {
         })();
       } catch (error) {
         ack?.({ success: false, message: error instanceof Error ? error.message : 'Cannot send message' });
+      }
+    });
+
+    socket.on('ai:message:send', async (payload, ack) => {
+      try {
+        const result = await chat.sendAiMessage(user, {
+          conversationId: payload?.conversationId,
+          clientMessageId: payload?.clientMessageId,
+          body: payload?.body
+        });
+        const userMessage = env.CHAT_PUBLIC_BASE_URL
+          ? enrichMessageAttachmentUrls(env.CHAT_PUBLIC_BASE_URL, result.userMessage)
+          : result.userMessage;
+        const assistantMessage = env.CHAT_PUBLIC_BASE_URL
+          ? enrichMessageAttachmentUrls(env.CHAT_PUBLIC_BASE_URL, result.assistantMessage)
+          : result.assistantMessage;
+
+        socket.join(conversationRoom(result.conversationId));
+        nsp.to(conversationRoom(result.conversationId)).emit('message:new', userMessage);
+        nsp.to(conversationRoom(result.conversationId)).emit('message:new', assistantMessage);
+        ack?.({ success: true, data: { ...result, userMessage, assistantMessage } });
+      } catch (error) {
+        ack?.({ success: false, message: error instanceof Error ? error.message : 'Cannot send AI message' });
       }
     });
 
