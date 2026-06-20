@@ -1,0 +1,1000 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG ĐÀO ĐẤT, ĐẮP ĐẤT, ĐẮP CÁT, VẬN CHUYỂN ĐẤT HỆ THỐNG CẤP NƯỚC SẠCH </h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Hạng mục KL </th>
+                            <th>Loại khối lượng </th>
+                            <th>Đơn vị </th>
+                            <th>Tổng khối lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Hạng mục KL </th>
+                            <th>Loại khối lượng </th>
+                            <th>Đơn vị </th>
+                            <th>Tổng khối lượng</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG ĐƯỜNG ỐNG VÀ PHỤ KIỆN HỆ THỐNG CẤP NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 01", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "5. THKL ống + P.Kiện", "5.THKL ống + P.Kiện.xlsx");
+    }
+
+    $(function () {
+        loadDMTenCongTac().then(loadData);
+    });
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last();
+        const $tfootRow = $('#table_data tfoot tr').last();
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+
+    }
+    let danhMucCongTacs = [];
+
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function mergeAndDeduplicate(data1_7, data2_7, data_4_3) {
+        const allRows = [
+            ...(data1_7 || []).map(row => ({
+                id_ChiNhanh: row.id_ChiNhanh || '',
+                tenChiNhanh: row.tenChiNhanh || '',
+                hangMucKhoiLuong: row.hangMucKlDaoDat || '',
+                loaiKhoiLuong: row.loaiKlDaoDat || '',
+                donVi: row.donVi || ''
+            })),
+            ...(data2_7 || []).map(row => ({
+                id_ChiNhanh: row.id_ChiNhanh || '',
+                tenChiNhanh: row.tenChiNhanh || '',
+                hangMucKhoiLuong: row.hangMucKlDaoDat || '',
+                loaiKhoiLuong: row.loaiKlDaoDat || '',
+                donVi: row.donVi || ''
+            })),
+            ...(data_4_3 || []).map(row => ({
+                id_ChiNhanh: row.id_ChiNhanh || '',
+                tenChiNhanh: row.tenChiNhanh || '',
+                hangMucKhoiLuong: row.hangMucKl || '',
+                loaiKhoiLuong: row.loaiKl || '',
+                donVi: row.donVi || ''
+            }))
+        ];
+
+        // loại bỏ trùng
+        const seen = new Set();
+        const uniqueRows = allRows.filter(row => {
+            const key = [
+                row.id_ChiNhanh,
+                row.tenChiNhanh,
+                row.hangMucKhoiLuong,
+                row.loaiKhoiLuong,
+                row.donVi
+            ].join('|');
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+
+        return uniqueRows;
+    }
+
+
+
+    let tuyenDuongs = [];
+    async function loadData() {
+        // Call both APIs in parallel
+        const [data1_7, data2_7, data_4_3] = await Promise.all([
+            loadData1_7(),
+            loadData2_7(),
+            loadData4_3()
+        ]);
+
+        addDynamicColumns(tuyenDuongs);
+
+        let seen = new Set();
+        let uniqueRows = mergeAndDeduplicate(data1_7, data2_7, data_4_3);
+        // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+        const tenCongTacLookup = {};
+        danhMucCongTacs.forEach(item => {
+            const key = [
+                item.id_HangMucCongViec,
+                item.id_HangMucKhoiLuong,
+                item.id_LoaiKhoiLuong
+            ].join('|');
+            tenCongTacLookup[key] = item;
+        });
+
+        uniqueRows.forEach((row, idx) => {
+            row.stt = idx + 1;
+            tuyenDuongs.forEach(td => {
+                // Sum from data1_7
+                let sum1_7 = Array.isArray(data1_7)
+                    ? data1_7
+                        .filter(x =>
+                            x.hangMucKlDaoDat?.trim().toUpperCase() === row.hangMucKhoiLuong.trim().toUpperCase() &&
+                            x.loaiKlDaoDat?.trim().toUpperCase() === row.loaiKhoiLuong.trim().toUpperCase()
+                        )
+                        .reduce((acc, x) => acc + (parseFloat(x[td]) || 0), 0)
+                    : 0;
+
+                // Sum from data2_7
+                let sum2_7 = Array.isArray(data2_7)
+                    ? data2_7
+                        .filter(x =>
+                            x.hangMucKlDaoDat?.trim().toUpperCase() === row.hangMucKhoiLuong.trim().toUpperCase() &&
+                            x.loaiKlDaoDat?.trim().toUpperCase() === row.loaiKhoiLuong.trim().toUpperCase()
+                        )
+                        .reduce((acc, x) => acc + (parseFloat(x[td]) || 0), 0)
+                    : 0;
+
+                // Sum from data4_3
+                let sum4_3 = Array.isArray(data_4_3)
+                    ? data_4_3
+                        .filter(x =>
+                            x.hangMucKl?.trim().toUpperCase() === row.hangMucKhoiLuong.trim().toUpperCase() &&
+                            x.loaiKl?.trim().toUpperCase() === row.loaiKhoiLuong.trim().toUpperCase()
+                        )
+                        .reduce((acc, x) => acc + (parseFloat(x[td]) || 0), 0)
+                    : 0;
+
+                let total = sum1_7 + sum2_7 + sum4_3;
+                row[td] = total > 0 ? Math.round(total * 100) / 100 : "0";
+            });
+
+            // Tính tổng tất cả tuyến đường
+            row.tongKhoiLuong = tuyenDuongs.reduce((acc, td) => acc + (parseFloat(row[td]) || 0), 0);
+            row.tongKhoiLuong = row.tongKhoiLuong > 0 ? Math.round(row.tongKhoiLuong * 100) / 100 : "0";
+        });
+
+        const $table = $('#table_data');
+
+        // Config cột cố định
+        let columns = [
+            { data: 'stt', className: 'text-center align-middle', width: '1%' },
+            { data: 'tenChiNhanh', className: 'align-middle' },
+            { data: 'hangMucKhoiLuong', className: 'align-middle' },
+            { data: 'loaiKhoiLuong', className: 'align-middle' },
+            { data: 'donVi', className: 'align-middle' },
+            { data: 'tongKhoiLuong', className: 'align-middle' }
+        ];
+
+        // Thêm các cột động
+        tuyenDuongs.forEach(td => {
+            columns.push({
+                data: td,
+                className: 'align-middle',
+                defaultContent: ''
+            });
+        });
+
+        if ($.fn.DataTable.isDataTable($table)) {
+            $table.DataTable().clear().rows.add(dataSet).draw();
+        } else {
+            $table.DataTable({
+                data: uniqueRows,
+                columns: columns,
+                autoWidth: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 10,
+                info: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                    zeroRecords: "Không tìm thấy dữ liệu",
+                    info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Không có bản ghi nào",
+                    infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        first: "Đầu",
+                        last: "Cuối",
+                        next: "Sau",
+                        previous: "Trước"
+                    }
+                },
+                initComplete: function () {
+                    this.api().columns().every(function (colIdx) {
+                        var column = this;
+                        var $footer = $(column.footer()).empty();
+                        if (colIdx === 0) {
+                            $footer.append('<p></p>');
+                        } else {
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        }
+
+                    });
+                }
+            });
+        }
+    }
+    async function loadData1_7() {
+        try {
+            const resUser = await getJwtToken();
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            let dataSet = [];
+            let mappedData = [];
+            let uniqueTuyenDuong = [];
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                // lấy unique tuyenDuong
+                uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                if (Array.isArray(uniqueTuyenDuong)) {
+                    uniqueTuyenDuong.forEach(td => {
+                        if (!tuyenDuongs.includes(td)) {
+                            tuyenDuongs.push(td);
+                        }
+                    });
+                }
+
+                // Map dữ liệu
+                res.data.forEach((item, idx) => {
+                    // 1. KL Đào Đất
+                    let obj1 = {
+                        stt: idx * 4 + 1,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDaoDat,
+                        loaiKlDaoDat: item.loaiKlDaoDat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj1[td] = ""; });
+                    mappedData.push(obj1);
+
+                    // 2. KL Đắp Cát
+                    let obj2 = {
+                        stt: idx * 4 + 2,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDapCat,
+                        loaiKlDaoDat: item.loaiKlDapCat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj2[td] = ""; });
+                    mappedData.push(obj2);
+
+                    // 3. KL Đắp Đất
+                    let obj3 = {
+                        stt: idx * 4 + 3,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDapDat,
+                        loaiKlDaoDat: item.loaiKlDapDat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj3[td] = ""; });
+                    mappedData.push(obj3);
+
+                    // 4. KL Đất Thừa
+                    let obj4 = {
+                        stt: idx * 4 + 4,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDatThua,
+                        loaiKlDaoDat: item.loaiKlDatThua,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj4[td] = ""; });
+                    mappedData.push(obj4);
+                });
+
+                // lọc duy nhất theo 5 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.hangMucKlDaoDat,
+                        row.loaiKlDaoDat
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                const tenCongTacLookup = {};
+                danhMucCongTacs.forEach(item => {
+                    const key = [
+                        item.id_HangMucCongViec,
+                        item.id_LoaiCauKien,
+                        item.hangMucKhoiLuong,
+                        item.loaiKhoiLuong
+                    ].join('|');
+                    tenCongTacLookup[key] = item;
+                });
+
+                const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                const makeKey = (idCN, idHMCV, idLCK, hm, loai, td) => [idCN, idHMCV, idLCK, hm, loai, td].join('|');
+
+                // Tách riêng 4 map (tránh đè/đụng key giữa các nguồn)
+                const mapDao = new Map();
+                const mapDapCat = new Map();
+                const mapDapDat = new Map();
+                const mapDatThua = new Map();
+
+                res.data.forEach(it => {
+                    const idCN = it.id_ChiNhanh;
+                    const idHMCV = it.id_HangMucCongViec;
+                    const idLCK = it.id_LoaiCauKien;
+                    const td = it.tuyenDuong;
+
+                    // 1) KL Đào đất (BW)
+                    if (it.hangMucKlDaoDat && it.loaiKlDaoDat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDaoDat, it.loaiKlDaoDat, td);
+                        mapDao.set(key, (mapDao.get(key) || 0) + num(it.klDao));
+                    }
+
+                    // 2) KL Đắp cát (CJ)
+                    if (it.hangMucKlDapCat && it.loaiKlDapCat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapCat, it.loaiKlDapCat, td);
+                        mapDapCat.set(key, (mapDapCat.get(key) || 0) + num(it.klDapCatSauCCho));
+                    }
+
+                    // 3) KL Đắp đất (CS)
+                    if (it.hangMucKlDapDat && it.loaiKlDapDat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapDat, it.loaiKlDapDat, td);
+                        mapDapDat.set(key, (mapDapDat.get(key) || 0) + num(it.klDapDatSauCCho));
+                    }
+
+                    // 4) KL Đất thừa (CW)
+                    if (it.hangMucKlDatThua && it.loaiKlDatThua) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDatThua, it.loaiKlDatThua, td);
+                        mapDatThua.set(key, (mapDatThua.get(key) || 0) + num(it.klDatThua));
+                    }
+                });
+
+                dataSet.forEach(row => {
+                    let tong = 0;
+
+                    uniqueTuyenDuong.forEach(td => {
+                        const key = makeKey(
+                            row.id_ChiNhanh,
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.hangMucKlDaoDat,
+                            row.loaiKlDaoDat,
+                            td
+                        );
+                        const sum =
+                            (mapDao.get(key) || 0) +
+                            (mapDapCat.get(key) || 0) +
+                            (mapDapDat.get(key) || 0) +
+                            (mapDatThua.get(key) || 0);
+
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                        tong += sum;
+                    });
+
+                    // Tên công tác
+                    const keyCongTac = [
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.hangMucKlDaoDat,
+                        row.loaiKlDaoDat
+                    ].join('|');
+                    if (tenCongTacLookup[keyCongTac]) {
+                        row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                        row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                    }
+
+                    row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "";
+                });
+
+                let data16 = dataSet;
+                // lọc duy nhất
+                let seen1 = new Set();
+                dataSet = dataSet.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.hangMucKlDaoDat,
+                        row.donVi,
+                    ].join('|');
+                    if (seen1.has(key)) return false;
+                    seen1.add(key);
+                    return true;
+                });
+
+                dataSet.forEach(row => {
+                    // Lấy danh sách tất cả uniqueTuyenDuong trong data16
+                    const uniqueTuyenDuongs = [...new Set(data16.map(item => item.uniqueTuyenDuong))];
+
+                    uniqueTuyenDuongs.forEach(td => {
+                        // Tính tổng theo điều kiện
+                        const sum = data16
+                            .filter(item =>
+                                item.uniqueTuyenDuong === td &&
+                                item.id_HangMucCongViec === row.id_HangMucCongViec &&
+                                item.hangMucKhoiLuong === row.hangMucKhoiLuong &&
+                                item.loaiKhoiLuong === row.loaiKhoiLuong
+                            )
+                            .reduce((acc, item) => acc + (parseFloat(item.giaTri) || 0), 0);
+
+                        // Gán vào cột tương ứng của dataSet
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                    });
+                });
+                return dataSet;
+            }
+            return [];
+        } catch (err) {
+            return [];
+        }
+    }
+    async function loadData2_7() {
+        try {
+            const resUser = await getJwtToken();
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua2TtChungNSachNgang/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            let dataSet = [];
+            let mappedData = [];
+            let uniqueTuyenDuong = [];
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                if (Array.isArray(uniqueTuyenDuong)) {
+                    uniqueTuyenDuong.forEach(td => {
+                        if (!tuyenDuongs.includes(td)) {
+                            tuyenDuongs.push(td);
+                        }
+                    });
+                }
+
+                // Map dữ liệu
+                res.data.forEach((item, idx) => {
+                    // 1. KL Đào Đất
+                    let obj1 = {
+                        stt: idx * 4 + 1,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDaoDat,
+                        loaiKlDaoDat: item.loaiKlDaoDat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj1[td] = ""; });
+                    mappedData.push(obj1);
+
+                    // 2. KL Đắp Cát
+                    let obj2 = {
+                        stt: idx * 4 + 2,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDapCat,
+                        loaiKlDaoDat: item.loaiKlDapCat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj2[td] = ""; });
+                    mappedData.push(obj2);
+
+                    // 3. KL Đắp Đất
+                    let obj3 = {
+                        stt: idx * 4 + 3,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDapDat,
+                        loaiKlDaoDat: item.loaiKlDapDat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj3[td] = ""; });
+                    mappedData.push(obj3);
+
+                    // 4. KL Đất Thừa
+                    let obj4 = {
+                        stt: idx * 4 + 4,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien,
+                        loaiCauKien: item.loaiCauKien,
+                        hangMucKlDaoDat: item.hangMucKlDatThua,
+                        loaiKlDaoDat: item.loaiKlDatThua,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: ""
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj4[td] = ""; });
+                    mappedData.push(obj4);
+                });
+
+                // lọc duy nhất theo 5 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.hangMucKlDaoDat,
+                        row.loaiKlDaoDat
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                const tenCongTacLookup = {};
+                danhMucCongTacs.forEach(item => {
+                    const key = [
+                        item.id_HangMucCongViec,
+                        item.id_LoaiCauKien,
+                        item.hangMucKhoiLuong,
+                        item.loaiKhoiLuong
+                    ].join('|');
+                    tenCongTacLookup[key] = item;
+                });
+
+                const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                const makeKey = (idCN, idHMCV, idLCK, hm, loai, td) => [idCN, idHMCV, idLCK, hm, loai, td].join('|');
+
+                // Tách riêng 4 map (tránh đè/đụng key giữa các nguồn)
+                const mapDao = new Map();
+                const mapDapCat = new Map();
+                const mapDapDat = new Map();
+                const mapDatThua = new Map();
+
+                res.data.forEach(it => {
+                    const idCN = it.id_ChiNhanh;
+                    const idHMCV = it.id_HangMucCongViec;
+                    const idLCK = it.id_LoaiCauKien;
+                    const td = it.tuyenDuong;
+
+                    // 1) KL Đào đất (BW)
+                    if (it.hangMucKlDaoDat && it.loaiKlDaoDat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDaoDat, it.loaiKlDaoDat, td);
+                        mapDao.set(key, (mapDao.get(key) || 0) + num(it.klDao));
+                    }
+
+                    // 2) KL Đắp cát (CJ)
+                    if (it.hangMucKlDapCat && it.loaiKlDapCat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapCat, it.loaiKlDapCat, td);
+                        mapDapCat.set(key, (mapDapCat.get(key) || 0) + num(it.klDapCatSauCCho));
+                    }
+
+                    // 3) KL Đắp đất (CS)
+                    if (it.hangMucKlDapDat && it.loaiKlDapDat) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapDat, it.loaiKlDapDat, td);
+                        mapDapDat.set(key, (mapDapDat.get(key) || 0) + num(it.klDapDatSauCCho));
+                    }
+
+                    // 4) KL Đất thừa (CW)
+                    if (it.hangMucKlDatThua && it.loaiKlDatThua) {
+                        const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDatThua, it.loaiKlDatThua, td);
+                        mapDatThua.set(key, (mapDatThua.get(key) || 0) + num(it.klDatThua));
+                    }
+                });
+
+                dataSet.forEach(row => {
+                    let tong = 0;
+
+                    uniqueTuyenDuong.forEach(td => {
+                        const key = makeKey(
+                            row.id_ChiNhanh,
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.hangMucKlDaoDat,
+                            row.loaiKlDaoDat,
+                            td
+                        );
+                        const sum =
+                            (mapDao.get(key) || 0) +
+                            (mapDapCat.get(key) || 0) +
+                            (mapDapDat.get(key) || 0) +
+                            (mapDatThua.get(key) || 0);
+
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                        tong += sum;
+                    });
+
+                    // Tên công tác
+                    const keyCongTac = [
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.hangMucKlDaoDat,
+                        row.loaiKlDaoDat
+                    ].join('|');
+                    if (tenCongTacLookup[keyCongTac]) {
+                        row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                        row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                    }
+
+                    row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "";
+                });
+
+                let data16 = dataSet;
+                // lọc duy nhất
+                let seen1 = new Set();
+                dataSet = dataSet.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.hangMucKlDaoDat,
+                        row.donVi,
+                    ].join('|');
+                    if (seen1.has(key)) return false;
+                    seen1.add(key);
+                    return true;
+                });
+
+                
+                dataSet.forEach(row => {
+                        // Lấy danh sách tất cả uniqueTuyenDuong trong data16
+                        const uniqueTuyenDuongs = [...new Set(data16.map(item => item.uniqueTuyenDuong))];
+
+                        uniqueTuyenDuongs.forEach(td => {
+                            // Tính tổng theo điều kiện
+                            const sum = data16
+                                .filter(item =>
+                                    item.uniqueTuyenDuong === td &&
+                                    item.id_HangMucCongViec === row.id_HangMucCongViec &&
+                                    item.hangMucKhoiLuong === row.hangMucKhoiLuong &&
+                                    item.loaiKhoiLuong === row.loaiKhoiLuong
+                                )
+                                .reduce((acc, item) => acc + (parseFloat(item.giaTri) || 0), 0);
+
+                            // Gán vào cột tương ứng của dataSet
+                            row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                        });
+                    });
+                return dataSet;
+            }
+            return [];
+        } catch (err) {
+            return [];
+        }
+    }
+    async function loadData4_3() {
+        try {
+            const resUser = await getJwtToken();
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            let dataSet = [];
+            let mappedData = [];
+            let uniqueTuyenDuong = [];
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                // lấy unique tuyenDuong
+                uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                if (Array.isArray(uniqueTuyenDuong)) {
+                    uniqueTuyenDuong.forEach(td => {
+                        if (!tuyenDuongs.includes(td)) {
+                            tuyenDuongs.push(td);
+                        }
+                    });
+                }
+
+                // Map dữ liệu
+                res.data.forEach((item, idx) => {
+                    // 1. KL Đào
+                    let obj1 = {
+                        stt: idx * 4 + 1,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        hangMucKl: item.hangMucKlDao,
+                        loaiKl: item.loaiKlDao,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "0"
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj1[td] = ""; });
+                    mappedData.push(obj1);
+
+                    // 2. KL Đắp Cát
+                    let obj2 = {
+                        stt: idx * 4 + 2,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        hangMucKl: item.hangMucKlDapTraDapCat,
+                        loaiKl: item.loaiKlDapTraDapCat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "0"
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj2[td] = ""; });
+                    mappedData.push(obj2);
+
+                    // 3. KL Đắp Đất
+                    let obj3 = {
+                        stt: idx * 4 + 3,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        hangMucKl: item.hangMucKlDapTraDapDat,
+                        loaiKl: item.loaiKlDapTraDapDat,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "0"
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj3[td] = ""; });
+                    mappedData.push(obj3);
+
+                    // 4. KL Đất Thừa
+                    let obj4 = {
+                        stt: idx * 4 + 4,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec,
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        hangMucKl: item.hangMucKlDapTraDapDatThua,
+                        loaiKl: item.loaiKlDapTraDapDatThua,
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "0"
+                    };
+                    uniqueTuyenDuong.forEach(td => { obj4[td] = ""; });
+                    mappedData.push(obj4);
+                });
+
+                // lọc duy nhất theo 4 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.hangMucKl,
+                        row.loaiKl
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                const tenCongTacLookup = {};
+                danhMucCongTacs.forEach(item => {
+                    const key = [
+                        item.id_HangMucCongViec,
+                        item.hangMucKhoiLuong,
+                        item.loaiKhoiLuong
+                    ].join('|');
+                    tenCongTacLookup[key] = item;
+                });
+
+                const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                const makeKey = (idCN, idHMCV, idLCK, hm, loai, td) => [idCN, idHMCV, idLCK, hm, loai, td].join('|');
+
+                // Tách riêng 4 map (tránh đè/đụng key giữa các nguồn)
+                const mapDao = new Map();
+                const mapDapCat = new Map();
+                const mapDapDat = new Map();
+                const mapDatThua = new Map();
+
+                res.data.forEach(it => {
+                    const idCN = it.id_ChiNhanh;
+                    const td = it.tuyenDuong;
+
+                    // 1) KL Đào đất
+                    if (it.hangMucKlDao && it.loaiKlDao) {
+                        const key = makeKey(idCN, it.hangMucKlDao, it.loaiKlDao, td);
+                        mapDao.set(key, (mapDao.get(key) || 0) + num(it.klDao));
+                    }
+
+                    // 2) KL Đắp cát
+                    if (it.hangMucKlDapTraDapCat && it.loaiKlDapTraDapCat) {
+                        const key = makeKey(idCN, it.hangMucKlDapTraDapCat, it.loaiKlDapTraDapCat, td);
+                        mapDapCat.set(key, (mapDapCat.get(key) || 0) + num(it.klDapCatSauCChoDapTraDapCat));
+                    }
+
+                    // 3) KL Đắp đất
+                    if (it.hangMucKlDapTraDapDat && it.loaiKlDapTraDapDat) {
+                        const key = makeKey(idCN, it.hangMucKlDapTraDapDat, it.loaiKlDapTraDapDat, td);
+                        mapDapDat.set(key, (mapDapDat.get(key) || 0) + num(it.klDapDatSauCChoDapTraDapDat));
+                    }
+
+                    // 4) KL Đất thừa
+                    if (it.hangMucKlDapTraDapDatThua && it.loaiKlDapTraDapDatThua) {
+                        const key = makeKey(idCN, it.hangMucKlDapTraDapDatThua, it.loaiKlDapTraDapDatThua, td);
+                        mapDatThua.set(key, (mapDatThua.get(key) || 0) + num(it.klDatThuaDapTraDapDat));
+                    }
+                });
+
+                dataSet.forEach(row => {
+                    let tong = 0;
+
+                    uniqueTuyenDuong.forEach(td => {
+                        const key = makeKey(
+                            row.id_ChiNhanh,
+                            row.hangMucKl,
+                            row.loaiKl,
+                            td
+                        );
+                        const sum =
+                            (mapDao.get(key) || 0) +
+                            (mapDapCat.get(key) || 0) +
+                            (mapDapDat.get(key) || 0) +
+                            (mapDatThua.get(key) || 0);
+
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                        tong += sum;
+                    });
+
+                    // Tên công tác
+                    const keyCongTac = [
+                        row.id_HangMucCongViec,
+                        row.hangMucKl,
+                        row.loaiKl
+                    ].join('|');
+                    if (tenCongTacLookup[keyCongTac]) {
+                        row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                        row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                    }
+
+                    row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "";
+                });
+                return dataSet;
+            }
+            return [];
+        } catch (err) {
+            return [];
+        }
+    }
+</script>
+
+
+

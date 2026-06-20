@@ -1,0 +1,444 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG TẤM ĐAN HỐ GA NƯỚC SẠCH THEO TUYẾN (LẬP DỰ TOÁN) </h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+
+                        <tr>
+                            <td colspan="6">Thông tin hạng mục công việc</td>
+                            <td colspan="2">Thông tin tên công tác</td>
+                            <td colspan="1" id="col-dynamic">Khối lượng theo tuyến đường</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Hạng mục công việc</th>
+                            <th>Loại tấm đan</th>
+                            <th>Hạng mục khối lượng</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng </th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Hạng mục công việc</th>
+                            <th>Loại tấm đan</th>
+                            <th>Hạng mục khối lượng</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG TẤM ĐAN HỐ GA NƯỚC SẠCH THEO TUYẾN (LẬP DỰ TOÁN)", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 17", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "4.9b THKL TĐHV T.Tuyến", "4.9b THKL TĐHV T.Tuyến.xlsx");
+    }
+
+    $(function () {
+        loadDMTenCongTac().then(loadData);
+    });
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_data tfoot tr');
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+        $('#col-dynamic').attr('colspan', uniqueTuyenDuong.length + 1);
+    }
+    let danhMucCongTacs = [];
+
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                let mappedData = [];
+                let uniqueTuyenDuong = [];
+
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+
+                    // Map dữ liệu
+                    res.data.forEach((item, idx) => {
+                        // 1.id_HangMucKhoiLuongTamDan	id_LoaiKhoiLuongTamDan
+                        let obj1 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViecTamDan,
+                            hangMucCongViec: item.hangMucCongViecTamDan,
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongTamDan,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongTamDan,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongTamDan,
+                            loaiKhoiLuong: item.loaiKhoiLuongTamDan,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj1);
+                        // 2. id_HangMucKhoiLuongXayTamDan	id_LoaiKhoiLuongXayTamDan
+                        let obj2 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViecTamDan,
+                            hangMucCongViec: item.hangMucCongViecTamDan,
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTamDan,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTamDan,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongXayTamDan,
+                            loaiKhoiLuong: item.loaiKhoiLuongXayTamDan,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                         mappedData.push(obj2);
+                        // 3.id_HangMucKhoiLuongXayTamDan	id_LoaiKhoiLuongVanKhuan
+                        let obj3 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViecTamDan,
+                            hangMucCongViec: item.hangMucCongViecTamDan,
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTamDan,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTamDan,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongVanKhuan,
+                            loaiKhoiLuong: item.loaiKhoiLuongVanKhuan,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                         mappedData.push(obj3);
+
+                    });
+
+                    dataSet = mappedData;
+                    // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                    const tenCongTacLookup = {};
+                    danhMucCongTacs.forEach(item => {
+                        const key = [
+                            item.id_HangMucCongViec,
+                            item.id_LoaiCauKien,
+                            item.id_HangMucKhoiLuong,
+                            item.id_LoaiKhoiLuong
+                        ].join('|');
+                        tenCongTacLookup[key] = item;
+                    });
+
+                    const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                        const makeKey = (idCN, tuyenDuong,lyTrinh,id_HangMucCongViec,id_LoaiCauKien,id_HangMucKhoiLuong,id_LoaiKhoiLuong) => [idCN,  tuyenDuong,lyTrinh,id_HangMucCongViec,id_LoaiCauKien,id_HangMucKhoiLuong,id_LoaiKhoiLuong].join('|');
+
+                    // Tách riêng
+                    const map1 = new Map();
+                    const map2 = new Map();
+                    const map3 = new Map();
+
+                    res.data.forEach(it => {
+                        const idCN = it.id_ChiNhanh;
+                        const td = it.tuyenDuong;
+                        const lt = it.lyTrinh;
+                        const idHM = it.id_HangMucCongViecTamDan;
+                        const idLCK = it.id_LoaiCauKien;
+
+                        // 1)
+                        if (it.tuyenDuong && it.lyTrinh) {
+                            const key = makeKey(idCN,td,lt,idHM,idLCK, it.id_HangMucKhoiLuongTamDan,it.id_LoaiKhoiLuongTamDan);
+                            map1.set(key, (map1.get(key) || 0) + num(it.soLuong));
+                        }
+                        // 2)
+                        if (it.tuyenDuong && it.lyTrinh) {
+                            const key = makeKey(idCN,td,lt,idHM,idLCK, it.id_HangMucKhoiLuongXayTamDan,it.id_LoaiKhoiLuongXayTamDan);
+                            map2.set(key, (map1.get(key) || 0) + num(it.tongKlTDanXayTamDan));
+                        }
+                        // 3)
+                        if (it.tuyenDuong && it.lyTrinh) {
+                            const key = makeKey(idCN,td,lt,idHM,idLCK, it.id_HangMucKhoiLuongXayTamDan,it.id_LoaiKhoiLuongVanKhuan);
+                            map3.set(key, (map1.get(key) || 0) + num(it.tongKlVanKhuanTDanVanKhuan));
+                        }
+
+                    });
+
+                    dataSet.forEach(row => {
+                        let tong = 0;
+
+                         const key = makeKey(
+                               row.id_ChiNhanh,
+                               row.tuyenDuong,
+                               row.lyTrinh,
+                               row.id_HangMucCongViec,
+                               row.id_LoaiCauKien,
+                               row.id_HangMucKhoiLuong,
+                               row.id_LoaiKhoiLuong
+                            );
+                            const sum =
+                                (map1.get(key) || 0) +
+                                (map2.get(key) || 0) +
+                                (map3.get(key) || 0) ;
+
+                        row.tongKhoiLuong = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+
+                        // Tên công tác
+                        const keyCongTac = [
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.id_HangMucKhoiLuong,
+                            row.id_LoaiKhoiLuong
+                        ].join('|');
+                        if (tenCongTacLookup[keyCongTac]) {
+                            row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                            row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                        }else{
+                            row.tenCongtac="";
+                            row.donVi="";
+                        }
+
+                    });
+
+                    let data_49a = dataSet;
+
+                    const sumLookup = {};
+
+                    // Gom nhóm và tính tổng trước
+                    data_49a.forEach(row => {
+                        // Key
+                        const key = [
+                                row.id_ChiNhanh,
+                                row.id_HangMucCongViec,
+                                row.id_LoaiCauKien,
+                                row.id_HangMucKhoiLuong,
+                                row.id_LoaiKhoiLuong,
+                                row.tenCongTac,
+                                row.donVi,
+                                row.tuyenDuong
+                        ].join('|');
+                        sumLookup[key] = (sumLookup[key] || 0) + (parseFloat(row.tongKhoiLuong) || 0);
+
+                    });
+
+                    // lọc duy nhất theo 6 trường
+                    let seen = new Set();
+                    dataSet = data_49a.filter(row => {
+                        let key = [
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.id_HangMucKhoiLuong,
+                            row.id_LoaiKhoiLuong,
+                            row.tenCongTac,
+                            row.donVi,
+                        ].join('|');
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    });
+                    uniqueTuyenDuong = [...new Set(data_49a.map(item => item.tuyenDuong).filter(Boolean))];
+                    addDynamicColumns(uniqueTuyenDuong);
+
+                    let  stt=0;
+                    dataSet.forEach(row => {
+                        let tong = 0;
+
+                        uniqueTuyenDuong.forEach(td => {
+                            const key = [
+                                row.id_ChiNhanh,
+                                row.id_HangMucCongViec,
+                                row.id_LoaiCauKien,
+                                row.id_HangMucKhoiLuong,
+                                row.id_LoaiKhoiLuong,
+                                row.tenCongTac,
+                                row.donVi,
+                                td
+                            ].join('|');
+
+                            let sum = (sumLookup[key] || 0) ;
+                            row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                            tong = +sum;
+                        });
+                        stt++;
+                        row.stt= stt;
+                        row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+                    });
+
+                    const $table = $('#table_data');
+
+                    // Config cột cố định
+                    let columns = [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'hangMucCongViec', className: 'align-middle' },
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'hangMucKhoiLuong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuong', className: 'align-middle' },
+                        { data: 'tenCongtac', className: 'align-middle' },
+                        { data: 'donVi', className: 'align-middle' },
+                        { data: 'tongKhoiLuong', className: 'align-middle' }
+                    ];
+
+                    uniqueTuyenDuong.forEach(td => {
+                        columns.push({
+                            data: td,
+                            className: 'align-middle',
+                            defaultContent: ''
+                        });
+                    });
+
+                    if ($.fn.DataTable.isDataTable($table)) {
+                        $table.DataTable().clear().rows.add(dataSet).draw();
+                    } else {
+                        $table.DataTable({
+                            data: dataSet,
+                            columns: columns,
+                            autoWidth: false,
+                            ordering: true,
+                            searching: true,
+                            paging: true,
+                            pageLength: 10,
+                            info: true,
+                            language: {
+                                lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                                zeroRecords: "Không tìm thấy dữ liệu",
+                                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                                infoEmpty: "Không có bản ghi nào",
+                                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                                search: "Tìm kiếm:",
+                                paginate: {
+                                    first: "Đầu",
+                                    last: "Cuối",
+                                    next: "Sau",
+                                    previous: "Trước"
+                                }
+                            },
+                            initComplete: function () {
+                                this.api().columns().every(function (colIdx) {
+                                    var column = this;
+                                    var $footer = $(column.footer()).empty();
+                                    if (colIdx === 0) {
+                                        $footer.append('<p></p>');
+                                    } else {
+                                        var select = $('<select><option value=""></option></select>')
+                                            .appendTo($footer)
+                                            .on('change', function () {
+                                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                                column
+                                                    .search(val ? '^' + val + '$' : '', true, false)
+                                                    .draw();
+                                            });
+
+                                        column.data().unique().sort().each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                }
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead tr:last th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+</script>
+

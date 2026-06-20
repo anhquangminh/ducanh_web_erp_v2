@@ -1,0 +1,12 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model PersonalDataViewModel
+@{
+    ViewData["Title"] = "Personal Data";
+}
+<h3>Personal Data</h3>
+<ul>
+    <li><strong>Username:</strong> @Model.UserName</li>
+    <li><strong>Email:</strong> @Model.Email</li>
+    <li><strong>Phone Number:</strong> @Model.PhoneNumber</li>
+</ul>
+<p class="text-danger">You can delete your account from the Delete Personal Data page.</p>

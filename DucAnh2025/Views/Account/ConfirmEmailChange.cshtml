@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Confirm email change";
+}
+
+<h1>Confirm email change</h1>
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-info">@ViewBag.StatusMessage</div>
+}

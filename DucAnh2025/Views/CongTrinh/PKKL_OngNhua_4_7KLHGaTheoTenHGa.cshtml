@@ -1,0 +1,256 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG PHÂN KHAI KHỐI LƯỢNG XÂY DỰNG HỐ GA NƯỚC SẠCH THEO TÊN HỐ GA</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <td colspan="4" rowspan="2">Thông tin hố ga</td>
+                            <td colspan="2" rowspan="2">Lót móng (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="2" rowspan="2">Móng (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="12">Tường hố ga</td>
+                            <td colspan="4">Mũ mỗ thớt dưới</td>
+                            <td colspan="4">Mũ mỗ thớt trên</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Cạnh dài (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="6">Cạnh rộng (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="2">Cạnh dài (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="2">Cạnh rộng (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="2">Cạnh dài (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                            <td colspan="2">Cạnh rộng (KL xây dựng đơn vị là m3, ván khuân/chát là m2)</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>KL xây dựng</th>
+                            <th>Ván khuân</th>
+                            <th>KL xây dựng</th>
+                            <th>Ván khuân</th>
+                            <th>KL xây dựng trước C.Chỗ</th>
+                            <th>KL C.Chỗ xây dựng </th>
+                            <th>KL X.Dựng sau C.Chỗ </th>
+                            <th>KL V.Khuân/chát trước C.Chỗ</th>
+                            <th>KL C.Chỗ V.Khuân/chát </th>
+                            <th>KL V.Khuân sau C.Chỗ </th>
+                            <th>KL xây dựng trước C.Chỗ </th>
+                            <th>KL C.Chỗ xây dựng </th>
+                            <th>KL X.Dựng sau C.Chỗ </th>
+                            <th>KL V.Khuân/chát trước C.Chỗ</th>
+                            <th>KL C.Chỗ V.Khuân/chát</th>
+                            <th>KL V.Khuân sau C.Chỗ </th>
+                            <th>KL xây dựng</th>
+                            <th>KL V.khuân </th>
+                            <th>KL xây dựng</th>
+                            <th>KL ván khuân</th>
+                            <th>KL xây dựng </th>
+                            <th>KL V.khuân </th>
+                            <th>KL xây dựng </th>
+                            <th>KL V.khuân </th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>KL xây dựng</th>
+                            <th>Ván khuân</th>
+                            <th>KL xây dựng</th>
+                            <th>Ván khuân</th>
+                            <th>KL xây dựng trước C.Chỗ</th>
+                            <th>KL C.Chỗ xây dựng </th>
+                            <th>KL X.Dựng sau C.Chỗ </th>
+                            <th>KL V.Khuân/chát trước C.Chỗ</th>
+                            <th>KL C.Chỗ V.Khuân/chát </th>
+                            <th>KL V.Khuân sau C.Chỗ </th>
+                            <th>KL xây dựng trước C.Chỗ </th>
+                            <th>KL C.Chỗ xây dựng </th>
+                            <th>KL X.Dựng sau C.Chỗ </th>
+                            <th>KL V.Khuân/chát trước C.Chỗ</th>
+                            <th>KL C.Chỗ V.Khuân/chát</th>
+                            <th>KL V.Khuân sau C.Chỗ </th>
+                            <th>KL xây dựng</th>
+                            <th>KL V.khuân </th>
+                            <th>KL xây dựng</th>
+                            <th>KL ván khuân</th>
+                            <th>KL xây dựng </th>
+                            <th>KL V.khuân </th>
+                            <th>KL xây dựng </th>
+                            <th>KL V.khuân </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG THỐNG KÊ THÉP HỐ GA NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 10", align: "center", fontSize: 12, bold: true },
+            { text: "Kèm theo bảng này là tất cả các bảng thép hố ga liên quan", align: "center", fontSize: 11 }
+        ], "4.7 TK thép H.Ga", "4.7 TK thép H.Ga.xlsx",[1,2]);
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh|| '',
+
+                        tuyenDuong: item.tuyenDuong || '' ,
+                        tenHoVan: item.tenHoVan || '' ,
+                        klXayDungLotMong: item.klXayDungLotMong || '0' ,
+                        tongKlVanKhuanLotMongVanKhuanLotMong: item.tongKlVanKhuanLotMongVanKhuanLotMong || '0' ,
+                        klXayDungMong: item.klXayDungMong || '0' ,
+                        tongKlVanKhuanMongVanKhuanMong: item.tongKlVanKhuanMongVanKhuanMong || '0' ,
+                        klTruocCChoCDaiXayTuong: item.klTruocCChoCDaiXayTuong || '0' ,
+                        klChiemChoCanhDaiXayTuong: item.klChiemChoCanhDaiXayTuong || '0' ,
+                        klXayDungSauChiemChoCanhDaiXayTuong: item.klXayDungSauChiemChoCanhDaiXayTuong || '0' ,
+                        klVKhuanChatCDaiTruocCCho: item.klVKhuanChatCDaiTruocCCho || '0' ,
+                        klCChoVKhuanChatCDai: item.klCChoVKhuanChatCDai || '0' ,
+                        klVKhuanChatCDaiSauCCho: item.klVKhuanChatCDaiSauCCho || '0' ,
+                        klTruocCChoCRongXayTuong: item.klTruocCChoCRongXayTuong || '0' ,
+                        klChiemChoCanhRongXayTuong: item.klChiemChoCanhRongXayTuong || '0' ,
+                        klXayDungSauChiemChoCanhRong: item.klXayDungSauChiemChoCanhRong || '0' ,
+                        klVKhuanChatCRongTruocCCho: item.klVKhuanChatCRongTruocCCho || '0' ,
+                        klCChoVKhuanChatCRong: item.klCChoVKhuanChatCRong || '0' ,
+                        klVKhuanChatCRongSauCCho: item.klVKhuanChatCRongSauCCho || '0' ,
+                        klCDaiMuMoDuoi: item.klCDaiMuMoDuoi || '0' ,
+                        canhDaiMuMoDuoiDoGa: item.canhDaiMuMoDuoiDoGa || '0' ,
+                        tongKlMuMoDuoi: item.tongKlMuMoDuoi || '0' ,
+                        canhRongMuMoDuoiDoGa: item.canhRongMuMoDuoiDoGa || '0' ,
+                        klCDaiXayTren: item.klCDaiXayTren || '0' ,
+                        canhDaiMuMoTrenHoGa: item.canhDaiMuMoTrenHoGa || '0' ,
+                        klCRongXayTren: item.klCRongXayTren || '0' ,
+                        canhRongMuMoTrenHoGa: item.canhRongMuMoTrenHoGa || '0' ,
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%'},
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'tuyenDuong', className: 'align-middle' },
+                        { data: 'tenHoVan', className: 'align-middle' },
+                        { data: 'klXayDungLotMong', className: 'align-middle' },
+                        { data: 'tongKlVanKhuanLotMongVanKhuanLotMong', className: 'align-middle' },
+                        { data: 'klXayDungMong', className: 'align-middle' },
+                        { data: 'tongKlVanKhuanMongVanKhuanMong', className: 'align-middle' },
+                        { data: 'klTruocCChoCDaiXayTuong', className: 'align-middle' },
+                        { data: 'klChiemChoCanhDaiXayTuong', className: 'align-middle' },
+                        { data: 'klXayDungSauChiemChoCanhDaiXayTuong', className: 'align-middle' },
+                        { data: 'klVKhuanChatCDaiTruocCCho', className: 'align-middle' },
+                        { data: 'klCChoVKhuanChatCDai', className: 'align-middle' },
+                        { data: 'klVKhuanChatCDaiSauCCho', className: 'align-middle' },
+                        { data: 'klTruocCChoCRongXayTuong', className: 'align-middle' },
+                        { data: 'klChiemChoCanhRongXayTuong', className: 'align-middle' },
+                        { data: 'klXayDungSauChiemChoCanhRong', className: 'align-middle' },
+                        { data: 'klVKhuanChatCRongTruocCCho', className: 'align-middle' },
+                        { data: 'klCChoVKhuanChatCRong', className: 'align-middle' },
+                        { data: 'klVKhuanChatCRongSauCCho', className: 'align-middle' },
+                        { data: 'klCDaiMuMoDuoi', className: 'align-middle' },
+                        { data: 'canhDaiMuMoDuoiDoGa', className: 'align-middle' },
+                        { data: 'tongKlMuMoDuoi', className: 'align-middle' },
+                        { data: 'canhRongMuMoDuoiDoGa', className: 'align-middle' },
+                        { data: 'klCDaiXayTren', className: 'align-middle' },
+                        { data: 'canhDaiMuMoTrenHoGa', className: 'align-middle' },
+                        { data: 'klCRongXayTren', className: 'align-middle' },
+                        { data: 'canhRongMuMoTrenHoGa', className: 'align-middle' },
+                       ],
+                    autoWidth: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+                            
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+</script>
+

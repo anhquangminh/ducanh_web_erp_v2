@@ -1,0 +1,1261 @@
+wwwroot\assets\css\base.css
+wwwroot\assets\css\base.min.css
+wwwroot\assets\css\bootstrap-icons.css
+wwwroot\assets\DataTable\css\buttons.dataTables.min.css
+wwwroot\assets\DataTable\css\jquery.dataTables.min.css
+wwwroot\assets\DataTable\css\responsive.dataTables.min.css
+wwwroot\assets\DataTable\js\buttons.html5.min.js
+wwwroot\assets\DataTable\js\buttons.print.min.js
+wwwroot\assets\DataTable\js\dataTables.buttons.min.js
+wwwroot\assets\DataTable\js\dataTables.responsive.min.js
+wwwroot\assets\DataTable\js\jquery-3.5.1.js
+wwwroot\assets\DataTable\js\jquery.dataTables.min.js
+wwwroot\assets\DataTable\js\jszip.min.js
+wwwroot\assets\DataTable\js\pdfmake.min.js
+wwwroot\assets\DataTable\js\vfs_fonts.js
+wwwroot\assets\fonts\bootstrap-icons.woff
+wwwroot\assets\fonts\bootstrap-icons.woff2
+wwwroot\assets\fonts\fontawesome\fa-brands-400.eot
+wwwroot\assets\fonts\fontawesome\fa-brands-400.svg
+wwwroot\assets\fonts\fontawesome\fa-brands-400.ttf
+wwwroot\assets\fonts\fontawesome\fa-brands-400.woff
+wwwroot\assets\fonts\fontawesome\fa-brands-400.woff2
+wwwroot\assets\fonts\fontawesome\fa-regular-400.eot
+wwwroot\assets\fonts\fontawesome\fa-regular-400.svg
+wwwroot\assets\fonts\fontawesome\fa-regular-400.ttf
+wwwroot\assets\fonts\fontawesome\fa-regular-400.woff
+wwwroot\assets\fonts\fontawesome\fa-regular-400.woff2
+wwwroot\assets\fonts\fontawesome\fa-solid-900.eot
+wwwroot\assets\fonts\fontawesome\fa-solid-900.svg
+wwwroot\assets\fonts\fontawesome\fa-solid-900.ttf
+wwwroot\assets\fonts\fontawesome\fa-solid-900.woff
+wwwroot\assets\fonts\fontawesome\fa-solid-900.woff2
+wwwroot\assets\fonts\ionicons\ionicons.eot
+wwwroot\assets\fonts\ionicons\ionicons.svg
+wwwroot\assets\fonts\ionicons\ionicons.ttf
+wwwroot\assets\fonts\ionicons\ionicons.woff
+wwwroot\assets\fonts\linearicons\Linearicons-Free.eot
+wwwroot\assets\fonts\linearicons\Linearicons-Free.svg
+wwwroot\assets\fonts\linearicons\Linearicons-Free.ttf
+wwwroot\assets\fonts\linearicons\Linearicons-Free.woff
+wwwroot\assets\fonts\linearicons\Linearicons-Free.woff2
+wwwroot\assets\fonts\pe7-icons\Pe-icon-7-stroke.eot
+wwwroot\assets\fonts\pe7-icons\Pe-icon-7-stroke.svg
+wwwroot\assets\fonts\pe7-icons\Pe-icon-7-stroke.ttf
+wwwroot\assets\fonts\pe7-icons\Pe-icon-7-stroke.woff
+wwwroot\assets\images\avatars\1.jpg
+wwwroot\assets\images\avatars\10.jpg
+wwwroot\assets\images\avatars\11.jpg
+wwwroot\assets\images\avatars\12.jpg
+wwwroot\assets\images\avatars\2.jpg
+wwwroot\assets\images\avatars\3.jpg
+wwwroot\assets\images\avatars\4.jpg
+wwwroot\assets\images\avatars\5.jpg
+wwwroot\assets\images\avatars\6.jpg
+wwwroot\assets\images\avatars\7.jpg
+wwwroot\assets\images\avatars\8.jpg
+wwwroot\assets\images\avatars\9.jpg
+wwwroot\assets\images\bg1.webp
+wwwroot\assets\images\dropdown-header\abstract1.jpg
+wwwroot\assets\images\dropdown-header\abstract10.jpg
+wwwroot\assets\images\dropdown-header\abstract2.jpg
+wwwroot\assets\images\dropdown-header\abstract3.jpg
+wwwroot\assets\images\dropdown-header\abstract4.jpg
+wwwroot\assets\images\dropdown-header\abstract5.jpg
+wwwroot\assets\images\dropdown-header\abstract6.jpg
+wwwroot\assets\images\dropdown-header\abstract7.jpg
+wwwroot\assets\images\dropdown-header\abstract8.jpg
+wwwroot\assets\images\dropdown-header\abstract9.jpg
+wwwroot\assets\images\dropdown-header\city1.jpg
+wwwroot\assets\images\dropdown-header\city2.jpg
+wwwroot\assets\images\dropdown-header\city3.jpg
+wwwroot\assets\images\dropdown-header\city4.jpg
+wwwroot\assets\images\dropdown-header\city5.jpg
+wwwroot\assets\images\favicon.ico
+wwwroot\assets\images\flagkit-svg\AD.svg
+wwwroot\assets\images\flagkit-svg\AE.svg
+wwwroot\assets\images\flagkit-svg\AF.svg
+wwwroot\assets\images\flagkit-svg\AG.svg
+wwwroot\assets\images\flagkit-svg\AI.svg
+wwwroot\assets\images\flagkit-svg\AL.svg
+wwwroot\assets\images\flagkit-svg\AM.svg
+wwwroot\assets\images\flagkit-svg\AO.svg
+wwwroot\assets\images\flagkit-svg\AR.svg
+wwwroot\assets\images\flagkit-svg\AS.svg
+wwwroot\assets\images\flagkit-svg\AT.svg
+wwwroot\assets\images\flagkit-svg\AU.svg
+wwwroot\assets\images\flagkit-svg\AW.svg
+wwwroot\assets\images\flagkit-svg\AX.svg
+wwwroot\assets\images\flagkit-svg\AZ.svg
+wwwroot\assets\images\flagkit-svg\BA.svg
+wwwroot\assets\images\flagkit-svg\BB.svg
+wwwroot\assets\images\flagkit-svg\BD.svg
+wwwroot\assets\images\flagkit-svg\BE.svg
+wwwroot\assets\images\flagkit-svg\BF.svg
+wwwroot\assets\images\flagkit-svg\BG.svg
+wwwroot\assets\images\flagkit-svg\BH.svg
+wwwroot\assets\images\flagkit-svg\BI.svg
+wwwroot\assets\images\flagkit-svg\BJ.svg
+wwwroot\assets\images\flagkit-svg\BL.svg
+wwwroot\assets\images\flagkit-svg\BM.svg
+wwwroot\assets\images\flagkit-svg\BN.svg
+wwwroot\assets\images\flagkit-svg\BO.svg
+wwwroot\assets\images\flagkit-svg\BR.svg
+wwwroot\assets\images\flagkit-svg\BS.svg
+wwwroot\assets\images\flagkit-svg\BT.svg
+wwwroot\assets\images\flagkit-svg\BV.svg
+wwwroot\assets\images\flagkit-svg\BW.svg
+wwwroot\assets\images\flagkit-svg\BY.svg
+wwwroot\assets\images\flagkit-svg\BZ.svg
+wwwroot\assets\images\flagkit-svg\CA.svg
+wwwroot\assets\images\flagkit-svg\CC.svg
+wwwroot\assets\images\flagkit-svg\CD.svg
+wwwroot\assets\images\flagkit-svg\CF.svg
+wwwroot\assets\images\flagkit-svg\CG.svg
+wwwroot\assets\images\flagkit-svg\CH.svg
+wwwroot\assets\images\flagkit-svg\CI.svg
+wwwroot\assets\images\flagkit-svg\CK.svg
+wwwroot\assets\images\flagkit-svg\CL.svg
+wwwroot\assets\images\flagkit-svg\CM.svg
+wwwroot\assets\images\flagkit-svg\CN.svg
+wwwroot\assets\images\flagkit-svg\CO.svg
+wwwroot\assets\images\flagkit-svg\CR.svg
+wwwroot\assets\images\flagkit-svg\CU.svg
+wwwroot\assets\images\flagkit-svg\CV.svg
+wwwroot\assets\images\flagkit-svg\CW.svg
+wwwroot\assets\images\flagkit-svg\CX.svg
+wwwroot\assets\images\flagkit-svg\CY.svg
+wwwroot\assets\images\flagkit-svg\CZ.svg
+wwwroot\assets\images\flagkit-svg\DE.svg
+wwwroot\assets\images\flagkit-svg\DJ.svg
+wwwroot\assets\images\flagkit-svg\DK.svg
+wwwroot\assets\images\flagkit-svg\DM.svg
+wwwroot\assets\images\flagkit-svg\DO.svg
+wwwroot\assets\images\flagkit-svg\DZ.svg
+wwwroot\assets\images\flagkit-svg\EC.svg
+wwwroot\assets\images\flagkit-svg\EE.svg
+wwwroot\assets\images\flagkit-svg\EG.svg
+wwwroot\assets\images\flagkit-svg\ER.svg
+wwwroot\assets\images\flagkit-svg\ES.svg
+wwwroot\assets\images\flagkit-svg\ET.svg
+wwwroot\assets\images\flagkit-svg\EU.svg
+wwwroot\assets\images\flagkit-svg\FI.svg
+wwwroot\assets\images\flagkit-svg\FJ.svg
+wwwroot\assets\images\flagkit-svg\FK.svg
+wwwroot\assets\images\flagkit-svg\FM.svg
+wwwroot\assets\images\flagkit-svg\FO.svg
+wwwroot\assets\images\flagkit-svg\FR.svg
+wwwroot\assets\images\flagkit-svg\GA.svg
+wwwroot\assets\images\flagkit-svg\GB-ENG.svg
+wwwroot\assets\images\flagkit-svg\GB-NIR.svg
+wwwroot\assets\images\flagkit-svg\GB-SCT.svg
+wwwroot\assets\images\flagkit-svg\GB-WLS.svg
+wwwroot\assets\images\flagkit-svg\GB-ZET.svg
+wwwroot\assets\images\flagkit-svg\GB.svg
+wwwroot\assets\images\flagkit-svg\GD.svg
+wwwroot\assets\images\flagkit-svg\GE.svg
+wwwroot\assets\images\flagkit-svg\GF.svg
+wwwroot\assets\images\flagkit-svg\GG.svg
+wwwroot\assets\images\flagkit-svg\GH.svg
+wwwroot\assets\images\flagkit-svg\GI.svg
+wwwroot\assets\images\flagkit-svg\GL.svg
+wwwroot\assets\images\flagkit-svg\GM.svg
+wwwroot\assets\images\flagkit-svg\GN.svg
+wwwroot\assets\images\flagkit-svg\GP.svg
+wwwroot\assets\images\flagkit-svg\GQ.svg
+wwwroot\assets\images\flagkit-svg\GR.svg
+wwwroot\assets\images\flagkit-svg\GS.svg
+wwwroot\assets\images\flagkit-svg\GT.svg
+wwwroot\assets\images\flagkit-svg\GU.svg
+wwwroot\assets\images\flagkit-svg\GW.svg
+wwwroot\assets\images\flagkit-svg\GY.svg
+wwwroot\assets\images\flagkit-svg\HK.svg
+wwwroot\assets\images\flagkit-svg\HM.svg
+wwwroot\assets\images\flagkit-svg\HN.svg
+wwwroot\assets\images\flagkit-svg\HR.svg
+wwwroot\assets\images\flagkit-svg\HT.svg
+wwwroot\assets\images\flagkit-svg\HU.svg
+wwwroot\assets\images\flagkit-svg\ID.svg
+wwwroot\assets\images\flagkit-svg\IE.svg
+wwwroot\assets\images\flagkit-svg\IL.svg
+wwwroot\assets\images\flagkit-svg\IM.svg
+wwwroot\assets\images\flagkit-svg\IN.svg
+wwwroot\assets\images\flagkit-svg\IO.svg
+wwwroot\assets\images\flagkit-svg\IQ.svg
+wwwroot\assets\images\flagkit-svg\IR.svg
+wwwroot\assets\images\flagkit-svg\IS.svg
+wwwroot\assets\images\flagkit-svg\IT.svg
+wwwroot\assets\images\flagkit-svg\JE.svg
+wwwroot\assets\images\flagkit-svg\JM.svg
+wwwroot\assets\images\flagkit-svg\JO.svg
+wwwroot\assets\images\flagkit-svg\JP.svg
+wwwroot\assets\images\flagkit-svg\KE.svg
+wwwroot\assets\images\flagkit-svg\KG.svg
+wwwroot\assets\images\flagkit-svg\KH.svg
+wwwroot\assets\images\flagkit-svg\KI.svg
+wwwroot\assets\images\flagkit-svg\KM.svg
+wwwroot\assets\images\flagkit-svg\KN.svg
+wwwroot\assets\images\flagkit-svg\KP.svg
+wwwroot\assets\images\flagkit-svg\KR.svg
+wwwroot\assets\images\flagkit-svg\KW.svg
+wwwroot\assets\images\flagkit-svg\KY.svg
+wwwroot\assets\images\flagkit-svg\KZ.svg
+wwwroot\assets\images\flagkit-svg\LA.svg
+wwwroot\assets\images\flagkit-svg\LB.svg
+wwwroot\assets\images\flagkit-svg\LC.svg
+wwwroot\assets\images\flagkit-svg\LGBT.svg
+wwwroot\assets\images\flagkit-svg\LI.svg
+wwwroot\assets\images\flagkit-svg\LK.svg
+wwwroot\assets\images\flagkit-svg\LR.svg
+wwwroot\assets\images\flagkit-svg\LS.svg
+wwwroot\assets\images\flagkit-svg\LT.svg
+wwwroot\assets\images\flagkit-svg\LU.svg
+wwwroot\assets\images\flagkit-svg\LV.svg
+wwwroot\assets\images\flagkit-svg\LY.svg
+wwwroot\assets\images\flagkit-svg\MA.svg
+wwwroot\assets\images\flagkit-svg\MC.svg
+wwwroot\assets\images\flagkit-svg\MD.svg
+wwwroot\assets\images\flagkit-svg\ME.svg
+wwwroot\assets\images\flagkit-svg\MF.svg
+wwwroot\assets\images\flagkit-svg\MG.svg
+wwwroot\assets\images\flagkit-svg\MH.svg
+wwwroot\assets\images\flagkit-svg\MK.svg
+wwwroot\assets\images\flagkit-svg\ML.svg
+wwwroot\assets\images\flagkit-svg\MM.svg
+wwwroot\assets\images\flagkit-svg\MN.svg
+wwwroot\assets\images\flagkit-svg\MO.svg
+wwwroot\assets\images\flagkit-svg\MP.svg
+wwwroot\assets\images\flagkit-svg\MQ.svg
+wwwroot\assets\images\flagkit-svg\MR.svg
+wwwroot\assets\images\flagkit-svg\MS.svg
+wwwroot\assets\images\flagkit-svg\MT.svg
+wwwroot\assets\images\flagkit-svg\MU.svg
+wwwroot\assets\images\flagkit-svg\MV.svg
+wwwroot\assets\images\flagkit-svg\MW.svg
+wwwroot\assets\images\flagkit-svg\MX.svg
+wwwroot\assets\images\flagkit-svg\MY.svg
+wwwroot\assets\images\flagkit-svg\MZ.svg
+wwwroot\assets\images\flagkit-svg\NA.svg
+wwwroot\assets\images\flagkit-svg\NC.svg
+wwwroot\assets\images\flagkit-svg\NE.svg
+wwwroot\assets\images\flagkit-svg\NF.svg
+wwwroot\assets\images\flagkit-svg\NG.svg
+wwwroot\assets\images\flagkit-svg\NI.svg
+wwwroot\assets\images\flagkit-svg\NL.svg
+wwwroot\assets\images\flagkit-svg\NO.svg
+wwwroot\assets\images\flagkit-svg\NP.svg
+wwwroot\assets\images\flagkit-svg\NR.svg
+wwwroot\assets\images\flagkit-svg\NU.svg
+wwwroot\assets\images\flagkit-svg\NZ.svg
+wwwroot\assets\images\flagkit-svg\OM.svg
+wwwroot\assets\images\flagkit-svg\PA.svg
+wwwroot\assets\images\flagkit-svg\PE.svg
+wwwroot\assets\images\flagkit-svg\PF.svg
+wwwroot\assets\images\flagkit-svg\PG.svg
+wwwroot\assets\images\flagkit-svg\PH.svg
+wwwroot\assets\images\flagkit-svg\PK.svg
+wwwroot\assets\images\flagkit-svg\PL.svg
+wwwroot\assets\images\flagkit-svg\PM.svg
+wwwroot\assets\images\flagkit-svg\PN.svg
+wwwroot\assets\images\flagkit-svg\PR.svg
+wwwroot\assets\images\flagkit-svg\PS.svg
+wwwroot\assets\images\flagkit-svg\PT.svg
+wwwroot\assets\images\flagkit-svg\PW.svg
+wwwroot\assets\images\flagkit-svg\PY.svg
+wwwroot\assets\images\flagkit-svg\QA.svg
+wwwroot\assets\images\flagkit-svg\RE.svg
+wwwroot\assets\images\flagkit-svg\RO.svg
+wwwroot\assets\images\flagkit-svg\RS.svg
+wwwroot\assets\images\flagkit-svg\RU.svg
+wwwroot\assets\images\flagkit-svg\RW.svg
+wwwroot\assets\images\flagkit-svg\SA.svg
+wwwroot\assets\images\flagkit-svg\SB.svg
+wwwroot\assets\images\flagkit-svg\SC.svg
+wwwroot\assets\images\flagkit-svg\SD.svg
+wwwroot\assets\images\flagkit-svg\SE.svg
+wwwroot\assets\images\flagkit-svg\SG.svg
+wwwroot\assets\images\flagkit-svg\SH.svg
+wwwroot\assets\images\flagkit-svg\SI.svg
+wwwroot\assets\images\flagkit-svg\SJ.svg
+wwwroot\assets\images\flagkit-svg\SK.svg
+wwwroot\assets\images\flagkit-svg\SL.svg
+wwwroot\assets\images\flagkit-svg\SM.svg
+wwwroot\assets\images\flagkit-svg\SN.svg
+wwwroot\assets\images\flagkit-svg\SO.svg
+wwwroot\assets\images\flagkit-svg\SR.svg
+wwwroot\assets\images\flagkit-svg\SS.svg
+wwwroot\assets\images\flagkit-svg\ST.svg
+wwwroot\assets\images\flagkit-svg\SV.svg
+wwwroot\assets\images\flagkit-svg\SX.svg
+wwwroot\assets\images\flagkit-svg\SY.svg
+wwwroot\assets\images\flagkit-svg\SZ.svg
+wwwroot\assets\images\flagkit-svg\TC.svg
+wwwroot\assets\images\flagkit-svg\TD.svg
+wwwroot\assets\images\flagkit-svg\TF.svg
+wwwroot\assets\images\flagkit-svg\TG.svg
+wwwroot\assets\images\flagkit-svg\TH.svg
+wwwroot\assets\images\flagkit-svg\TJ.svg
+wwwroot\assets\images\flagkit-svg\TK.svg
+wwwroot\assets\images\flagkit-svg\TL.svg
+wwwroot\assets\images\flagkit-svg\TM.svg
+wwwroot\assets\images\flagkit-svg\TN.svg
+wwwroot\assets\images\flagkit-svg\TO.svg
+wwwroot\assets\images\flagkit-svg\TR.svg
+wwwroot\assets\images\flagkit-svg\TT.svg
+wwwroot\assets\images\flagkit-svg\TV.svg
+wwwroot\assets\images\flagkit-svg\TW.svg
+wwwroot\assets\images\flagkit-svg\TZ.svg
+wwwroot\assets\images\flagkit-svg\UA.svg
+wwwroot\assets\images\flagkit-svg\UG.svg
+wwwroot\assets\images\flagkit-svg\UM.svg
+wwwroot\assets\images\flagkit-svg\US-CA.svg
+wwwroot\assets\images\flagkit-svg\US.svg
+wwwroot\assets\images\flagkit-svg\UY.svg
+wwwroot\assets\images\flagkit-svg\UZ.svg
+wwwroot\assets\images\flagkit-svg\VA.svg
+wwwroot\assets\images\flagkit-svg\VC.svg
+wwwroot\assets\images\flagkit-svg\VE.svg
+wwwroot\assets\images\flagkit-svg\VG.svg
+wwwroot\assets\images\flagkit-svg\VI.svg
+wwwroot\assets\images\flagkit-svg\VN.svg
+wwwroot\assets\images\flagkit-svg\VU.svg
+wwwroot\assets\images\flagkit-svg\WF.svg
+wwwroot\assets\images\flagkit-svg\WS.svg
+wwwroot\assets\images\flagkit-svg\XK.svg
+wwwroot\assets\images\flagkit-svg\YE.svg
+wwwroot\assets\images\flagkit-svg\YT.svg
+wwwroot\assets\images\flagkit-svg\ZA.svg
+wwwroot\assets\images\flagkit-svg\ZM.svg
+wwwroot\assets\images\flagkit-svg\ZW.svg
+wwwroot\assets\images\khucn.jpg
+wwwroot\assets\images\login.jpg
+wwwroot\assets\images\logo-inverse.png
+wwwroot\assets\images\logo.png
+wwwroot\assets\images\logoLG.jpg
+wwwroot\assets\images\originals\abstract.jpg
+wwwroot\assets\images\originals\abstract2.jpg
+wwwroot\assets\images\originals\abstract3.jpg
+wwwroot\assets\images\originals\abstract4.jpg
+wwwroot\assets\images\originals\abstract5.jpg
+wwwroot\assets\images\originals\abstract6.jpg
+wwwroot\assets\images\originals\buildings.jpg
+wwwroot\assets\images\originals\city.jpg
+wwwroot\assets\images\originals\citydark.jpg
+wwwroot\assets\images\originals\citynights.jpg
+wwwroot\assets\images\originals\colors.jpg
+wwwroot\assets\images\originals\fence-small.jpg
+wwwroot\assets\images\originals\fence.jpg
+wwwroot\assets\images\originals\interconnected.jpg
+wwwroot\assets\images\originals\nightcolors.jpg
+wwwroot\assets\images\originals\water.jpg
+wwwroot\assets\images\sidebar\abstract1.jpg
+wwwroot\assets\images\sidebar\abstract10.jpg
+wwwroot\assets\images\sidebar\abstract2.jpg
+wwwroot\assets\images\sidebar\abstract3.jpg
+wwwroot\assets\images\sidebar\abstract4.jpg
+wwwroot\assets\images\sidebar\abstract5.jpg
+wwwroot\assets\images\sidebar\abstract6.jpg
+wwwroot\assets\images\sidebar\abstract7.jpg
+wwwroot\assets\images\sidebar\abstract8.jpg
+wwwroot\assets\images\sidebar\abstract9.jpg
+wwwroot\assets\images\sidebar\city1.jpg
+wwwroot\assets\images\sidebar\city2.jpg
+wwwroot\assets\images\sidebar\city3.jpg
+wwwroot\assets\images\sidebar\city4.jpg
+wwwroot\assets\images\sidebar\city5.jpg
+wwwroot\assets\images\user.png
+wwwroot\assets\js\bootstrap-icons.css
+wwwroot\assets\js\fonts\bootstrap-icons.woff
+wwwroot\assets\js\fonts\bootstrap-icons.woff2
+wwwroot\assets\js\scripts-init\app.js
+wwwroot\assets\js\scripts-init\app.min.js
+wwwroot\assets\js\scripts-init\blockui.js
+wwwroot\assets\js\scripts-init\blockui.min.js
+wwwroot\assets\js\scripts-init\calendar.js
+wwwroot\assets\js\scripts-init\calendar.min.js
+wwwroot\assets\js\scripts-init\carousel-slider.js
+wwwroot\assets\js\scripts-init\carousel-slider.min.js
+wwwroot\assets\js\scripts-init\charts\apex-charts.js
+wwwroot\assets\js\scripts-init\charts\apex-charts.min.js
+wwwroot\assets\js\scripts-init\charts\apex-series.js
+wwwroot\assets\js\scripts-init\charts\apex-series.min.js
+wwwroot\assets\js\scripts-init\charts\chartjs.js
+wwwroot\assets\js\scripts-init\charts\chartjs.min.js
+wwwroot\assets\js\scripts-init\charts\charts-sparklines.js
+wwwroot\assets\js\scripts-init\charts\charts-sparklines.min.js
+wwwroot\assets\js\scripts-init\charts\chartsjs-utils.js
+wwwroot\assets\js\scripts-init\charts\chartsjs-utils.min.js
+wwwroot\assets\js\scripts-init\circle-progress.js
+wwwroot\assets\js\scripts-init\circle-progress.min.js
+wwwroot\assets\js\scripts-init\count-up.js
+wwwroot\assets\js\scripts-init\count-up.min.js
+wwwroot\assets\js\scripts-init\demo.js
+wwwroot\assets\js\scripts-init\demo.min.js
+wwwroot\assets\js\scripts-init\form-components\clipboard.js
+wwwroot\assets\js\scripts-init\form-components\clipboard.min.js
+wwwroot\assets\js\scripts-init\form-components\datepicker.js
+wwwroot\assets\js\scripts-init\form-components\datepicker.min.js
+wwwroot\assets\js\scripts-init\form-components\form-validation.js
+wwwroot\assets\js\scripts-init\form-components\form-validation.min.js
+wwwroot\assets\js\scripts-init\form-components\form-wizard.js
+wwwroot\assets\js\scripts-init\form-components\form-wizard.min.js
+wwwroot\assets\js\scripts-init\form-components\input-mask.js
+wwwroot\assets\js\scripts-init\form-components\input-mask.min.js
+wwwroot\assets\js\scripts-init\form-components\input-select.js
+wwwroot\assets\js\scripts-init\form-components\input-select.min.js
+wwwroot\assets\js\scripts-init\form-components\range-slider.js
+wwwroot\assets\js\scripts-init\form-components\range-slider.min.js
+wwwroot\assets\js\scripts-init\form-components\textarea-autosize.js
+wwwroot\assets\js\scripts-init\form-components\textarea-autosize.min.js
+wwwroot\assets\js\scripts-init\guided-tours.js
+wwwroot\assets\js\scripts-init\guided-tours.min.js
+wwwroot\assets\js\scripts-init\image-crop.js
+wwwroot\assets\js\scripts-init\image-crop.min.js
+wwwroot\assets\js\scripts-init\ladda-loading.js
+wwwroot\assets\js\scripts-init\ladda-loading.min.js
+wwwroot\assets\js\scripts-init\maps-word-map.js
+wwwroot\assets\js\scripts-init\maps-word-map.min.js
+wwwroot\assets\js\scripts-init\maps.js
+wwwroot\assets\js\scripts-init\maps.min.js
+wwwroot\assets\js\scripts-init\rating.js
+wwwroot\assets\js\scripts-init\rating.min.js
+wwwroot\assets\js\scripts-init\scrollbar.js
+wwwroot\assets\js\scripts-init\scrollbar.min.js
+wwwroot\assets\js\scripts-init\sweet-alerts.js
+wwwroot\assets\js\scripts-init\sweet-alerts.min.js
+wwwroot\assets\js\scripts-init\tables.js
+wwwroot\assets\js\scripts-init\tables.min.js
+wwwroot\assets\js\scripts-init\toastr.js
+wwwroot\assets\js\scripts-init\toastr.min.js
+wwwroot\assets\js\scripts-init\treeview.js
+wwwroot\assets\js\scripts-init\treeview.min.js
+wwwroot\assets\js\vendors\blockui.js
+wwwroot\assets\js\vendors\blockui.min.js
+wwwroot\assets\js\vendors\bootstrap.bundle.min.js
+wwwroot\assets\js\vendors\calendar.js
+wwwroot\assets\js\vendors\calendar.min.js
+wwwroot\assets\js\vendors\carousel-slider.js
+wwwroot\assets\js\vendors\carousel-slider.min.js
+wwwroot\assets\js\vendors\charts\apex-charts.js
+wwwroot\assets\js\vendors\charts\apex-charts.min.js
+wwwroot\assets\js\vendors\charts\charts-sparklines.js
+wwwroot\assets\js\vendors\charts\charts-sparklines.min.js
+wwwroot\assets\js\vendors\circle-progress.js
+wwwroot\assets\js\vendors\circle-progress.min.js
+wwwroot\assets\js\vendors\count-up.js
+wwwroot\assets\js\vendors\count-up.min.js
+wwwroot\assets\js\vendors\cropper.js
+wwwroot\assets\js\vendors\cropper.min.js
+wwwroot\assets\js\vendors\form-components\bootstrap-multiselect.js
+wwwroot\assets\js\vendors\form-components\bootstrap-multiselect.min.js
+wwwroot\assets\js\vendors\form-components\clipboard.js
+wwwroot\assets\js\vendors\form-components\clipboard.min.js
+wwwroot\assets\js\vendors\form-components\datepicker.js
+wwwroot\assets\js\vendors\form-components\datepicker.min.js
+wwwroot\assets\js\vendors\form-components\daterangepicker.js
+wwwroot\assets\js\vendors\form-components\daterangepicker.min.js
+wwwroot\assets\js\vendors\form-components\form-validation.js
+wwwroot\assets\js\vendors\form-components\form-validation.min.js
+wwwroot\assets\js\vendors\form-components\form-wizard.js
+wwwroot\assets\js\vendors\form-components\form-wizard.min.js
+wwwroot\assets\js\vendors\form-components\input-mask.js
+wwwroot\assets\js\vendors\form-components\input-mask.min.js
+wwwroot\assets\js\vendors\form-components\moment.js
+wwwroot\assets\js\vendors\form-components\moment.min.js
+wwwroot\assets\js\vendors\form-components\range-slider.js
+wwwroot\assets\js\vendors\form-components\range-slider.min.js
+wwwroot\assets\js\vendors\form-components\textarea-autosize.js
+wwwroot\assets\js\vendors\form-components\textarea-autosize.min.js
+wwwroot\assets\js\vendors\form-components\toggle-switch.js
+wwwroot\assets\js\vendors\form-components\toggle-switch.min.js
+wwwroot\assets\js\vendors\form-components\wnumb.js
+wwwroot\assets\js\vendors\form-components\wnumb.min.js
+wwwroot\assets\js\vendors\gmaps.js
+wwwroot\assets\js\vendors\gmaps.min.js
+wwwroot\assets\js\vendors\guided-tours.js
+wwwroot\assets\js\vendors\guided-tours.min.js
+wwwroot\assets\js\vendors\jquery-3.4.0.min.js
+wwwroot\assets\js\vendors\jquery-cropper.js
+wwwroot\assets\js\vendors\jquery-cropper.min.js
+wwwroot\assets\js\vendors\jvectormap.js
+wwwroot\assets\js\vendors\jvectormap.min.js
+wwwroot\assets\js\vendors\ladda-loading.js
+wwwroot\assets\js\vendors\ladda-loading.min.js
+wwwroot\assets\js\vendors\metismenu.js
+wwwroot\assets\js\vendors\moment.js
+wwwroot\assets\js\vendors\rating.js
+wwwroot\assets\js\vendors\rating.min.js
+wwwroot\assets\js\vendors\scrollbar.js
+wwwroot\assets\js\vendors\scrollbar.min.js
+wwwroot\assets\js\vendors\spin.js
+wwwroot\assets\js\vendors\spin.min.js
+wwwroot\assets\js\vendors\sweetalert2.all.js
+wwwroot\assets\js\vendors\tables.js
+wwwroot\assets\js\vendors\tables.min.js
+wwwroot\assets\js\vendors\treeview.js
+wwwroot\assets\js\vendors\treeview.min.js
+wwwroot\css\chat\chat.css
+wwwroot\css\qlnv_task_collaboration.css
+wwwroot\css\site.css
+wwwroot\example-html-pages\accordions.html
+wwwroot\example-html-pages\analytics-variation.html
+wwwroot\example-html-pages\analytics.html
+wwwroot\example-html-pages\apexcharts.html
+wwwroot\example-html-pages\badges-labels.html
+wwwroot\example-html-pages\buttons-icons.html
+wwwroot\example-html-pages\buttons-pills.html
+wwwroot\example-html-pages\buttons-shadow.html
+wwwroot\example-html-pages\buttons-square.html
+wwwroot\example-html-pages\buttons-standard.html
+wwwroot\example-html-pages\calendar.html
+wwwroot\example-html-pages\cards.html
+wwwroot\example-html-pages\carousel.html
+wwwroot\example-html-pages\chart-boxes-2.html
+wwwroot\example-html-pages\chart-boxes-3.html
+wwwroot\example-html-pages\chart-boxes.html
+wwwroot\example-html-pages\chartjs.html
+wwwroot\example-html-pages\chat.html
+wwwroot\example-html-pages\clipboard.html
+wwwroot\example-html-pages\commerce-variation.html
+wwwroot\example-html-pages\commerce.html
+wwwroot\example-html-pages\controls.html
+wwwroot\example-html-pages\count-up.html
+wwwroot\example-html-pages\crm-variation.html
+wwwroot\example-html-pages\crm.html
+wwwroot\example-html-pages\data-tables.html
+wwwroot\example-html-pages\datepicker.html
+wwwroot\example-html-pages\dropdowns.html
+wwwroot\example-html-pages\faq-section.html
+wwwroot\example-html-pages\forgot-password-boxed.html
+wwwroot\example-html-pages\forgot-password.html
+wwwroot\example-html-pages\grid.html
+wwwroot\example-html-pages\guided-tours.html
+wwwroot\example-html-pages\icons.html
+wwwroot\example-html-pages\image-crop.html
+wwwroot\example-html-pages\input-mask.html
+wwwroot\example-html-pages\input-selects.html
+wwwroot\example-html-pages\layouts.html
+wwwroot\example-html-pages\list-group.html
+wwwroot\example-html-pages\loaders.html
+wwwroot\example-html-pages\loading-blocks.html
+wwwroot\example-html-pages\login-boxed.html
+wwwroot\example-html-pages\login.html
+wwwroot\example-html-pages\mailbox.html
+wwwroot\example-html-pages\maps.html
+wwwroot\example-html-pages\minimal-1.html
+wwwroot\example-html-pages\minimal-2.html
+wwwroot\example-html-pages\modals.html
+wwwroot\example-html-pages\navigation.html
+wwwroot\example-html-pages\notifications.html
+wwwroot\example-html-pages\pagination.html
+wwwroot\example-html-pages\profile-boxes.html
+wwwroot\example-html-pages\progress-bar.html
+wwwroot\example-html-pages\range-slider.html
+wwwroot\example-html-pages\ratings.html
+wwwroot\example-html-pages\register-boxed.html
+wwwroot\example-html-pages\register.html
+wwwroot\example-html-pages\regular.html
+wwwroot\example-html-pages\sales.html
+wwwroot\example-html-pages\scrollable-elements.html
+wwwroot\example-html-pages\sparklines.html
+wwwroot\example-html-pages\tabs.html
+wwwroot\example-html-pages\textarea-autosize.html
+wwwroot\example-html-pages\timelines.html
+wwwroot\example-html-pages\toggle-switch.html
+wwwroot\example-html-pages\tooltips-popovers.html
+wwwroot\example-html-pages\tree-view.html
+wwwroot\example-html-pages\utilities.html
+wwwroot\example-html-pages\validation.html
+wwwroot\example-html-pages\wizard.html
+wwwroot\example-html-pages\wysiwyg-editor.html
+wwwroot\favicon.ico
+wwwroot\files\ducanherp-firebase-adminsdk-fbsvc-78bd260d8e.json
+wwwroot\js\bootstrap.bundle.min.js
+wwwroot\js\chat\chat-api.js
+wwwroot\js\chat\chat-app.js
+wwwroot\js\chat\chat-components.js
+wwwroot\js\chat\chat-socket.js
+wwwroot\js\chat\chat-store.js
+wwwroot\js\chat\chat-utils.js
+wwwroot\js\formatDateTime.js
+wwwroot\js\jquery-3.3.1.min.js
+wwwroot\js\jquery-3.4.0.min.js
+wwwroot\js\kho\nhapkhonhienlieu.js
+wwwroot\js\metismenu.js
+wwwroot\js\moment-with-locales.js
+wwwroot\js\moment-with-locales.min.js
+wwwroot\js\moment.js
+wwwroot\js\notification-realtime.js
+wwwroot\js\QLNV\qlcv_quanlynhom.js
+wwwroot\js\QLNV\qlnv_congviecduocgiao.js
+wwwroot\js\QLNV\qlnv_danhgia.js
+wwwroot\js\QLNV\qlnv_nhanvien.js
+wwwroot\js\QLNV\qlnv_quanlycongviec.js
+wwwroot\js\QLNV\qlnv_task_collaboration.js
+wwwroot\js\qlnv_task_collaboration.js
+wwwroot\js\qrcode.min.js
+wwwroot\js\site.js
+wwwroot\js\test.js
+wwwroot\js\textarea-autosize.js
+wwwroot\js\TinhToan.js
+wwwroot\lib\bootstrap.bundle.min.js
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+wwwroot\lib\bootstrap\LICENSE
+wwwroot\lib\excel\exceljs.min.js
+wwwroot\lib\excel\exportExcelCustom.js
+wwwroot\lib\excel\FileSaver.min.js
+wwwroot\lib\excel\jspdf.plugin.autotable.min.js
+wwwroot\lib\excel\jspdf.umd.min.js
+wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+wwwroot\lib\jquery-validation\dist\additional-methods.js
+wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+wwwroot\lib\jquery-validation\LICENSE.md
+wwwroot\lib\jquery\dist\jquery.js
+wwwroot\lib\jquery\dist\jquery.min.js
+wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\lib\jquery\dist\jquery.slim.js
+wwwroot\lib\jquery\dist\jquery.slim.min.js
+wwwroot\lib\jquery\dist\jquery.slim.min.map
+wwwroot\lib\jquery\LICENSE.txt
+wwwroot\lib\metismenu.js
+wwwroot\lib\select2.min.js
+wwwroot\lib\signalr.min.js
+wwwroot\lib\toastr.min.js
+wwwroot\upload_qlnv\06a6695a-399e-42a8-81db-451d11c7f86a_261997817-e4f7a974-b594-4582-b43a-13a68a71b34e.png
+wwwroot\upload_qlnv\0b1fd079-5b2c-494f-9069-ead2b5dc2cef_261997817-e4f7a974-b594-4582-b43a-13a68a71b34e.png
+wwwroot\upload_qlnv\0c695029-7cee-4667-ba1e-d7de97e6e6bb_33333.PNG
+wwwroot\upload_qlnv\0ea90a7e-262c-42bc-8621-ba9bed075059_33333.PNG
+wwwroot\upload_qlnv\13c15ff0-3e38-41cf-b744-1616bc6e1354_261997817-e4f7a974-b594-4582-b43a-13a68a71b34e.png
+wwwroot\upload_qlnv\481dac1c-48a2-4728-92f1-e5034dc36d49_abc.PNG
+wwwroot\upload_qlnv\5662f8bb-dd44-44bf-830e-3d4b5e4a44cf_1222.PNG
+wwwroot\upload_qlnv\57f7faea-18fb-41bd-b04b-cf51e9aad3a4_abc.PNG
+wwwroot\upload_qlnv\60e80d18-ea9f-4e7d-8682-88afae1a2eea_33333.PNG
+wwwroot\upload_qlnv\622db37d-f259-4c8b-b4e9-ba68286f13b1_xxxx.PNG
+wwwroot\upload_qlnv\91d3c52f-d240-4052-9aab-3a2faf5c3c03_abc.PNG
+wwwroot\upload_qlnv\9c359646-16bb-4c6e-a93a-7a8983f743f2_33333.PNG
+wwwroot\upload_qlnv\eb9c201e-fead-4612-ae11-b624f12b48cd_261997817-e4f7a974-b594-4582-b43a-13a68a71b34e.png
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\css\base.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\css\base.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\css\bootstrap-icons.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\css\buttons.dataTables.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\css\jquery.dataTables.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\css\responsive.dataTables.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\buttons.html5.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\buttons.print.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\dataTables.buttons.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\dataTables.responsive.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\jquery-3.5.1.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\jquery.dataTables.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\jszip.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\pdfmake.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\DataTable\js\vfs_fonts.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\fontawesome\fa-brands-400.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\fontawesome\fa-regular-400.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\fontawesome\fa-solid-900.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\ionicons\ionicons.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\linearicons\Linearicons-Free.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\fonts\pe7-icons\Pe-icon-7-stroke.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\favicon.ico
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AX.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\AZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BB.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BJ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\BZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CX.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\CZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DJ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\DZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\EC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\EE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\EG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ER.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ES.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ET.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\EU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FJ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\FR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB-ENG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB-NIR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB-SCT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB-WLS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB-ZET.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GB.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GP.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GQ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\GY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\HU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ID.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IQ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\IT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\JE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\JM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\JO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\JP.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KP.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\KZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LB.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LGBT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\LY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ME.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ML.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MP.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MQ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MX.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\MZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NP.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\NZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\OM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\PY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\QA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\RE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\RO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\RS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\RU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\RW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SB.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SJ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ST.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SX.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\SZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TD.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TH.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TJ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TL.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TO.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TR.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TV.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\TZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\UA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\UG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\UM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\US-CA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\US.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\UY.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\UZ.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VC.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VG.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VI.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VN.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\VU.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\WF.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\WS.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\XK.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\YE.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\YT.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ZA.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ZM.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\images\flagkit-svg\ZW.svg
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\bootstrap-icons.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\app.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\app.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\blockui.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\blockui.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\calendar.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\calendar.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\carousel-slider.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\carousel-slider.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\apex-charts.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\apex-charts.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\apex-series.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\apex-series.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\chartjs.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\chartjs.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\charts-sparklines.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\charts-sparklines.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\chartsjs-utils.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\charts\chartsjs-utils.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\circle-progress.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\circle-progress.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\count-up.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\count-up.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\demo.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\demo.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\clipboard.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\clipboard.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\datepicker.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\datepicker.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\form-validation.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\form-validation.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\form-wizard.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\form-wizard.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\input-mask.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\input-mask.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\input-select.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\input-select.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\range-slider.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\range-slider.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\textarea-autosize.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\form-components\textarea-autosize.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\guided-tours.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\guided-tours.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\image-crop.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\image-crop.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\ladda-loading.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\ladda-loading.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\maps-word-map.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\maps-word-map.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\maps.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\maps.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\rating.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\rating.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\scrollbar.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\scrollbar.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\sweet-alerts.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\sweet-alerts.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\tables.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\tables.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\toastr.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\toastr.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\treeview.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\scripts-init\treeview.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\blockui.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\blockui.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\bootstrap.bundle.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\calendar.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\calendar.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\carousel-slider.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\carousel-slider.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\charts\apex-charts.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\charts\apex-charts.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\charts\charts-sparklines.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\charts\charts-sparklines.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\circle-progress.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\circle-progress.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\count-up.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\count-up.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\cropper.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\cropper.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\bootstrap-multiselect.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\bootstrap-multiselect.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\clipboard.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\clipboard.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\datepicker.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\datepicker.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\daterangepicker.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\daterangepicker.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\form-validation.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\form-validation.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\form-wizard.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\form-wizard.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\input-mask.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\input-mask.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\moment.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\moment.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\range-slider.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\range-slider.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\textarea-autosize.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\textarea-autosize.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\toggle-switch.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\toggle-switch.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\wnumb.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\form-components\wnumb.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\gmaps.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\gmaps.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\guided-tours.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\guided-tours.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\jquery-3.4.0.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\jquery-cropper.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\jquery-cropper.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\jvectormap.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\jvectormap.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\ladda-loading.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\ladda-loading.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\metismenu.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\moment.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\rating.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\rating.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\scrollbar.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\scrollbar.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\spin.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\spin.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\sweetalert2.all.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\tables.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\tables.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\treeview.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\assets\js\vendors\treeview.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\css\chat\chat.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\css\qlnv_task_collaboration.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\css\site.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\accordions.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\analytics-variation.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\analytics.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\apexcharts.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\badges-labels.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\buttons-icons.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\buttons-pills.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\buttons-shadow.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\buttons-square.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\buttons-standard.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\calendar.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\cards.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\carousel.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\chart-boxes-2.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\chart-boxes-3.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\chart-boxes.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\chartjs.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\chat.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\clipboard.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\commerce-variation.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\commerce.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\controls.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\count-up.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\crm-variation.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\crm.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\data-tables.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\datepicker.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\dropdowns.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\faq-section.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\forgot-password-boxed.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\forgot-password.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\grid.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\guided-tours.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\icons.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\image-crop.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\input-mask.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\input-selects.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\layouts.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\list-group.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\loaders.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\loading-blocks.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\login-boxed.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\login.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\mailbox.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\maps.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\minimal-1.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\minimal-2.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\modals.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\navigation.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\notifications.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\pagination.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\profile-boxes.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\progress-bar.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\range-slider.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\ratings.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\register-boxed.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\register.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\regular.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\sales.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\scrollable-elements.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\sparklines.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\tabs.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\textarea-autosize.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\timelines.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\toggle-switch.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\tooltips-popovers.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\tree-view.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\utilities.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\validation.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\wizard.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\example-html-pages\wysiwyg-editor.html
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\favicon.ico
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\files\ducanherp-firebase-adminsdk-fbsvc-78bd260d8e.json
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\bootstrap.bundle.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-api.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-app.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-components.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-socket.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-store.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\chat\chat-utils.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\formatDateTime.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\jquery-3.3.1.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\jquery-3.4.0.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\kho\nhapkhonhienlieu.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\metismenu.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\moment-with-locales.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\moment-with-locales.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\moment.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\notification-realtime.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlcv_quanlynhom.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlnv_congviecduocgiao.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlnv_danhgia.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlnv_nhanvien.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlnv_quanlycongviec.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\QLNV\qlnv_task_collaboration.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\qlnv_task_collaboration.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\qrcode.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\site.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\test.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\textarea-autosize.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\js\TinhToan.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap.bundle.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\excel\exceljs.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\excel\exportExcelCustom.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\excel\FileSaver.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\excel\jspdf.plugin.autotable.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\excel\jspdf.umd.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery-validation\LICENSE.md
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.min.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.slim.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.slim.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\dist\jquery.slim.min.map
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\jquery\LICENSE.txt
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\metismenu.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\select2.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\signalr.min.js
+D:\my code\DucAnh2025\DucAnh2025\wwwroot\lib\toastr.min.js

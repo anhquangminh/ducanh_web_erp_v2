@@ -1,0 +1,288 @@
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    Layout = "_LayoutChat";
+    ViewData["Title"] = "Chat";
+
+    var chatSocketBase = (Configuration["ChatService:BaseUrl"] ?? "http://localhost:3000").TrimEnd('/');
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="@Url.Content("~/css/chat/chat.css")" asp-append-version="true" />
+
+    <script src="@($"{chatSocketBase}/socket.io/socket.io.js")"></script>
+    <script>
+        if (!window.io) {
+            document.write('<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"><\/script>');
+        }
+    </script>
+    <script src="@Url.Content("~/js/chat/chat-utils.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/chat/chat-api.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/chat/chat-socket.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/chat/chat-store.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/chat/chat-components.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/chat/chat-app.js")" asp-append-version="true"></script>
+}
+
+<div id="ducanh-chat-root"
+     class="da-chat-shell is-right-panel-collapsed"
+     data-chat-api-base=""
+     data-chat-socket-base="@chatSocketBase"
+     data-token-url="@Url.Content("~/api/User/GetJwtToken")">
+
+    <aside class="da-chat-sidebar" aria-label="Danh sách cuộc trò chuyện">
+        <div class="da-sidebar-top">
+            <div class="da-search-toolbar">
+                <label class="da-chat-search" for="chat-conversation-search">
+                    <i class="bi bi-search"></i>
+                    <input id="chat-conversation-search"
+                           type="search"
+                           placeholder="Tìm cuộc trò chuyện, nhóm hoặc người dùng"
+                           autocomplete="off" />
+                </label>
+
+                <button type="button"
+                        class="da-icon-btn"
+                        data-chat-action="open-private-modal"
+                        title="Tin nhắn riêng">
+                    <i class="bi bi-person-plus"></i>
+                </button>
+
+                <button type="button"
+                        class="da-icon-btn"
+                        data-chat-action="open-group-modal"
+                        title="Tạo nhóm">
+                    <i class="bi bi-people"></i>
+                </button>
+            </div>
+            <div class="da-filter-tabs" role="tablist" aria-label="Bộ lọc cuộc trò chuyện">
+                <button type="button" class="is-active" data-chat-filter="all">Tất cả</button>
+                <button type="button" data-chat-filter="unread">Chưa đọc</button>
+                <button type="button" data-chat-filter="group">Nhóm</button>
+                <button type="button" class="da-icon-btn" data-chat-action="refresh" title="Tải lại">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                <button type="button" class="da-icon-btn" data-chat-action="toggle-theme" title="Đổi giao diện">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="chat-sidebar-state" class="da-chat-state" hidden></div>
+        <div id="chat-conversation-list" class="da-conversation-list" role="list">
+            <div class="da-skeleton-list" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </aside>
+
+    <section class="da-chat-main" aria-label="Nội dung chat">
+        <div id="chat-empty-state" class="da-thread-empty">
+            <div class="da-empty-icon">
+                <i class="bi bi-chat-dots"></i>
+            </div>
+            <h2>Chọn một cuộc trò chuyện</h2>
+            <p>Tin nhắn realtime, file, ảnh, trả lời, emoji và trạng thái đã xem sẽ hiển thị tại đây.</p>
+        </div>
+
+        <article id="chat-thread" class="da-thread" hidden>
+            <header class="da-thread-header">
+                <button type="button" class="da-icon-btn da-mobile-only" data-chat-action="back-to-list" aria-label="Quay lại">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+
+                <div id="chat-thread-avatar" class="da-avatar" aria-hidden="true">C</div>
+                <div class="da-thread-title">
+                    <h2 id="chat-thread-title">Tin nhắn</h2>
+                    <span id="chat-thread-subtitle">Đang đồng bộ trạng thái</span>
+                </div>
+
+                <div class="da-thread-tools" aria-label="Thao tác cuộc trò chuyện">
+                    <button type="button" class="da-icon-btn" data-chat-action="toggle-right-panel" title="Ẩn/hiện thông tin cuộc trò chuyện">
+                        <i class="bi bi-layout-sidebar-inset-reverse"></i>
+                    </button>
+                    <button type="button" class="da-icon-btn" data-chat-action="rename-group" title="Đổi tên nhóm">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div id="chat-pinned-bar" class="da-pinned-bar" hidden></div>
+            <div id="chat-message-state" class="da-message-state" hidden></div>
+
+            <div id="chat-dropzone" class="da-drop-surface">
+                <main id="chat-message-list" class="da-message-list" aria-live="polite" aria-label="Danh sách tin nhắn"></main>
+                <div class="da-drop-hint">
+                    <i class="bi bi-cloud-arrow-up"></i>
+                    <span>Thả file để gửi vào cuộc trò chuyện</span>
+                </div>
+            </div>
+
+            <div id="chat-typing-indicator" class="da-typing-indicator" hidden></div>
+
+            <footer class="da-composer" aria-label="Soạn tin nhắn">
+                <div id="chat-upload-preview" class="da-upload-preview" hidden></div>
+                <div id="chat-reply-preview" class="da-reply-preview" hidden></div>
+                <div id="chat-upload-progress" class="da-upload-progress" hidden><span></span></div>
+                <div class="da-composer-tools">
+                    <button type="button"
+                            class="da-icon-btn"
+                            onclick="document.getElementById('chat-file-input').click()"
+                            title="Đính kèm file">
+                        <i class="bi bi-paperclip"></i>
+                    </button>
+
+                    <input id="chat-file-input" type="file" hidden />
+
+                    <button type="button"
+                            class="da-icon-btn"
+                            data-chat-action="toggle-emoji"
+                            title="Emoji">
+                        <i class="bi bi-emoji-smile"></i>
+                    </button>
+
+                    <button type="button"
+                            class="da-icon-btn"
+                            title="Nhắc tên">
+                        <i class="bi bi-at"></i>
+                    </button>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="da-composer-input">
+                    <textarea id="chat-message-input"
+                              rows="1"
+                              placeholder="Nhập tin nhắn..."
+                              aria-label="Nội dung tin nhắn"></textarea>
+
+                    <button id="chat-send-button"
+                            type="button"
+                            class="da-send-btn"
+                            title="Gửi tin nhắn">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+
+                <div id="chat-emoji-picker" class="da-emoji-picker" hidden></div>
+                <div id="chat-mention-menu" class="da-mention-menu" hidden></div>
+            </footer>
+        </article>
+
+        <aside id="chat-right-panel" class="da-right-panel" aria-label="Thông tin cuộc trò chuyện">
+            <div id="chat-right-panel-content"></div>
+        </aside>
+    </section>
+
+    <div id="chat-context-menu" class="da-context-menu" hidden>
+        <div class="da-context-reactions">
+            <button type="button" data-context-action="👍">👍</button>
+            <button type="button" data-context-action="❤️">❤️</button>
+            <button type="button" data-context-action="😂">😂</button>
+            <button type="button" data-context-action="😮">😮</button>
+            <button type="button" data-context-action="😢">😢</button>
+            <button type="button" data-context-action="😡">😡</button>
+        </div>
+        <button type="button" data-context-action="reply"><i class="bi bi-reply"></i> Trả lời</button>
+        <button type="button" data-context-action="copy"><i class="bi bi-copy"></i> Sao chép</button>
+        <button type="button" data-context-action="edit"><i class="bi bi-pencil"></i> Sửa</button>
+        <button type="button" data-context-action="pin"><i class="bi bi-pin-angle"></i> Ghim</button>
+        <button type="button" class="is-danger" data-context-action="delete"><i class="bi bi-trash"></i> Xóa / thu hồi</button>
+    </div>
+    <div id="chat-conversation-menu"
+         class="da-conversation-menu"
+         hidden>
+
+        <button type="button" data-action="delete">
+            <i class="bi bi-trash"></i>
+            <span>Xóa cuộc trò chuyện</span>
+        </button>
+
+    </div>
+    <div id="chat-toast-stack" class="da-toast-stack" aria-live="polite" aria-atomic="true"></div>
+</div>
+
+<div id="chat-private-modal" class="da-modal-backdrop" hidden>
+    <section class="da-modal" role="dialog" aria-modal="true" aria-labelledby="chat-private-title">
+        <header class="da-modal-header">
+            <div>
+                <h2 id="chat-private-title">Tin nhắn riêng</h2>
+                <p>Tìm người dùng trong hệ thống để bắt đầu trò chuyện 1-1.</p>
+            </div>
+            <button type="button" class="da-icon-btn" data-chat-action="close-private-modal" aria-label="Đóng">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </header>
+
+        <label class="da-form-field">
+            <span>Tìm người dùng</span>
+            <input id="chat-private-user-search" type="search" placeholder="Nhập tên, username hoặc email" autocomplete="off" />
+        </label>
+
+        <div id="chat-private-user-results" class="da-user-results">
+            <div class="da-list-empty">Tìm theo tên, username hoặc email.</div>
+        </div>
+    </section>
+</div>
+
+<div id="chat-add-member-modal" class="da-modal-backdrop" hidden>
+    <section class="da-modal" role="dialog" aria-modal="true" aria-labelledby="chat-add-member-title">
+        <header class="da-modal-header">
+            <div>
+                <h2 id="chat-add-member-title">Thêm thành viên</h2>
+                <p>Chọn người dùng để thêm vào nhóm hiện tại.</p>
+            </div>
+            <button type="button" class="da-icon-btn" data-chat-action="close-add-member-modal" aria-label="Đóng">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </header>
+
+        <label class="da-form-field">
+            <span>Tìm người dùng</span>
+            <input id="chat-add-member-search" type="search" placeholder="Nhập tên, username hoặc email" autocomplete="off" />
+        </label>
+
+        <div id="chat-add-member-selected" class="da-selected-users"></div>
+        <div id="chat-add-member-results" class="da-user-results">
+            <div class="da-list-empty">Tìm theo tên, username hoặc email.</div>
+        </div>
+
+        <footer class="da-modal-footer">
+            <button type="button" class="da-secondary-btn" data-chat-action="close-add-member-modal">Hủy</button>
+            <button id="chat-add-member-button" type="button" class="da-primary-btn">Thêm vào nhóm</button>
+        </footer>
+    </section>
+</div>
+
+<div id="chat-group-modal" class="da-modal-backdrop" hidden>
+    <section class="da-modal da-group-modal" role="dialog" aria-modal="true" aria-labelledby="chat-group-title">
+        <header class="da-modal-header">
+            <div>
+                <h2 id="chat-group-title">Tạo nhóm chat</h2>
+                <p>Đặt tên nhóm và chọn thành viên cần trao đổi.</p>
+            </div>
+            <button type="button" class="da-icon-btn" data-chat-action="close-group-modal" aria-label="Đóng">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </header>
+
+        <label class="da-form-field">
+            <span>Tên nhóm</span>
+            <input id="chat-group-name" type="text" placeholder="Ví dụ: Ban điều hành dự án" autocomplete="off" />
+        </label>
+        <div id="chat-group-error" class="da-field-error"></div>
+
+        <label class="da-form-field">
+            <span>Thành viên</span>
+            <input id="chat-user-search" type="search" placeholder="Tìm theo tên, username hoặc email" autocomplete="off" />
+        </label>
+
+        <div id="chat-selected-users" class="da-selected-users"></div>
+        <div id="chat-user-results" class="da-user-results">
+            <div class="da-list-empty">Tìm theo tên, username hoặc email.</div>
+        </div>
+
+        <footer class="da-modal-footer">
+            <button type="button" class="da-secondary-btn" data-chat-action="close-group-modal">Hủy</button>
+            <button id="chat-create-group-button" type="button" class="da-primary-btn">Tạo nhóm</button>
+        </footer>
+    </section>
+</div>

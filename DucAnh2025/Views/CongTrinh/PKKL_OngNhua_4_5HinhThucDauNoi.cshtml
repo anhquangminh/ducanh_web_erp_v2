@@ -1,0 +1,249 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG THỐNG KÊ KÍCH THƯỚC HÌNH HỌC HỐ VAN NƯỚC SẠCH</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <td colspan="6">Thông tin hố ga</td>
+                            <td colspan="10">Thông tin đấu nối cạnh dài</td>
+                            <td colspan="10">Thông tin đấu nối cạnh rộng</td>
+                        </tr>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                            <th>Loại đấu nối</th>
+                            <th>Số lượng</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG XÁC ĐỊNH HÌNH THỨC ĐẤU NỐI HỐ VAN NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 05", align: "center", fontSize: 12, bold: true },
+            { text: "In theo tuyến", align: "center", fontSize: 11 }
+        ], "4.5 Hình thức đấu nối", "4.5 Hình thức đấu nối.xlsx");
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh|| '',
+
+                        tuyenDuong: item.tuyenDuong|| '0' ,
+                        lyTrinh: item.lyTrinh|| '0' ,
+                        id_HangMucCongViec: item.id_HangMucCongViec|| '' ,
+                        hangMucCongViec: item.hangMucCongViec|| '' ,
+                        tenHoVan: item.tenHoVan|| '0' ,
+                        id_LoaiDauNoiXayTuongHoGa: item.id_LoaiDauNoiXayTuongHoGa|| '' ,
+                        loaiDauNoiXayTuongHoGa: item.loaiDauNoiXayTuongHoGa|| '' ,
+                        soLuongXayTuongHoGa: item.soLuongXayTuongHoGa|| '0' ,
+                        id_LoaiDauNoiXayTuongHoGa1: item.id_LoaiDauNoiXayTuongHoGa1|| '' ,
+                        loaiDauNoiXayTuongHoGa1: item.loaiDauNoiXayTuongHoGa1|| '' ,
+                        soLuongXayTuongHoGa1: item.soLuongXayTuongHoGa1|| '0' ,
+                        id_LoaiDauNoiXayTuongHoGa2: item.id_LoaiDauNoiXayTuongHoGa2|| '' ,
+                        loaiDauNoiXayTuongHoGa2: item.loaiDauNoiXayTuongHoGa2|| '' ,
+                        soLuongXayTuongHoGa2: item.soLuongXayTuongHoGa2|| '0' ,
+                        id_LoaiDauNoiXayTuongHoGa3: item.id_LoaiDauNoiXayTuongHoGa3|| '' ,
+                        loaiDauNoiXayTuongHoGa3: item.loaiDauNoiXayTuongHoGa3|| '' ,
+                        soLuongXayTuongHoGa3: item.soLuongXayTuongHoGa3|| '0' ,
+                        id_LoaiDauNoiXayTuongHoGa4: item.id_LoaiDauNoiXayTuongHoGa4|| '' ,
+                        loaiDauNoiXayTuongHoGa4: item.loaiDauNoiXayTuongHoGa4|| '' ,
+                        soLuongXayTuongHoGa4: item.soLuongXayTuongHoGa4|| '0' ,
+                        id_LoaiDauNoiTuongHoGa5: item.id_LoaiDauNoiTuongHoGa5|| '' ,
+                        loaiDauNoiTuongHoGa5: item.loaiDauNoiTuongHoGa5|| '' ,
+                        soLuongTuongHoGa5: item.soLuongTuongHoGa5|| '0' ,
+                        id_LoaiDauNoiTuongHoGa6: item.id_LoaiDauNoiTuongHoGa6|| '' ,
+                        loaiDauNoiTuongHoGa6: item.loaiDauNoiTuongHoGa6|| '' ,
+                        soLuongTuongHoGa6: item.soLuongTuongHoGa6|| '0' ,
+                        id_LoaiDauNoiTuongHoGa7: item.id_LoaiDauNoiTuongHoGa7|| '' ,
+                        loaiDauNoiTuongHoGa7: item.loaiDauNoiTuongHoGa7|| '' ,
+                        soLuongTuongHoGa7: item.soLuongTuongHoGa7|| '0' ,
+                        id_LoaiDauNoiTuongHoGa8: item.id_LoaiDauNoiTuongHoGa8|| '' ,
+                        loaiDauNoiTuongHoGa8: item.loaiDauNoiTuongHoGa8|| '' ,
+                        soLuongTuongHoGa8: item.soLuongTuongHoGa8|| '0' ,
+                        id_LoaiDauNoiTuongHoGa9: item.id_LoaiDauNoiTuongHoGa9|| '' ,
+                        loaiDauNoiTuongHoGa9: item.loaiDauNoiTuongHoGa9|| '' ,
+                        soLuongTuongHoGa9: item.soLuongTuongHoGa9|| '0' ,
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'tenChiNhanh', className: 'text-center' },
+                        { data: 'tuyenDuong', className: 'align-middle' },
+                        { data: 'lyTrinh', className: 'align-middle' },
+                        { data: 'hangMucCongViec', className: 'align-middle' },
+                        { data: 'tenHoVan', className: 'align-middle' },
+                        { data: 'loaiDauNoiXayTuongHoGa', className: 'align-middle' },
+                        { data: 'soLuongXayTuongHoGa', className: 'align-middle' },
+                        { data: 'loaiDauNoiXayTuongHoGa1', className: 'align-middle' },
+                        { data: 'soLuongXayTuongHoGa1', className: 'align-middle' },
+                        { data: 'loaiDauNoiXayTuongHoGa2', className: 'align-middle' },
+                        { data: 'soLuongXayTuongHoGa2', className: 'align-middle' },
+                        { data: 'loaiDauNoiXayTuongHoGa3', className: 'align-middle' },
+                        { data: 'soLuongXayTuongHoGa3', className: 'align-middle' },
+                        { data: 'loaiDauNoiXayTuongHoGa4', className: 'align-middle' },
+                        { data: 'soLuongXayTuongHoGa4', className: 'align-middle' },
+                        { data: 'loaiDauNoiTuongHoGa5', className: 'align-middle' },
+                        { data: 'soLuongTuongHoGa5', className: 'align-middle' },
+                        { data: 'loaiDauNoiTuongHoGa6', className: 'align-middle' },
+                        { data: 'soLuongTuongHoGa6', className: 'align-middle' },
+                        { data: 'loaiDauNoiTuongHoGa7', className: 'align-middle' },
+                        { data: 'soLuongTuongHoGa7', className: 'align-middle' },
+                        { data: 'loaiDauNoiTuongHoGa8', className: 'align-middle' },
+                        { data: 'soLuongTuongHoGa8', className: 'align-middle' },
+                        { data: 'loaiDauNoiTuongHoGa9', className: 'align-middle' },
+                        { data: 'soLuongTuongHoGa9', className: 'align-middle' },
+                        ],
+                    autoWidth: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+                            
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+</script>
+

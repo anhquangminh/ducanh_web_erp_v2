@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Resend email confirmation";
+}
+
+<h1>Resend email confirmation</h1>
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-info">@ViewBag.StatusMessage</div>
+}
+<form asp-action="ResendEmailConfirmation" method="post">
+    <div class="form-floating mb-3">
+        <input type="email" name="email" class="form-control" required placeholder="name@example.com" />
+        <label>Email</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Resend confirmation email</button>
+</form>

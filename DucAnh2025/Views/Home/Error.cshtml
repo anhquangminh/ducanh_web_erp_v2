@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Lỗi";
+    Layout = "_AccountLayout";
+    var code = ViewBag.StatusCode ?? 500;
+}
+<div class="text-center mt-5">
+    <h1 class="display-4">Lỗi @code</h1>
+    <p>Trang bạn truy cập không tồn tại hoặc đã xảy ra lỗi.</p>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Về trang chủ</a>
+</div>

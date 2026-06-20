@@ -1,0 +1,636 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 p-2">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">Danh sách</h3>
+            <span style="cursor:pointer;" onclick="showHuongDanNghiepVu()" title="Hướng dẫn sử dụng">
+                <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+            </span>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i> Tạo mới
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="table_danhmuc">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Tên nhóm phụ tùng</th>
+                            <th>Tên loại phụ tùng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Tên nhóm phụ tùng</th>
+                            <th>Tên loại phụ tùng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+       let danhMucTable = null;
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/khoDMLoaiPhuTung/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        id_NhomPhuTung: item.id_NhomPhuTung || '',
+                        tenLoaiPhuTung: item.tenLoaiPhuTung || '',
+                        groupId: item.groupId || '',
+                        ordinarily: item.ordinarily || 0,
+                        createAt: formatDate(item.createAt) || null,
+                        createBy: item.createBy || '',
+                        isActive: item.isActive || 0,
+                        approvalUserId: item.approvalUserId || '',
+                        dateApproval: formatDate(item.dateApproval) || null,
+                        approvalDept: item.approvalDept || '',
+                        departmentId: item.departmentId || '',
+                        departmentOrder: item.departmentOrder || 0,
+                        approvalOrder: item.approvalOrder || 0,
+                        approvalId: item.approvalId || '',
+                        lastApprovalId: item.lastApprovalId || '',
+                        isStatus: item.isStatus || '',
+                    }));
+                }
+                if (!danhMucTable) {
+                danhMucTable = $('#table_danhmuc').DataTable({
+                    data: dataSet,
+                    columns: [
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: '1%',
+                            render: function (data, type, row) {
+                                let buttons = `
+                                    <div class="btn-group">
+                                `;
+                                if (row.isActive < 3) {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-success btn-approve" title="Duyệt" data-id="${row.id}" onclick="duyet('${row.id}')" ><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-warning btn-cancel-approve" title="Hủy duyệt" data-id="${row.id}" onclick="huyDuyet('${row.id}')" ><i class="fas fa-times"></i></button>
+                                    `;
+                                } else if (row.isActive == 3) {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick="deleteCaiDat('${row.id}')" ><i class="fas fa-trash"></i></button>
+                                    `;
+                                }
+                                buttons += `
+                                    <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick="editCaiDat('${row.id}')" ><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-danger btn-delete" title="Chi tiết !" data-id="${row.id}" onclick="chiTiet('${row.id}')" ><i class="fas fa-eye"></i></button>
+                                </div>
+                                `;
+                                return buttons;
+                            }
+                        },
+                        { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                        { data: 'id_NhomPhuTung', className: 'align-middle' },
+                        { data: 'tenLoaiPhuTung', className: 'align-middle' },
+                        { data: 'isStatus', className: 'align-middle' },
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi moí trang ",
+                        zeroRecords: "Không tìm thấy dữ liệu !",
+                        info: "Hiển thị của _TOTAL_ bản ghi !_START_ đến _END_ của _TOTAL_ bản ghi !",
+                        infoEmpty: "Không có bản ghi nào ",
+                        infoFiltered: "( Lọc từ )_MAX_( bản ghi)",
+                        search: "Tìm kiếm :",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        });
+                    }
+                });
+               }else {
+                danhMucTable.clear();
+                danhMucTable.rows.add(dataSet);
+                danhMucTable.draw(false);
+                }
+            }).fail(function (xhr) {
+                $('#table_danhmuc tbody').html('<tr><td colspan="7" class="text-center text-danger">Lỗi khi tải dữ liệu </td></tr>');
+            });
+        });
+    }
+    async function showModalTaoMoi(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật" : "Thêm mới";
+        const resUser = await getJwtToken();
+       const token = resUser.token;
+       const groupId = resUser.userInfor.groupId;
+       const userName = resUser.userInfor.userName;
+
+        let selectOptions_Id_NhomPhuTung = '<option value="">Chọn Tên nhóm phụ tùng --</option>';
+        try {
+            const res_Id_NhomPhuTung = await $.ajax({
+                url: `/api/KhoDMNhomPhuTung/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_Id_NhomPhuTung.success && Array.isArray(res_Id_NhomPhuTung.data)) {
+                res_Id_NhomPhuTung.data.forEach(item => {
+                    selectOptions_Id_NhomPhuTung += `<option value="${item.id}" ${data && data.id_NhomPhuTung === item.id ? 'selected' : ''}>${item.tenNhomPhuTung}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_Id_NhomPhuTung += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        const bodyHtml = `
+            <form id="form_caidat" class="row">
+                <div class="form-group col-md-3">
+                    <label>Tên nhóm phụ tùng</label>
+                    <select id="select-Id_NhomPhuTung" class="form-control">${selectOptions_Id_NhomPhuTung}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Tên loại phụ tùng <span class="text-danger">*</span></label>
+                    <input type="text" id="input-TenLoaiPhuTung" name="TenLoaiPhuTung" value="${data ? data.tenLoaiPhuTung : ''}" class="form-control" />
+                </div>
+            </form>
+            <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+        `;
+        const footerHtml = `
+            <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu "}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>`;
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            $('#error_msg').text("");
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const isEdit = $(this).data("isedit") === true;
+            const id = $(this).data("id");
+            if (!validateForm())
+               return;
+            const dataSend = {
+                Id: id,
+                Id_NhomPhuTung: $('#select-Id_NhomPhuTung').val() || "",
+                TenLoaiPhuTung: $('#input-TenLoaiPhuTung').val() || "",
+                GroupId: groupId,
+                Ordinarily: 0,
+                CreateAt: new Date().toISOString(),
+                CreateBy: userName,
+                IsActive: isEdit && data ? data.isActive : 0,
+                ApprovalUserId: "",
+                DateApproval: null,
+                ApprovalDept: "",
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: ""
+            };
+            try {
+                const res = await $.ajax({
+                    url: `/api/khoDMLoaiPhuTung/Create?isEdit=${isEdit}`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(dataSend)
+                });
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công " : "Lưu thành công");
+                    $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu");
+                }
+            } catch (err) {
+                $('#error_msg').text("Có lỗi xảy ra khi lưu");
+            }
+        });
+         setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                      theme: 'bootstrap4',
+                      dropdownParent: $('#globalModal')
+                  });
+         }, 100);
+    }
+    function validateForm() {
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        let isValid = true;
+        let firstInvalid = null;
+        const requiredFields = [
+            { selector: '#input-TenLoaiPhuTung', message: 'Vui lòng nhâp Tên loại phụ tùng.' },
+        ];
+
+        requiredFields.forEach(f => {
+            const $input = $(f.selector);
+            if (!$input.val() || !$input.val().trim()) {
+                showError(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $input[0];
+                isValid = false;
+            }
+        });
+
+        if (!isValid && firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const $el = $(firstInvalid);
+            if ($el.hasClass('select2-hidden-accessible')) {
+                $el.next('.select2-container').find('.select2-selection').focus();
+            } else {
+                $el.focus();
+            }
+        }
+        return isValid;
+    }
+
+
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+    async function chiTiet(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/khoDMLoaiPhuTung/GetHistory?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                let tableRows = res.data.map((item, idx) => `
+                    <tr>
+                        <td class="text-center">${idx + 1}</td>
+                        <td>${item.id_NhomPhuTung || ''}</td>
+                        <td>${item.tenLoaiPhuTung || ''}</td>
+                        <td>${item.groupId || ''}</td>
+                        <td>${item.ordinarily || ''}</td>
+                        <td>${item.createAt || ''}</td>
+                        <td>${item.createBy || ''}</td>
+                        <td>${item.isActive || ''}</td>
+                        <td>${item.approvalUserId || ''}</td>
+                        <td>${item.dateApproval || ''}</td>
+                        <td>${item.approvalDept || ''}</td>
+                        <td>${item.departmentId || ''}</td>
+                        <td>${item.departmentOrder || ''}</td>
+                        <td>${item.approvalOrder || ''}</td>
+                        <td>${item.approvalId || ''}</td>
+                        <td>${item.lastApprovalId || ''}</td>
+                        <td>${item.isStatus || ''}</td>
+                        <td>${item.createBy || ''}</td>
+                        <td>${item.createAt ? new Date(item.createAt).toLocaleString() : ''}</td>
+                    </tr>`).join('');
+
+                const bodyHtml = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover no-wrap-table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th> Tên nhóm phụ tùng</th>
+                                    <th> Tên loại phụ tùng</th>
+                                    <th> GroupId</th>
+                                    <th> Thứ tự</th>
+                                    <th> Ngày tạo</th>
+                                    <th> Người tạo</th>
+                                    <th> IsActive</th>
+                                    <th> Người duyệt</th>
+                                    <th> Ngày duyệt</th>
+                                    <th> Phòng ban duyệt</th>
+                                    <th> Phòng ban duyệt tiếp</th>
+                                    <th> Thứ tự phòng ban</th>
+                                    <th> Thứ tự duyệt</th>
+                                    <th> ID duyệt</th>
+                                    <th> Id duyệt cuối</th>
+                                    <th> Trạng thái</th>
+                                    <th>Nguoi thao tác</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>${tableRows}</tbody>
+                        </table>
+                    </div>`;
+
+                showGlobalModal("Lịch sử", bodyHtml, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+            } else {
+                showGlobalModal("Lịch sử", `<div class="text-center text-muted">Không có lịch sử</div>`, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+            }
+        } catch (err) {
+            showGlobalModal("Lịch sử", `<div class="text-center text-danger">Lỗi khi tải dữ liệu lịch sử</div>`, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+        }
+    }
+    async function duyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn duyệt ')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/khoDMLoaiPhuTung/Duyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Duyệt thành công !");
+                loadData();
+            } else {
+                showToastError(res.message || "Duyệt thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi duyệt");
+        }
+    }
+    async function huyDuyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn hủy duyẹt !')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/khoDMLoaiPhuTung/HuyDuyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Hủy duyệt thành công");
+                loadData();
+            } else {
+                showToastError(res.message || "Hủy duyệt thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi hủy duyệt");
+        }
+    }
+    async function editCaiDat(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/khoDMLoaiPhuTung/GetById?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success && res.data) {
+                showModalTaoMoi(true, res.data);
+            } else {
+                showToastError(res.message || "Không lấy được dữ liệu");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi chỉnh sửa ");
+        }
+    }
+    async function deleteCaiDat(id) {
+        if (!confirm('Bạn chác chắn muốn xóa ?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/khoDMLoaiPhuTung/${id}`,
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Xóa thành công !");
+                loadData();
+            } else {
+                showToastError(res.message || "Xóa thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi xóa");
+        }
+    }
+    function showHuongDanNghiepVu() {
+        const headerHtml =
+            `<div><div class="card-header">
+                <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                <form id="SearchInfo">
+                    <select id="ChiNhanhInfo" class="form-control">
+                        <option value="">-- Chọn danh mục --</option>
+                    </select>
+                </form>
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm nav btn-group">
+                        <a data-toggle="tab" href="#tab-hdsd" class="btn-shadow active btn btn-primary">Hướng dẫn sử dụng </a>
+                        <a data-toggle="tab" href="#tab-ttd" class="btn-shadow  btn btn-primary">Thứ tự duyệt</a>
+                    </div>
+                </div>
+            </div>`;
+
+        const tabsHtml = `
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane tabs-animation fade active show" id="tab-hdsd" role="tabpanel">
+                        <div class="p-3">Nội dung hướng dẫn sư dụng... </div>
+                    </div>
+                    <div class="tab-pane tabs-animation fade" id="tab-ttd" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="mb-3">
+                                        <div role="group" class="btn-group-sm nav btn-group">
+                                            <a data-toggle="tab" href="#tab-them" class="btn-pill pl-3 btn btn-warning active show">Thêm</a>
+                                            <a data-toggle="tab" href="#tab-sua" class="btn btn-warning show">S?a</a>
+                                            <a data-toggle="tab" href="#tab-xoa" class="btn-pill pr-3 btn btn-warning show">Xóa</a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="tab-them" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-them"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-them">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane show" id="tab-sua" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-sua"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-sua">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane show" id="tab-xoa" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-xoa"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-xoa">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        const bodyHtml = headerHtml + tabsHtml;
+        const footerHtml = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`;
+        showGlobalModal("Thông tin nghi?p v?", bodyHtml, footerHtml);
+
+        getJwtToken().then(function (resUser) {
+            const groupId = resUser.userInfor.groupId;
+            $.ajax({
+                url: `/api/caidatsoluotduyet/GetChiNhanhsForCompanyId?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                const $ddl = $('#ChiNhanhInfo');
+                $ddl.empty().append('<option value="">--- Chọn danh mục ---</option>');
+                if (res.success && Array.isArray(res.data)) {
+                    res.data.forEach(function (item) {
+                        $ddl.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`);
+                    });
+                }
+            }).fail(function (err) {
+                $('#ChiNhanhInfo').empty().append('<option value="">--- Lỗi tải danh mục ---</option>');
+            });
+            $.ajax({
+                url: `/api/caidatphongbanduyet/ListDept?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                let htmlUl = "";
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    var stt =1 ;
+                    res.data.forEach(function (item, idx) {
+                        htmlUl += `<li class="list-group-item" data-idx="${idx}" style="cursor:pointer;">
+                            <b>${stt + '.' + item.deptName}</b><br/>
+                            <span>Trạng thái : : ${item.isActive ? "Hoạt động" : "--- Ngưng ---"}</span>
+                        </li>`;
+                        stt++;
+                    });
+                } else {
+                    htmlUl = `<li class="list-group-item text-muted">không có dữ liêụ phòng ban.</li>`;
+                }
+                $('#ul-them').html(htmlUl);
+                $('#ul-sua').html(htmlUl);
+                $('#ul-xoa').html(htmlUl);
+
+                function bindDeptClick(tab, data, groupId) {
+                    const permissionMap = {
+                        'them': '5fe86889-5019-4cca-bec7-6a8baad3ed14',
+                        'sua': '3488c9e9-3542-4340-b831-61a1621d73d7',
+                        'xoa': 'ef236725-edd1-43ae-95b1-5d6fcdf41829'
+                    };
+                    $(`#ul-${tab}`).off('click').on('click', 'li', function () {
+                        const idx = $(this).data('idx');
+                        const dept = data[idx];
+                        let content = '';
+                        if (dept) {
+                            $.ajax({
+                                  url: `/api/caidatsoluotduyet/ListStepSetting?groupId=${groupId}&majorId=523f812e-5bf5-4784-bbf4-d986816796d1&departmentId=${dept.id || ''}&permissionId=${permissionMap[tab]}`,
+                                method: "GET",
+                                headers: {
+                                     "Authorization": "Bearer " + resUser.token
+                                 }
+                            }).done(function (res) {
+                                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                                    let stepsHtml = `<h5>${dept.deptName}</h5>`;
+                                    stepsHtml += `<ul class="list-group mb-2">`;
+                                    res.data.forEach((step, i) => {
+                                        stepsHtml += `<li class="list-group-item">
+                                            <b>Bu?c ${i + 1}:</b> ${step.content || ''}
+                                            <span class="badge badge-info ml-2">${step.isStatus || ''}</span>
+                                        </li>`;
+                                    });
+                                    stepsHtml += `</ul>`;
+                                    content = stepsHtml;
+                                } else {
+                                    content = `<div class="text-muted">không có dữ liêụ duyệt.</div>`;
+                                }
+                                $(`#content-${tab}`).html(content);
+                            }).fail(function (err) {
+                                $(`#content-${tab}`).html('<div class="text-danger">Lỗi khi tải dữ liêụ duyệt.</div>');
+                            });
+                        } else {
+                            $(`#content-${tab}`).html("không có dữ liêụ chi tiết.");
+                        }
+                        $(`#ul-${tab} li`).removeClass('active');
+                        $(this).addClass('active');
+                    });
+                }
+                bindDeptClick('them', res.data, groupId);
+                bindDeptClick('sua', res.data, groupId);
+                bindDeptClick('xoa', res.data, groupId);
+            }).fail(function (err) {
+                $('#ul-them, #ul-sua, #ul-xoa').html('<li class="list-group-item text-danger">Lỗi khi tải dữ liệu phòng ban.</li>');
+                $('#content-them, #content-sua, #content-xoa').html('');
+            });
+        });
+        if (window.$ && $.fn.select2) {
+            $('#ChiNhanhInfo').select2();
+        }
+        $('#ChiNhanhInfo').off('change').on('change', function () {
+            if (typeof onSelectChange === 'function') {
+                onSelectChange($(this).val());
+            }
+        });
+    }
+
+
+</script>

@@ -1,0 +1,94 @@
+﻿@using DucAnh2025.Models
+@using DucAnh2025.Models.Accounts
+@model LoginModel
+
+@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="app-container app-theme-white body-tabs-shadow">
+    <div class="app-container">
+        <div class="h-100">
+            <div class="h-100 no-gutters row">
+                <div class="d-none d-lg-block col-lg-4">
+                    <div class="slider-light">
+                        <div class="slick-slider">
+                            <div>
+                                <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-plum-plate" tabindex="-1">
+                                    <div class="slide-img-bg" style="background-image: url('../assets/images/login.jpg');"></div>
+                                    <div class="slider-content">
+                                        <h3>Đức Anh</h3>
+                                        <p>Bê tông Đức Anh niềm tin của mọi công trình</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-premium-dark" tabindex="-1">
+                                    <div class="slide-img-bg" style="background-image: url('../assets/images/khucn.jpg');"></div>
+                                    <div class="slider-content">
+                                        <h3>Quản lý công việc</h3>
+                                        <p>Tổ chức công việc – Dẫn lối thành công</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-sunny-morning" tabindex="-1">
+                                    <div class="slide-img-bg" style="background-image: url('../assets/images/originals/citydark.jpg');"></div>
+                                    <div class="slider-content">
+                                        <h3>CRM</h3>
+                                        <p>Tối ưu công việc, tăng tốc hiệu quả</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
+                    <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+                        <img src="~/assets/images/logoLG.jpg" width="150" class="mb-3" />
+
+                        <h4 class="mb-3">Xin chào,</h4>
+                        <p class="mb-1">Vui lòng sử dụng ứng dụng trên điện thoại di động để đăng nhập:</p>
+                        <ul class="list-unstyled mb-4">
+                            <li>1. Mở ứng dụng</li>
+                            <li>2. Truy cập "Trang cá nhân"</li>
+                            <li>3. Quét mã QR dưới đây</li>
+                        </ul>
+
+                        <div id="qrcode" class="d-flex justify-content-center mb-4"></div>
+
+                        <a href="/Account/login" class="btn btn-link">Sử dụng tài khoản</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/qrcode.min.js"></script>
+<script>
+    fetch('/api/user/qr-session')
+        .then(res => res.json())
+        .then(data => {
+            // Render QR code với sessionId
+            new QRCode(document.getElementById("qrcode"), {
+                text: data.sessionId,
+                width: 200,
+                height: 200
+            });
+            window.qrSessionId = data.sessionId;
+        });
+
+        setInterval(function() {
+        if (!window.qrSessionId) return;
+        fetch('/api/user/qr-session-status?sessionId=' + window.qrSessionId)
+            .then(res => res.json())
+            .then(data => {
+                if (data.authenticated) {
+                    window.location.href = '/Account/QrSignIn?sessionId=' + window.qrSessionId;
+                }
+            });
+    }, 2000);
+
+</script>

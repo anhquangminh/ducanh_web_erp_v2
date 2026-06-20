@@ -1,0 +1,12 @@
+
+> ducanh-chat-service@1.0.0 start
+> node dist/server.js
+
+{"ts":"2026-05-28T03:53:57.688Z","level":"info","service":"chat-service","message":"Starting chat service","meta":{"port":3000,"mongoUri":"mongodb://127.0.0.1:27017/chat-service"}}
+{"ts":"2026-05-28T03:53:57.771Z","level":"info","service":"chat-service","message":"MongoDB connected","meta":{"host":"127.0.0.1","port":27017,"database":"chat-service"}}
+{"ts":"2026-05-28T03:53:57.796Z","level":"info","service":"chat-service","message":"Socket.IO Redis adapter disabled for local single-node mode"}
+{"ts":"2026-05-28T03:53:57.824Z","level":"info","service":"chat-service","message":"Chat service listening","meta":{"port":3000}}
+{"ts":"2026-05-28T03:54:26.378Z","level":"info","service":"chat-service","message":"Incoming request","meta":{"method":"GET","url":"/health","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.19041.6456"}}
+{"ts":"2026-05-28T03:54:26.379Z","level":"info","service":"chat-service","message":"Connecting to SQL Server","meta":{"server":"localhost","database":"Minh2024","user":"sa","encrypt":false}}
+{"ts":"2026-05-28T03:54:26.404Z","level":"info","service":"chat-service","message":"SQL Server connected successfully"}
+{"ts":"2026-05-28T03:54:26.423Z","level":"info","service":"chat-service","message":"Request completed","meta":{"method":"GET","url":"/health","statusCode":200,"duration":"45ms"}}

@@ -1,0 +1,98 @@
+<div class="app-main__inner p-0">
+    <div class="app-inner-layout">
+        <div class="app-inner-layout__wrapper">
+            <div class="app-inner-layout__content card">
+                <div>
+                    <div class="app-inner-layout__top-pane p-0 bg-link">
+                        <div class="pane-left">
+                            <div class="mobile-app-menu-btn">
+                                <button type="button" class="hamburger hamburger--elastic">
+                                    <span class="hamburger-box"><span class="hamburger-inner"></span></span>
+                                </button>
+                            </div>
+                            <div class="pane-right">
+                                <div class="page-title-subheading opacity-10">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb" style="background:none!important;padding-bottom:0px">
+                                            <li class="breadcrumb-item"><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a>Quản lý công việc</a></li>
+                                            <li class="active breadcrumb-item" aria-current="page">Giao việc</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-content">
+                        <div class="card">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <div id="toggle-view-btn" style="cursor:pointer;">
+                                    <i class="header-icon pe-7s-id icon-gradient bg-plum-plate"></i>
+                                    Lịch
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="addCongViec()">
+                                    <i class="fas fa-plus"></i> Thêm công việc
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="nhanvientrongnhom" class="d-flex flex-row flex-nowrap p-3 gap-2" style="overflow-x:auto;"></div>
+
+                                <div id="tab-calender" class="tab-content p-2" style="overflow:scroll; padding:20px; display:none;">
+                                    <div id="calendar-congviec"></div>
+                                </div>
+
+                                <div id="tab-table" class="tab-content h-100 pb-5" style="overflow:scroll;">
+                                    <div class="table-responsive">
+                                        <table id="table_congviec" class="table table-bordered table-hover w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>STT</th>
+                                                    <th>Tên công việc</th>
+                                                    <th>Người thực hiện</th>
+                                                    <th>Ngày bắt đầu</th>
+                                                    <th>Ngày kết thúc</th>
+                                                    <th>Ưu tiên</th>
+                                                    <th>Tự đánh giá</th>
+                                                    <th class="text-center">Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-inner-layout__sidebar card">
+                <ul class="nav flex-column">
+                    <li class="nav-item-header nav-item">Danh sách công việc</li>
+                    <li class="nav-item-divider nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@import url('/css/qlnv_task_collaboration.css?v=2');
+
+    #table_congviec {
+        width: 100% !important;
+    }
+
+    #nhanvientrongnhom {
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    #nhanvientrongnhom .cv-active {
+        outline: 2px solid #007bff;
+    }
+</style>
+
+<script src="@Url.Content("~/js/QLNV/qlnv_task_collaboration.js?v=4")"></script>
+<script src="@Url.Content("~/js/QLNV/qlnv_quanlycongviec.js?v=6")"></script>

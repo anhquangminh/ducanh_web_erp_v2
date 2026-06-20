@@ -1,0 +1,26 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model EmailViewModel
+@{
+    ViewData["Title"] = "Email";
+}
+<h3>Email</h3>
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-info">@ViewBag.StatusMessage</div>
+}
+<form asp-action="Email" method="post">
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Change Email</button>
+</form>
+@if (Model.IsEmailConfirmed)
+{
+    <span class="text-success">Email is confirmed.</span>
+}
+else
+{
+    <span class="text-warning">Email is not confirmed.</span>
+}

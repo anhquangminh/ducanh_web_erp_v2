@@ -1,0 +1,37 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model ExternalLoginsViewModel
+@{
+    ViewData["Title"] = "External Logins";
+}
+<h3>External Logins</h3>
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-info">@ViewBag.StatusMessage</div>
+}
+<ul>
+    @foreach (var login in Model.CurrentLogins)
+    {
+        <li>
+            @login.LoginProvider
+            <form asp-action="RemoveLogin" method="post" style="display:inline">
+                <input type="hidden" name="loginProvider" value="@login.LoginProvider" />
+                <input type="hidden" name="providerKey" value="@login.ProviderKey" />
+                @if (Model.ShowRemoveButton)
+                {
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                }
+            </form>
+        </li>
+    }
+</ul>
+@if (Model.OtherLogins.Count > 0)
+{
+    <h4>Add another external login</h4>
+    @foreach (var provider in Model.OtherLogins)
+    {
+        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+            <input type="hidden" name="provider" value="@provider.Name" />
+            <button type="submit" class="btn btn-primary">@provider.DisplayName</button>
+        </form>
+    }
+}

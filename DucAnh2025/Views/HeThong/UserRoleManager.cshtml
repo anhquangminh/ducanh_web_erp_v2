@@ -1,0 +1,1006 @@
+﻿@{
+    ViewData["Title"] = "Quản lý vai trò người dùng";
+}
+
+<div class="card mt-3 p-2">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="m-0">Quản lý vai trò & phân quyền</h3>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="roleTab">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#userrole">UserRoles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#role">Roles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#rolepermission">RolePermissions</a>
+            </li>
+
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-3">
+
+            <!-- ===================== USER ROLE ===================== -->
+            <div class="tab-pane fade show active" id="userrole" role="tabpanel">
+
+                <div class="d-flex justify-content-end mb-2">
+                    <button class="btn btn-primary" onclick="showModalTaoMoiUserRole()">
+                        <i class="fas fa-plus"></i> Thêm vai trò cho người dùng
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table_user_roles">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên người dùng</th>
+                                <th>Vai trò</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ===================== ROLES ===================== -->
+            <div class="tab-pane fade" id="role" role="tabpanel">
+
+                <div class="d-flex justify-content-end mb-2">
+                    <button class="btn btn-primary" onclick="showModalTaoMoiRole()">
+                        <i class="fas fa-plus"></i> Thêm vai trò
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table_roles">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên vai trò</th>
+                                <th>Mô tả</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- ===================== ROLE PERMISSION ===================== -->
+            <div class="tab-pane fade" id="rolepermission" role="tabpanel">
+
+                <div class="d-flex justify-content-end mb-2">
+                    <button class="btn btn-primary" onclick="showModalTaoMoiRolePermission()">
+                        <i class="fas fa-plus"></i> Thêm quyền cho vai trò
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="table_role_permissions">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Vai trò</th>
+                                <th>Nghiệp vụ</th>
+                                <th>Quyền</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    /**************************************
+     *    USER ROLES MANAGER (UPDATED)
+     **************************************/
+
+    let tableUserRole = null;
+
+    $(function () {
+        $('.nav-tabs a:first').tab('show');
+
+        $('#roleTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            let target = $(e.target).attr("href");
+            switch (target) {
+                case "#userrole":
+                    loadDataUserRole();
+                    break;
+                case "#role":
+                    loadDataRoles();
+                    break;
+                case "#rolepermission":
+                    loadDataRolePermissions();
+                    break;
+                case "#userpermission":
+                    loadDataUserPermissions();
+                    break;
+            }
+        });
+
+        loadDataUserRole();
+    });
+
+    /* ---------------------------------------------------
+     * 1) LOAD DỮ LIỆU USER-ROLE
+     * --------------------------------------------------- */
+    async function loadDataUserRole() {
+        const session = await getJwtToken();
+        const token = session.token;
+        const groupId = session.userInfor.groupId;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/UserRole/all?groupId=${groupId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            if (!res.success) {
+                showToastError(res.message || "Không thể tải danh sách UserRole!");
+                return;
+            }
+
+            /** res.data = danh sách UserRole */
+            let dataSet = [];
+            if (Array.isArray(res.data)) {
+                dataSet = res.data.map((item, idx) => ({
+                    stt: idx + 1,
+                    userName: item.userName || "",
+                    roleName: item.roleName || "",
+                    userId: item.userId,
+                    roleId: item.roleId
+                }));
+            }
+
+            const $table = $('#table_user_roles');
+
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().clear().destroy();
+            }
+
+            $table.DataTable({
+                data: dataSet,
+                columns: [
+                    { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                    { data: 'userName', className: 'align-middle' },
+                    { data: 'roleName', className: 'align-middle' },
+                    {
+                        data: null,
+                        orderable: false,
+                        className: 'text-center align-middle',
+                        render: row => `
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteUserRole('${row.userId}', '${row.roleId}')">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                        `
+                    }
+                ],
+                paging: true,
+                ordering: true,
+                searching: true,
+                info: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    zeroRecords: "Không có dữ liệu",
+                    info: "Hiển thị _START_ đến _END_ / _TOTAL_ bản ghi",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau"
+                    }
+                }
+            });
+
+        } catch (err) {
+            console.error(err);
+            $('#table_user_roles tbody').html(`
+                <tr>
+                    <td colspan="4" class="text-center text-danger">
+                        Lỗi khi tải dữ liệu
+                    </td>
+                </tr>
+            `);
+        }
+    }
+
+    /* ---------------------------------------------------
+     * 2) SHOW MODAL THÊM USER ROLE
+     * --------------------------------------------------- */
+    async function showModalTaoMoiUserRole() {
+        const session = await getJwtToken();
+        const token = session.token;
+        const groupId = session.userInfor.groupId;
+
+        /* LOAD USERS -------------------------------------- */
+        let selectOptionsUser = `<option value="">-- Chọn nhân viên --</option>`;
+        try {
+            const resUserList = await $.ajax({
+                url: `/api/ApplicationUser/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            if (resUserList.success && Array.isArray(resUserList.data)) {
+                resUserList.data.forEach(item => {
+                    const name = `${item.firstName} ${item.lastName}`.trim();
+                    selectOptionsUser += `
+                        <option value="${item.id}">
+                            ${name} (${item.email})
+                        </option>`;
+                });
+            }
+        } catch {
+            selectOptionsUser += `<option value="">Lỗi tải nhân viên</option>`;
+        }
+
+        /* LOAD ROLES -------------------------------------- */
+        let selectOptionsRole = `<option value="">-- Chọn vai trò --</option>`;
+        try {
+            const resRoleList = await $.ajax({
+                url: `/api/Role/Roles`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            if (resRoleList.success && Array.isArray(resRoleList.data)) {
+                resRoleList.data.forEach(r => {
+                    selectOptionsRole += `<option value="${r.id}">${r.name}</option>`;
+                });
+            }
+        } catch {
+            selectOptionsRole += `<option value="">Lỗi tải vai trò</option>`;
+        }
+
+        /* RENDER MODAL -------------------------------------- */
+        const bodyHtml = `
+            <form id="userRoleForm">
+                <div class="form-row">
+                     <div class="form-group w-100 mb-3"">
+                        <label class="form-label">Người dùng <span class="text-danger">*</span></label>
+                        <select class="form-control" id="userId">${selectOptionsUser}</select>
+                     <div>
+                     <div class="form-group w-100 mb-3"">
+                        <label class="form-label">Vai trò <span class="text-danger">*</span></label>
+                        <select class="form-control" id="roleId">${selectOptionsRole}</select>
+                     <div>
+                     <div id="error_msg" class="text-danger font-weight-bold"></div>
+                </div>
+
+            </form>
+        `;
+
+        const footerHtml = `
+            <button class="btn btn-primary" id="btnLuuUserRole">Lưu</button>
+            <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        `;
+
+        showGlobalModal("Thêm vai trò cho người dùng", bodyHtml, footerHtml);
+
+        $("#userId").select2({ width: "100%", dropdownParent: $("#globalModal") });
+        $("#roleId").select2({ width: "100%", dropdownParent: $("#globalModal") });
+
+        $("#btnLuuUserRole")
+            .off("click")
+            .on("click", async function () {
+                $("#error_msg").text("");
+                if (!validateFormUserRole()) return;
+
+                const payload = {
+                    userId: $("#userId").val(),
+                    roleId: $("#roleId").val(),
+                    groupId: groupId
+                };
+
+                try {
+                    const res = await $.ajax({
+                        url: `/api/Role/UserRole`,
+                        method: "POST",
+                        contentType: "application/json",
+                        headers: { "Authorization": "Bearer " + token },
+                        data: JSON.stringify(payload)
+                    });
+
+                    if (res.success) {
+                        showToastSuccess("Thêm thành công");
+                        $("#globalModal").modal("hide");
+                        loadDataUserRole();
+                    } else {
+                        $("#error_msg").text(res.message);
+                        showToastError(res.message);
+                    }
+                } catch {
+                    $("#error_msg").text("Lỗi hệ thống");
+                }
+            });
+
+         setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                      theme: 'bootstrap4',
+                      dropdownParent: $('#globalModal')
+                  });
+         }, 100);
+    }
+
+    /* ---------------------------------------------------
+     * 3) XÓA USER ROLE
+     * --------------------------------------------------- */
+    async function deleteUserRole(userId, roleId) {
+        if (!confirm("Bạn có chắc muốn xóa vai trò này?")) return;
+
+        const session = await getJwtToken();
+        const token = session.token;
+        const groupId = session.userInfor.groupId;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/UserRole`,
+                method: "DELETE",
+                contentType: "application/json",
+                headers: { "Authorization": "Bearer " + token },
+                data: JSON.stringify({ userId, roleId, groupId })
+            });
+
+            if (res.success) {
+                showToastSuccess("Xóa thành công");
+                loadDataUserRole();
+            } else {
+                showToastError(res.message);
+            }
+
+        } catch {
+            showToastError("Lỗi hệ thống khi xóa");
+        }
+    }
+
+    /* ---------------------------------------------------
+     * 4) VALIDATE FORM
+     * --------------------------------------------------- */
+    function validateFormUserRole() {
+        let isValid = true;
+        let firstInvalid = null;
+
+        const required = [
+            { selector: "#userId", message: "Vui lòng chọn nhân viên" },
+            { selector: "#roleId", message: "Vui lòng chọn vai trò" }
+        ];
+
+        required.forEach(f => {
+            const $el = $(f.selector);
+            if (!$el.val()) {
+                showErrorUserRole(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $el[0];
+                isValid = false;
+            }
+        });
+
+        if (!isValid && firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        return isValid;
+    }
+
+    function showErrorUserRole(selector, message) {
+        const $input = $(selector);
+        $input.addClass("is-invalid");
+
+        if ($input.hasClass("select2-hidden-accessible")) {
+            $input.next(".select2-container")
+                .after(`<div class="invalid-feedback">${message}</div>`);
+        } else {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+</script>
+<script>
+    // ========================== ROLES ===============================
+
+    // Load danh sách Roles
+    async function loadDataRoles() {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/Roles`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            let dataSet = [];
+            if (res.success && Array.isArray(res.data)) {
+                dataSet = res.data.map((item, idx) => ({
+                    stt: idx + 1,
+                    id: item.id,
+                    name: item.name || "",
+                    description: item.description || ""
+                }));
+            }
+
+            const $table = $('#table_roles');
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().clear().destroy();
+            }
+
+            $table.DataTable({
+                data: dataSet,
+                columns: [
+                    { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                    { data: 'name', className: 'align-middle' },
+                    { data: 'description', className: 'align-middle' },
+                    {
+                        data: null,
+                        className: 'text-center align-middle',
+                        render: row => `
+                            <button class="btn btn-sm btn-primary me-2" onclick="showModalSuaRole('${row.id}')">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteRole('${row.id}')">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                        `
+                    }
+                ],
+                autoWidth: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 10,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    zeroRecords: "Không có dữ liệu",
+                    info: "Hiển thị _START_ đến _END_ / _TOTAL_ bản ghi",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau"
+                    }
+                }
+            });
+
+        } catch (err) {
+            $('#table_roles tbody')
+                .html(`<tr><td colspan="4" class="text-center text-danger">Lỗi khi tải dữ liệu</td></tr>`);
+        }
+    }
+
+    // ========================== CREATE ROLE ===============================
+    async function showModalTaoMoiRole() {
+        resetError();
+
+        const bodyHtml = `
+            <form id="roleForm">
+                <div class="mb-3">
+                    <label class="form-label">Tên Vai Trò</label>
+                    <input type="text" class="form-control" id="roleName"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="roleDesc"></textarea>
+                </div>
+
+                <div id="error_msg" class="text-danger fw-bold"></div>
+            </form>
+        `;
+
+        const footerHtml = `
+            <button class="btn btn-primary" id="btnSaveRole">Lưu</button>
+            <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        `;
+
+        showGlobalModal("Thêm Vai Trò", bodyHtml, footerHtml);
+
+        $("#btnSaveRole").off("click").on("click", async () => {
+            resetError();
+            if (!validateFormRole()) return;
+
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+
+            const data = {
+                name: $("#roleName").val().trim(),
+                description: $("#roleDesc").val().trim()
+            };
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/Role/Create`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { "Authorization": "Bearer " + token },
+                    data: JSON.stringify(data)
+                });
+
+                if (res.success) {
+                    showToastSuccess("Thêm vai trò thành công!");
+                    $("#globalModal").modal("hide");
+                    loadDataRoles();
+                } else {
+                    showToastError(res.message || "Có lỗi xảy ra");
+                }
+            } catch {
+                showToastError("Không thể lưu vai trò");
+            }
+        });
+    }
+
+    // ========================== EDIT ROLE ===============================
+
+    async function showModalSuaRole(roleId) {
+        resetError();
+
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        let role = null;
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/Role/${roleId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            role = res.data ?? res; // phòng khi api trả trực tiếp object
+        } catch {
+            showToastError("Không tải được dữ liệu vai trò!");
+            return;
+        }
+
+        const bodyHtml = `
+            <form id="roleForm">
+                <input type="hidden" id="roleId" value="${role.id}">
+
+                <div class="mb-3">
+                    <label class="form-label">Tên Vai Trò</label>
+                    <input type="text" class="form-control" id="roleName" value="${role.name}"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="roleDesc">${role.description || ''}</textarea>
+                </div>
+
+                <div id="error_msg" class="text-danger fw-bold"></div>
+            </form>
+        `;
+
+        const footerHtml = `
+            <button class="btn btn-primary" id="btnUpdateRole">Cập nhật</button>
+            <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        `;
+
+        showGlobalModal("Cập nhật Vai Trò", bodyHtml, footerHtml);
+
+        $("#btnUpdateRole").off("click").on("click", async () => {
+            resetError();
+            if (!validateFormRole()) return;
+
+            const newData = {
+                id: $("#roleId").val(),
+                name: $("#roleName").val().trim(),
+                description: $("#roleDesc").val().trim()
+            };
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/Role/Role`,
+                    method: "PUT",
+                    contentType: "application/json",
+                    headers: { "Authorization": "Bearer " + token },
+                    data: JSON.stringify(newData)
+                });
+
+                if (res.success) {
+                    showToastSuccess("Cập nhật thành công");
+                    $("#globalModal").modal("hide");
+                    loadDataRoles();
+                } else {
+                    showToastError(res.message);
+                }
+            } catch(err) {
+                console.log(err);
+                showToastError("Không thể cập nhật vai trò");
+            }
+        });
+    }
+
+    // ========================== DELETE ROLE ===============================
+
+    async function deleteRole(id) {
+        if (!confirm("Bạn có chắc muốn xóa vai trò này?")) return;
+
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/Role/${id}`,
+                method: "DELETE",
+                contentType: "application/json",
+                headers: { "Authorization": "Bearer " + token },
+            });
+
+            if (res.success) {
+                showToastSuccess("Đã xóa vai trò");
+                loadDataRoles();
+            } else {
+                showToastError(res.message);
+            }
+        } catch {
+            showToastError("Không thể xóa vai trò");
+        }
+    }
+
+    // ========================== VALIDATION ===============================
+
+    function validateFormRole() {
+        let isValid = true;
+        let firstInvalid = null;
+
+        const required = [
+            { selector: "#roleName", message: "Vui lòng nhập tên vai trò." }
+        ];
+
+        required.forEach(f => {
+            const $el = $(f.selector);
+            if (!$el.val().trim()) {
+                showError(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $el[0];
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+            $(firstInvalid).focus();
+            $("#error_msg").text("Vui lòng nhập đầy đủ thông tin.");
+        }
+
+        return isValid;
+    }
+
+    function resetError() {
+        // Nếu có global modal (bạn dùng showGlobalModal), ưu tiên dọn trong modal
+        if ($('#globalModal').length) {
+            const $m = $('#globalModal');
+
+            // bỏ class is-invalid
+            $m.find('.is-invalid').removeClass('is-invalid');
+
+            // xoá các invalid-feedback thêm phía sau các input/select/select2
+            $m.find('.invalid-feedback').remove();
+
+            // xoá thông báo lỗi chung trong modal nếu có
+            $m.find('#error_msg').text('');
+        }
+
+        // Dọn dự phòng trên toàn trang (nếu bạn có form ngoài modal)
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        $('#error_msg').text('');
+    }
+
+</script>
+<script>
+    // ========================== ROLE PERMISSIONS ===============================
+
+    // Load danh sách quyền theo vai trò
+    async function loadDataRolePermissions() {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/RolePermissions`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            let list = res.data ?? res; // phòng API trả trực tiếp
+            let dataSet = [];
+
+            if (Array.isArray(list) && list.length > 0) {
+                dataSet = list.map((item, idx) => ({
+                    stt: idx + 1,
+                    roleName: item.roleName,
+                    majorName: item.majorName,
+                    permissionName: item.permissionName,
+                    roleId: item.roleId,
+                    permissionId: item.permissionId
+                }));
+
+            }
+
+            const $table = $('#table_role_permissions');
+            if ($.fn.DataTable.isDataTable($table)) {
+                $table.DataTable().clear().destroy();
+            }
+
+            $table.DataTable({
+                data: dataSet,
+                columns: [
+                    { data: 'stt', className: 'text-center', width: '5%' },
+                    { data: 'roleName', title: 'Vai trò' },
+                    { data: 'majorName', title: 'Nghiệp vụ' },
+                    { data: 'permissionName', title: 'Quyền' },
+                    {
+                        data: null,
+                        orderable: false,
+                        render: row => `
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteRolePermission('${row.roleId}','${row.permissionId}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        `
+                    }
+                ],
+                autoWidth: false,
+                ordering: true,
+                paging: true,
+                searching: true,
+                language: {
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    zeroRecords: "Không có dữ liệu",
+                    info: "Hiển thị _START_ đến _END_ / _TOTAL_ bản ghi",
+                    search: "Tìm kiếm:",
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau"
+                    }
+                }
+            });
+
+        } catch (err) {
+            $('#table_role_permissions tbody')
+                .html(`<tr><td colspan="4" class="text-center text-danger">Lỗi tải dữ liệu</td></tr>`);
+        }
+    }
+
+    async function showModalTaoMoiRolePermission() {
+        resetError();
+
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+
+        // ================== LOAD ROLES ==================
+        let optRoles = '<option value="">-- Chọn vai trò --</option>';
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/Roles`,
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            (res.data ?? res).forEach(r => {
+                optRoles += `<option value="${r.id}">${r.name}</option>`;
+            });
+
+        } catch {
+            optRoles += `<option value="">(Lỗi tải vai trò)</option>`;
+        }
+
+        // ================== LOAD MAJORS ==================
+        let optMajors = '<option value="">-- Chọn nghiệp vụ --</option>';
+
+        try {
+            const res = await $.ajax({
+                url: `/api/NghiepVu/GetAll?groupId=${groupId}`,
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            (res.data ?? res).forEach(m => {
+                optMajors += `<option value="${m.id}">${m.majorName}</option>`;
+            });
+
+        } catch {
+            optMajors += `<option value="">(Lỗi tải nghiệp vụ)</option>`;
+        }
+
+        // ================== BUILD FORM ==================
+        const bodyHtml = `
+            <form id="rolePermissionForm">
+                <div class="form-row">
+                     <div class="form-group w-100 mb-3"">
+                        <label class="form-label">Vai trò <span class="text-danger">*</span></label>
+                        <select class="form-control" id="rp_roleId">${optRoles}</select>
+                     <div>
+                     <div class="form-group w-100 mb-3"">
+                        <label class="form-label">Nghiệp vụ <span class="text-danger">*</span></label>
+                        <select class="form-control" id="rp_majorId">${optMajors}</select>
+                     <div>
+                     <div class="form-group w-100 mb-3"">
+                         <label class="form-label">Danh sách quyền</label>
+                        <div id="permission_list" class="border rounded p-2" style="min-height: 120px;">
+                            <span class="text-muted fst-italic">Chọn nghiệp vụ để hiển thị quyền</span>
+                        </div>
+                     <div>
+                </div>
+              
+                <div id="error_msg" class="text-danger fw-bold"></div>
+            </form>
+        `;
+
+        const footerHtml = `
+            <button class="btn btn-primary" id="btnSaveRolePermission">Lưu</button>
+            <button class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        `;
+        
+        showGlobalModal("Gán Quyền Cho Vai Trò", bodyHtml, footerHtml);
+
+        // ================== LOAD PERMISSIONS WHEN MAJOR CHANGES ==================
+        $("#rp_majorId").on("change", async function () {
+            const majorId = $(this).val();
+
+            if (!majorId) {
+                $("#permission_list").html(`<span class="text-muted">Chưa chọn nghiệp vụ</span>`);
+                return;
+            }
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/Permission/GetPermisonByMajorId?majorId=${majorId}`,
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                const list = res.data ?? res;
+
+                if (!list.length) {
+                    $("#permission_list").html(`<span class="text-muted">Nghiệp vụ này chưa có quyền</span>`);
+                    return;
+                }
+
+                let html = "";
+                list.forEach(p => {
+                    html += `
+                        <div class="form-check">
+                            <input class="form-check-input perm-check" type="checkbox" value="${p.id}" id="perm_${p.id}">
+                            <label class="form-check-label" for="perm_${p.id}">
+                                ${p.permissionName} (Type: ${p.permissionType})
+                            </label>
+                        </div>
+                    `;
+                });
+
+                $("#permission_list").html(html);
+
+            } catch (err) {
+                $("#permission_list").html(`<span class="text-danger">Lỗi tải quyền</span>`);
+            }
+        });
+
+        // ================== SAVE ==================
+        $("#btnSaveRolePermission").off("click").on("click", async () => {
+            resetError();
+
+            const roleId = $("#rp_roleId").val();
+            const majorId = $("#rp_majorId").val();
+
+            const permissionIds = $(".perm-check:checked").map(function () {
+                return $(this).val();
+            }).get();
+
+            if (!roleId || !majorId || permissionIds.length === 0) {
+                $("#error_msg").text("Vui lòng chọn đầy đủ thông tin.");
+                return;
+            }
+
+            const data = {
+                roleId,
+                majorId,
+                permissionIds,
+                groupId
+            };
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/Role/AddRolePermissionByMajor`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { "Authorization": "Bearer " + token },
+                    data: JSON.stringify(data)
+                });
+
+                if (res.success) {
+                    showToastSuccess("Gán quyền thành công!");
+                    $("#globalModal").modal("hide");
+                    loadDataRolePermissions();
+                } else {
+                    showToastError(res.message);
+                }
+            } catch (err) {
+                showToastError("Lỗi lưu dữ liệu");
+            }
+        });
+
+         setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                      theme: 'bootstrap4',
+                      dropdownParent: $('#globalModal')
+                  });
+         }, 100);
+    }
+
+    // ========================== DELETE ROLE PERMISSION ===============================
+
+    async function deleteRolePermission(roleId, permissionId) {
+        if (!confirm("Bạn có chắc muốn xóa quyền này khỏi vai trò?")) return;
+
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/Role/RolePermission`,
+                method: "DELETE",
+                contentType: "application/json",
+                headers: { "Authorization": "Bearer " + token },
+                data: JSON.stringify({ roleId, permissionId, groupId })
+            });
+
+            if (res.success) {
+                showToastSuccess("Đã xóa quyền khỏi vai trò!");
+                loadDataRolePermissions();
+            } else {
+                showToastError(res.message || "Xóa thất bại!");
+            }
+        } catch {
+            showToastError("Lỗi hệ thống khi xóa!");
+        }
+    }
+
+    // ========================== VALIDATION ===============================
+
+    function validateFormRolePermission() {
+        let isValid = true;
+        let firstInvalid = null;
+
+        const required = [
+            { selector: "#rp_roleId", message: "Vui lòng chọn vai trò." },
+            { selector: "#rp_permissionId", message: "Vui lòng chọn quyền." }
+        ];
+
+        required.forEach(f => {
+            const $el = $(f.selector);
+            if (!$el.val().trim()) {
+                showError(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $el[0];
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+            $(firstInvalid).focus();
+            $("#error_msg").text("Vui lòng nhập đầy đủ thông tin.");
+        }
+
+        return isValid;
+    }
+
+</script>

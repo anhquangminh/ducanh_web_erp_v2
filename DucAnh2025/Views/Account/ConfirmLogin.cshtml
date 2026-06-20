@@ -1,0 +1,46 @@
+﻿@using DucAnh2025.Models.Accounts
+@model ConfirmLoginModel
+@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Xác Thực Đăng nhập";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5 card-primary">
+                <div class="card-header">
+                    <h2 class="card-title">Xác Thực Đăng nhập</h2>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
+                <form asp-action="ConfirmLogin" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="card-body">
+                        <p>Chúng tôi đã gửi một email kèm mã xác thực đến địa chỉ của bạn.</p>
+                        <p>Vui lòng kiểm tra email và nhập mã xác thực gồm 6 ký tự để hoàn tất đăng nhập:</p>
+                        <p class="text-muted">Nếu bạn không thấy email trong hộp thư đến, vui lòng kiểm tra thư mục Thư rác hoặc Spam.</p>
+                        <div class="form-group">
+                            <input asp-for="Code" maxlength="6" class="form-control text-center" autocomplete="off" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="Email" />
+                        <input type="hidden" asp-for="RememberMe" />
+                        <input type="hidden" asp-for="ReturnUrl" />
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Xác nhận</button>
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-block">Quay lại màn hình đăng nhập</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,76 @@
+﻿@using DucAnh2025.Models.Accounts
+@model RegisterModel
+@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Đăng ký sử dụng hệ thống";
+}
+
+<h1 class="text-center my-4">Đăng ký sử dụng hệ thống</h1>
+<form asp-action="Register" method="post" class="d-flex justify-content-center">
+    @Html.AntiForgeryToken()
+    <div class="card w-75">
+        <div class="card-body">
+            <div class="row">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Thông tin cá nhân</h4>
+                    <div class="form-group">
+                        <label>Họ <span class="text-danger">*</span></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên đệm và tên <span class="text-danger">*</span></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh <span class="text-danger">*</span></label>
+                        <input asp-for="Dob" class="form-control" type="date" />
+                        <span asp-validation-for="Dob" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại <span class="text-danger">*</span></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span class="text-danger">*</span></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Thông tin doanh nghiệp</h4>
+                    <div class="form-group">
+                        <label>Tên doanh nghiệp <span class="text-danger">*</span></label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Mã số thuế <span class="text-danger">*</span></label>
+                        <input asp-for="Tax" class="form-control" />
+                        <span asp-validation-for="Tax" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ <span class="text-danger">*</span></label>
+                        <textarea asp-for="Address" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary w-50">Đăng ký</button>
+                <a href="/Account/Login" class="btn btn-outline-secondary w-50 mt-2">Quay lại màn hình Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

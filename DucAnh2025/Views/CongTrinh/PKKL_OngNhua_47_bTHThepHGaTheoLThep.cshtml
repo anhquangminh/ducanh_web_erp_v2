@@ -1,0 +1,239 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG THÉP HỐ GA THEO LOẠI THÉP</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+
+                        <tr>
+                            <td colspan="3">Thông tin chung</td>
+                            <td colspan="1" id="col-dynamic">Thông tin khối lượng theo tuyến đường</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+                            <th>Tên loại thép</th>
+                            <th>Tổng KL</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+                            <th>Tên loại thép</th>
+                            <th>Tổng KL</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG THÉP HỐ GA THEO LOẠI THÉP", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 12", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "4.7b TH thép H.Ga theo L.Thép Tổng Hợp", "4.7b TH thép H.Ga theo L.Thép.xlsx");
+    }
+
+    $(function () {
+        loadData();
+    });
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_data tfoot tr').last();
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+        $('#col-dynamic').attr('colspan', uniqueTuyenDuong.length + 1);
+    }
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua47TKThepHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                let mappedData = [];
+                let uniqueTuyenDuong = [];
+
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    // lấy unique tuyenDuong
+                    uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                    // cập nhật header/footer
+                    addDynamicColumns(uniqueTuyenDuong);
+
+                    mappedData = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        tenCongTacTheoDuongKinh: item.tenCongTacTheoDuongKinh || '',
+
+                        soHieu: item.soHieu || 0,
+                        dKCDay: item.dKCDay || 0,
+                        soThanhCK: item.soThanhCK || 0,
+                        soCK: item.soCK || 0,
+                        tongSoThanh: item.tongSoThanh || 0,
+                        cDai1Thanh: item.cDai1Thanh || 0,
+                        tongChieuDai: item.tongChieuDai || 0,
+                        trongLuong: item.trongLuong || 0,
+                        tongTrongLuong: item.tongTrongLuong || 0,
+
+                        isStatus: item.isStatus || '',
+                        isActive: item.isActive || '',
+                    }));
+                }
+                // lọc duy nhất theo 2 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.tenCongTacTheoDuongKinh
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo một lookup để lưu tổng tongTrongLuong cho từng tổ hợp key (bao gồm tuyến đường)
+                const sumLookup = {};
+
+                // Gom nhóm và tính tổng trước
+                res.data.forEach(item => {
+                    // Key gồm id_ChiNhanh, tenCongTacTheoDuongKinh, tuyenDuong
+                    const key = [
+                        item.id_ChiNhanh,
+                        item.tenCongTacTheoDuongKinh,
+                        item.tuyenDuong
+                    ].join('|');
+                    sumLookup[key] = (sumLookup[key] || 0) + (parseFloat(item.tongTrongLuong) || 0);
+                });
+
+                // Gán giá trị vào dataSet
+                dataSet.forEach(row => {
+                    let tong = 0;
+                    uniqueTuyenDuong.forEach(td => {
+                        const key = [
+                            row.id_ChiNhanh,
+                            row.tenCongTacTheoDuongKinh,
+                            td
+                        ].join('|');
+
+                        let sum = (sumLookup[key] || 0);
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                        tong += sum;
+                    });
+                    row.tongTrongLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+                });
+
+
+                const $table = $('#table_data');
+                // Config cột cố định
+                let columns = [
+                    { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                    { data: 'tenChiNhanh', className: 'align-middle' },
+                    { data: 'tenCongTacTheoDuongKinh', className: 'align-middle' },
+                    { data: 'tongTrongLuong', className: 'align-middle' }
+                ];
+
+                // Thêm các cột động
+                uniqueTuyenDuong.forEach(td => {
+                    columns.push({
+                        data: td,
+                        className: 'align-middle',
+                        defaultContent: ''
+                    });
+                });
+
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().rows.add(dataSet).draw();
+                } else {
+                    $table.DataTable({
+                        data: dataSet,
+                        columns: columns,
+                        autoWidth: false,
+                        ordering: true,
+                        searching: true,
+                        paging: true,
+                        pageLength: 10,
+                        info: true,
+                        language: {
+                            lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                            zeroRecords: "Không tìm thấy dữ liệu",
+                            info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                            infoEmpty: "Không có bản ghi nào",
+                            infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                            search: "Tìm kiếm:",
+                            paginate: {
+                                first: "Đầu",
+                                last: "Cuối",
+                                next: "Sau",
+                                previous: "Trước"
+                            }
+                        },
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'excel', 'pdf'],
+                        initComplete: function () {
+                            this.api().columns().every(function (colIdx) {
+                                var column = this;
+                                var $footer = $(column.footer()).empty();
+                                if (colIdx === 0) {
+                                    $footer.append('<p></p>');
+                                } else {
+                                    var select = $('<select><option value=""></option></select>')
+                                        .appendTo($footer)
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                            column
+                                                .search(val ? '^' + val + '$' : '', true, false)
+                                                .draw();
+                                        });
+
+                                    column.data().unique().sort().each(function (d) {
+                                        select.append('<option value="' + d + '">' + d + '</option>');
+                                    });
+                                }
+
+                            });
+                        }
+                    });
+                }
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+</script>

@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Delete Personal Data";
+}
+<h3>Delete Personal Data</h3>
+<p class="text-danger">Warning: This action is irreversible. All your data will be deleted.</p>
+<form asp-action="DeletePersonalData" method="post">
+    <div class="form-group">
+        <label for="password">Confirm your password to delete your account:</label>
+        <input type="password" name="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-danger">Delete my account</button>
+</form>

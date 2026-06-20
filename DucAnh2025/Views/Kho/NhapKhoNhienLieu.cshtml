@@ -1,0 +1,149 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 p-2">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">Danh sách</h3>
+            <span style="cursor:pointer;" onclick="showHuongDanNghiepVu()" title="Hướng dẫn sử dụng">
+                <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+            </span>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i> Tạo mới
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="exampleCustomSelect" class="">Chi nhánh</label>
+                                <div id="filter"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="reportType" class="">Tên báo cáo</label>
+                                <select type="select" id="reportType" name="reportType" class="custom-select">
+                                    <option value="">-- Chọn báo cáo --</option>
+                                    <option value="nknl_ncc_ct">NKNL theo NCC (Chi tiết)</option>
+                                    <option value="nknl_ncc_th">NKNL theo NCC (Tổng hợp)</option>
+                                    <option value="nknl_ncc_cuoc_ct">NKNL theo NCC cước VC công ty (Chi tiết)</option>
+                                    <option value="nknl_ncc_cuoc_th">NKNL theo NCC cước VC công ty (Tổng hợp)</option>
+                                    <option value="nknl_loai_ct">NKNL theo loại nhiên liệu (Chi tiết)</option>
+                                    <option value="nknl_loai_th">NKNL theo loại nhiên liệu (Tổng hợp)</option>
+                                    <option value="nknl_caybom">NKNL theo số cơ cây nhiên liệu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="reportType" class="">Tên báo cáo</label>
+                                <button type="button" class="btn btn-success w-100" style="height:calc(2.25rem + 2px);" onclick="exportExcel()">
+                                    <i class="bi bi-file-earmark-excel me-1"></i>
+                                    Xuất Excel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2"></th>
+                            <th rowspan="2">Tên trạm trộn</th>
+                            <th rowspan="2">Ngày nhập kho</th>
+                            <th rowspan="2">Chốt số cơ cây dầu trước khi nhập nhiên liệu Diezel</th>
+                            <th rowspan="2">Số phiếu</th>
+                            <th rowspan="2">Biển số xe</th>
+                            <th colspan="5">Thông tin nhà cung cấp</th>
+                            <th colspan="6">Thông tin nhiên liệu</th>
+                            <th colspan="4">Thông tin số lượng nhập kho thực tế</th>
+                            <th colspan="5">Thông tin đơn giá nhiên liệu</th>
+                            <th colspan="5">Thông tin cước xe công ty</th>
+                            <th colspan="3">Thông tin tổng tiền hàng</th>
+                            <th rowspan="2">Trạng thái</th>
+                        </tr>
+                        <tr>
+                            <th>Số HĐ </th>
+                            <th>Loại nhà cung cấp</th>
+                            <th>Tên nhà cung cấp</th>
+                            <th>Địa chỉ</th>
+                            <th>Mã số thuế</th>
+                            <th>Nhóm nhiên liệu</th>
+                            <th>Loại nhiên liệu</th>
+                            <th>Nhãn hiệu</th>
+                            <th>Đơn vị</th>
+                            <th>Số lượng nhập kho có thuế</th>
+                            <th>Số lượng nhập kho không thuế</th>
+                            <th>Đơn vị sau quy đổi</th>
+                            <th>Số lượng thực tế có thuế</th>
+                            <th>Số lượng thực tế không thuế</th>
+                            <th>Tổng số lượng</th>
+                            <th>Đơn giá có thuế</th>
+                            <th>Đơn giá không thuế</th>
+                            <th>Thành tiền có thuế</th>
+                            <th>Thành tiền không thuế</th>
+                            <th>Tổng thành tiền</th>
+                            <th>Biển số xe (vận chuyển)</th>
+                            <th>Đơn giá cước vận chuyển có thuế</th>
+                            <th>Đơn giá cước vận chuyển không thuế</th>
+                            <th>Thành tiền cước vận chuyển có thuế</th>
+                            <th>Thành tiền cước vận chuyển không thuế</th>
+                            <th>Tổng tiền hàng có thuế</th>
+                            <th>Tổng tiền hàng không thuế</th>
+                            <th>Tổng tiền hàng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Tên trạm trộn</th>
+                            <th>Ngày nhập kho</th>
+                            <th>Chốt số cơ cây dầu trước khi nhập nhiên liệu Diezel</th>
+                            <th>Số phiếu</th>
+                            <th>Biển số xe</th>
+                            <th>Số HĐ</th>
+                            <th>Loại nhà cung cấp</th>
+                            <th>Tên nhà cung cấp</th>
+                            <th>Địa chỉ</th>
+                            <th>Mã số thuế</th>
+                            <th>Nhóm nhiên liệu</th>
+                            <th>Loại nhiên liệu</th>
+                            <th>Nhãn hiệu</th>
+                            <th>Đơn vị</th>
+                            <th>Số lượng nhập kho có thuế</th>
+                            <th>Số lượng nhập kho không thuế</th>
+                            <th>Đơn vị sau quy đổi</th>
+                            <th>Số lượng thực tế có thuế</th>
+                            <th>Số lượng thực tế không thuế</th>
+                            <th>Tổng số lượng</th>
+                            <th>Đơn giá có thuế</th>
+                            <th>Đơn giá không thuế</th>
+                            <th>Thành tiền có thuế</th>
+                            <th>Thành tiền không thuế</th>
+                            <th>Tổng thành tiền</th>
+                            <th>Biển số xe (vận chuyển)</th>
+                            <th>Đơn giá cước vận chuyển có thuế</th>
+                            <th>Đơn giá cước vận chuyển không thuế</th>
+                            <th>Thành tiền cước vận chuyển có thuế</th>
+                            <th>Thành tiền cước vận chuyển không thuế</th>
+                            <th>Tổng tiền hàng có thuế</th>
+                            <th>Tổng tiền hàng không thuế</th>
+                            <th>Tổng tiền hàng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/kho/nhapkhonhienlieu.js?v=19"></script>

@@ -1,0 +1,18 @@
+﻿using DucAnh2025.Models;
+using DucAnh2025.ViewModel;
+using DucAnh2025.ViewModels;
+namespace DucAnh2025.Repository
+{
+    public interface IKho_NhapkhoNhienLieuRepository : IBaseRepository<Kho_NhapkhoNhienLieu>
+    {
+        Task<List<Kho_NhapkhoNhienLieuModel>> GetHistoryIsValidEdit(string id);
+        Task<Kho_NhapkhoNhienLieuModel> GetDetails(string id);
+        Task<List<Kho_NhapkhoNhienLieuModel>> GetHistory(string id);
+        Task<bool> CheckSave(Kho_NhapkhoNhienLieu input);
+        Task<bool> CheckEdit(Kho_NhapkhoNhienLieu input);
+        Task<bool> CheckDelete(Kho_NhapkhoNhienLieu input);
+        Task Approval(Kho_NhapkhoNhienLieu input, string userId);
+        Task NoApproval(Kho_NhapkhoNhienLieu input, string userId);
+        Task<List<Kho_NhapkhoNhienLieuModel>> GetAllByVM(Kho_NhapkhoNhienLieuModel input, string groupId);
+    }
+}

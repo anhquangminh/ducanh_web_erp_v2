@@ -1,0 +1,1706 @@
+﻿<div class="tab-content">
+    <div class="main-card mb-3 card">
+        <div class="card-body pt-0">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-0 mr-2">Danh sách</h3>
+                        <span style="cursor:pointer;" onclick="showHuongDanNghiepVuInfor()" title="Hướng dẫn sử dụng">
+                            <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+                        </span>
+                    </div>
+                    <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoiInfor()">
+                        <i class="fas fa-plus btn-icon-wrapper"></i> Tạo mới
+                    </button>
+                </div>
+                <div>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="table_infor">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Số CCCD/CMND</th>
+                                    <th>Ngày cấp CCCD</th>
+                                    <th>Nơi cấp CCCD</th>
+                                    <th>Mã số Thuế TNCN</th>
+                                    <th>Số sổ BHXH</th>
+                                    <th>Điện thoại di động</th>
+                                    <th>Email cá nhân</th>
+                                    <th>Địa chỉ thường trú</th>
+                                    <th>Địa chỉ hiện tại</th>
+                                    <th>Tên người liên hệ khẩn cấp</th>
+                                    <th>Mã người liên hệ khẩn cấp</th>
+                                    <th>ID Phòng ban</th>
+                                    <th>ID Chức danh/Vị trí</th>
+                                    <th>Mã Quản lý trực tiếp</th>
+                                    <th>Email công việc</th>
+                                    <th>Ngày vào công ty</th>
+                                    <th>Ngày chính thức</th>
+                                    <th>Loại Hợp đồng hiện tại</th>
+                                    <th>Ngày hết hạn HĐ</th>
+                                    <th>Tình trạng làm việc</th>
+                                    <th>Mức Lương cơ bản hiện tại</th>
+                                    <th>Số Tài khoản Ngân hàng</th>
+                                    <th>Tên Ngân hàng</th>
+                                    <th>Phương thức thanh toán</th>
+                                    <th>Số lượng người phụ thuộc</th>
+                                    <th>Trạng thái</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Mã nhân viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Số CCCD/CMND</th>
+                                    <th>Ngày cấp CCCD</th>
+                                    <th>Nơi cấp CCCD</th>
+                                    <th>Mã số Thuế TNCN</th>
+                                    <th>Số sổ BHXH</th>
+                                    <th>Điện thoại di động</th>
+                                    <th>Email cá nhân</th>
+                                    <th>Địa chỉ thường trú</th>
+                                    <th>Địa chỉ hiện tại</th>
+                                    <th>Tên người liên hệ khẩn cấp</th>
+                                    <th>Mã người liên hệ khẩn cấp</th>
+                                    <th>ID Phòng ban</th>
+                                    <th>ID Chức danh/Vị trí</th>
+                                    <th>Mã Quản lý trực tiếp</th>
+                                    <th>Email công việc</th>
+                                    <th>Ngày vào công ty</th>
+                                    <th>Ngày chính thức</th>
+                                    <th>Loại Hợp đồng hiện tại</th>
+                                    <th>Ngày hết hạn HĐ</th>
+                                    <th>Tình trạng làm việc</th>
+                                    <th>Mức Lương cơ bản hiện tại</th>
+                                    <th>Số Tài khoản Ngân hàng</th>
+                                    <th>Tên Ngân hàng</th>
+                                    <th>Phương thức thanh toán</th>
+                                    <th>Số lượng người phụ thuộc</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let tableInfor = null;
+    $(function () {
+        loadDataInfor();
+    });
+    function loadDataInfor() {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/NhanSuEmployeeProfile/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        fullName: item.fullName || '',
+                        employeeId: item.employeeId || '',
+                        gender: item.gender || '',
+                        dateOfBirth: item.dateOfBirth || '',
+                        identityCardNumber: item.identityCardNumber || '',
+                        identityCardIssueDate: item.identityCardIssueDate || '',
+                        identityCardIssuePlace: item.identityCardIssuePlace || '',
+                        taxCode: item.taxCode || '',
+                        socialInsuranceNumber: item.socialInsuranceNumber || '',
+                        mobilePhone: item.mobilePhone || '',
+                        personalEmail: item.personalEmail || '',
+                        permanentAddress: item.permanentAddress || '',
+                        currentAddress: item.currentAddress || '',
+                        emergencyContactName: item.emergencyContactName || '',
+                        emergencyContactPhone: item.emergencyContactPhone || '',
+                        departmentFrId: item.departmentFrId || '',
+                        chucVuId: item.chucVuId || '',
+                        managerId: item.managerId || '',
+                        workEmail: item.workEmail || '',
+                        hireDate: item.hireDate || '',
+                        officialDate: item.officialDate || '',
+                        currentContractType: item.currentContractType || '',
+                        contractExpirationDate: item.contractExpirationDate || '',
+                        workStatusId: item.workStatusId || '',
+                        currentBasicSalary: item.currentBasicSalary || '',
+                        bankAccountNumber: item.bankAccountNumber || '',
+                        bankName: item.bankName || '',
+                        salaryPaymentMethod: item.salaryPaymentMethod || '',
+                        taxDependentsCount: item.taxDependentsCount || 0,
+                        groupId: item.groupId || '',
+                        ordinarily: item.ordinarily || 0,
+                        createAt: item.createAt || null,
+                        createBy: item.createBy || '',
+                        isActive: item.isActive || 0,
+                        approvalUserId: item.approvalUserId || '',
+                        dateApproval: item.dateApproval || null,
+                        approvalDept: item.approvalDept || '',
+                        departmentId: item.departmentId || '',
+                        departmentOrder: item.departmentOrder || 0,
+                        approvalOrder: item.approvalOrder || 0,
+                        approvalId: item.approvalId || '',
+                        lastApprovalId: item.lastApprovalId || '',
+                        isStatus: item.isStatus || '',
+                    }));
+                }
+                if (!tableInfor) {
+                tableInfor = $('#table_infor').DataTable({
+                    data: dataSet,
+                    columns: [
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: '1%',
+                            render: function (data, type, row) {
+                                let buttons = `
+                                    <div class="btn-group">
+                                `;
+                                if (row.isActive < 3) {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-success btn-approve" title="Duyệt" data-id="${row.id}" onclick="duyetInfor('${row.id}')" ><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-warning btn-cancel-approve" title="Hủy duyệt" data-id="${row.id}" onclick="huyDuyetInfor('${row.id}')" ><i class="fas fa-times"></i></button>
+                                    `;
+                                } else if (row.isActive == 3) {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick="xoaInfor('${row.id}')" ><i class="fas fa-trash"></i></button>
+                                    `;
+                                }
+                                buttons += `
+                                    <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick="chinhSuaInfor('${row.id}')" ><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-danger btn-delete" title="chi tiết !" data-id="${row.id}" onclick="chiTietInfor('${row.id}')" ><i class="bi bi-clock-history"></i></button>
+                                </div>
+                                `;
+                                return buttons;
+                            }
+                        },
+                        { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                        {
+                            data: 'employeeId',
+                            className: 'align-middle',
+                            render: function (data, type, row) {
+                                return `<a href="javascript:void(0);" onclick="xemChiTietInfor('${row.id}')">${data}</a>`;
+                            }
+                        },
+                        { data: 'fullName', className: 'align-middle' },
+                        { data: 'gender', className: 'align-middle' },
+                        { data: 'dateOfBirth', className: 'align-middle' },
+                        { data: 'identityCardNumber', className: 'align-middle' },
+                        { data: 'identityCardIssueDate', className: 'align-middle' },
+                        { data: 'identityCardIssuePlace', className: 'align-middle' },
+                        { data: 'taxCode', className: 'align-middle' },
+                        { data: 'socialInsuranceNumber', className: 'align-middle' },
+                        { data: 'mobilePhone', className: 'align-middle' },
+                        { data: 'personalEmail', className: 'align-middle' },
+                        { data: 'permanentAddress', className: 'align-middle' },
+                        { data: 'currentAddress', className: 'align-middle' },
+                        { data: 'emergencyContactName', className: 'align-middle' },
+                        { data: 'emergencyContactPhone', className: 'align-middle' },
+                        { data: 'departmentFrId', className: 'align-middle' },
+                        { data: 'chucVuId', className: 'align-middle' },
+                        { data: 'managerId', className: 'align-middle' },
+                        { data: 'workEmail', className: 'align-middle' },
+                        { data: 'hireDate', className: 'align-middle' },
+                        { data: 'officialDate', className: 'align-middle' },
+                        { data: 'currentContractType', className: 'align-middle' },
+                        { data: 'contractExpirationDate', className: 'align-middle' },
+                        { data: 'workStatusId', className: 'align-middle' },
+                        { data: 'currentBasicSalary', className: 'align-middle' },
+                        { data: 'bankAccountNumber', className: 'align-middle' },
+                        { data: 'bankName', className: 'align-middle' },
+                        { data: 'salaryPaymentMethod', className: 'align-middle' },
+                        { data: 'taxDependentsCount', className: 'align-middle' },
+                        { data: 'isStatus', className: 'align-middle' }
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi moí trang ",
+                        zeroRecords: "Không tìm thấy dữ liệu !",
+                        info: "Hiển thị của _TOTAL_ bản ghi !_START_ đến _END_ của _TOTAL_ bản ghi !",
+                        infoEmpty: "Không có bản ghi nào ",
+                        infoFiltered: "( Lọc từ )_MAX_( bản ghi)",
+                        search: "Tìm kiếm :",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (index) {
+                            var column = this;
+                            if (index === 0) return;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        });
+                    }
+                });
+               }else {
+                tableInfor.clear();
+                tableInfor.rows.add(dataSet);
+                tableInfor.draw(false);
+                }
+            }).fail(function (xhr) {
+                $('#table_infor tbody').html('<tr><td colspan="7" class="text-center text-danger">Lỗi khi tải dữ liệu </td></tr>');
+            });
+        });
+    }
+    async function showModalTaoMoiInfor(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật" : "Thêm mới";
+        const resUser = await getJwtToken();
+       const token = resUser.token;
+       const groupId = resUser.userInfor.groupId;
+       const userName = resUser.userInfor.userName;
+
+        let selectOptions_DepartmentFrId = '<option value="">Chọn ID Phòng ban --</option>';
+        try {
+            const res_DepartmentFrId = await $.ajax({
+                url: `/api/Department/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_DepartmentFrId.success && Array.isArray(res_DepartmentFrId.data)) {
+                res_DepartmentFrId.data.forEach(item => {
+                    selectOptions_DepartmentFrId += `<option value="${item.id}" ${data && data.departmentFrId == item.id ? 'selected' : ''}>${item.deptName}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_DepartmentFrId += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        let selectOptions_ChucVuId = '<option value="">Chọn ID Chức danh/Vị trí --</option>';
+        try {
+            const res_ChucVuId = await $.ajax({
+                url: `/api/ChucVu/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_ChucVuId.success && Array.isArray(res_ChucVuId.data)) {
+                res_ChucVuId.data.forEach(item => {
+                    selectOptions_ChucVuId += `<option value="${item.id}" ${data && data.chucVuId == item.id ? 'selected' : ''}>${item.chucVu}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_ChucVuId += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        let selectOptions_ManagerId = '<option value="">Chọn Mã Quản lý trực tiếp --</option>';
+        try {
+            const res_ManagerId = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_ManagerId.success && Array.isArray(res_ManagerId.data)) {
+                res_ManagerId.data.forEach(item => {
+                    selectOptions_ManagerId += `<option value="${item.id}" ${data && data.managerId == item.id ? 'selected' : ''}>${item.fullName}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_ManagerId += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        let selectOptions_CurrentContractType = '<option value="">Chọn Loại Hợp đồng hiện tại --</option>';
+        try {
+            const res_CurrentContractType = await $.ajax({
+                url: `/api/NhanSuDMContractType/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_CurrentContractType.success && Array.isArray(res_CurrentContractType.data)) {
+                res_CurrentContractType.data.forEach(item => {
+                    selectOptions_CurrentContractType += `<option value="${item.id}" ${data && data.currentContractType == item.id ? 'selected' : ''}>${item.contractTypeName}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_CurrentContractType += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        let selectOptions_WorkStatusId = '<option value="">Chọn Tình trạng làm việc --</option>';
+        try {
+            const res_WorkStatusId = await $.ajax({
+                url: `/api/NhanSuDMWorkStatu/GetAll?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+            if (res_WorkStatusId.success && Array.isArray(res_WorkStatusId.data)) {
+                res_WorkStatusId.data.forEach(item => {
+                    selectOptions_WorkStatusId += `<option value="${item.id}" ${data && data.workStatusId == item.id ? 'selected' : ''}>${item.workStatusName}</option>`;
+                });
+            }
+        } catch {
+            selectOptions_WorkStatusId += '<option value="">Lỗi tải dữ liệu </option>';
+        }
+        const bodyHtml = `
+            <form id="form_caidat" class="row">
+                <div class="form-group col-md-3">
+                    <label>Mã nhân viên<span class="text-danger">*</span></label>
+                    <input type="text" id="input-EmployeeId" name="EmployeeId" value="${data ? data.employeeId : ''}" class="form-control" placeholder="NV001" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Họ và tên <span class="text-danger">*</span></label>
+                    <input type="text" id="input-FullName" name="FullName" value="${data ? data.fullName : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                <label>Giới tính <span class="text-danger">*</span></label>
+                <select id="input-Gender" name="Gender" class="form-control">
+                    <option value="">-- Chọn giới tính --</option>
+                    <option value="Nam" ${data && data.gender === 'Nam' ? 'selected' : ''}>Nam</option>
+                    <option value="Nữ" ${data && data.gender === 'Nữ' ? 'selected' : ''}>Nữ</option>
+                    <option value="Khác" ${data && data.gender === 'Khác' ? 'selected' : ''}>Khác</option>
+                </select>
+            </div>
+                <div class="form-group col-md-3">
+                    <label>Ngày sinh</label>
+                    <input type="date" id="input-DateOfBirth" name="DateOfBirth" value="${data ? formatDate(data.dateOfBirth) : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Số CCCD/CMND <span class="text-danger">*</span></label>
+                    <input type="text" id="input-IdentityCardNumber" name="IdentityCardNumber" value="${data ? data.identityCardNumber : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Ngày cấp CCCD</label>
+                    <input type="date" id="input-IdentityCardIssueDate" name="IdentityCardIssueDate" value="${data ? formatDate(data.identityCardIssueDate) : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Nơi cấp CCCD</label>
+                    <input type="text" id="input-IdentityCardIssuePlace" name="IdentityCardIssuePlace" value="${data ? data.identityCardIssuePlace : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Mã số Thuế TNCN</label>
+                    <input type="text" id="input-TaxCode" name="TaxCode" value="${data ? data.taxCode : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Số sổ BHXH</label>
+                    <input type="text" id="input-SocialInsuranceNumber" name="SocialInsuranceNumber" value="${data ? data.socialInsuranceNumber : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Điện thoại di động <span class="text-danger">*</span></label>
+                    <input type="text" id="input-MobilePhone" name="MobilePhone" value="${data ? data.mobilePhone : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Email cá nhân <span class="text-danger">*</span></label>
+                    <input type="text" id="input-PersonalEmail" name="PersonalEmail" value="${data ? data.personalEmail : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Địa chỉ thường trú</label>
+                    <input type="text" id="input-PermanentAddress" name="PermanentAddress" value="${data ? data.permanentAddress : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Địa chỉ hiện tại</label>
+                    <input type="text" id="input-CurrentAddress" name="CurrentAddress" value="${data ? data.currentAddress : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Tên người liên hệ khẩn cấp</label>
+                    <input type="text" id="input-EmergencyContactName" name="EmergencyContactName" value="${data ? data.emergencyContactName : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Mã người liên hệ khẩn cấp</label>
+                    <input type="text" id="input-EmergencyContactPhone" name="EmergencyContactPhone" value="${data ? data.emergencyContactPhone : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>ID Phòng ban</label>
+                    <select id="select-DepartmentFrId" class="form-control">${selectOptions_DepartmentFrId}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>ID Chức danh/Vị trí</label>
+                    <select id="select-ChucVuId" class="form-control">${selectOptions_ChucVuId}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Mã Quản lý trực tiếp</label>
+                    <select id="select-ManagerId" class="form-control">${selectOptions_ManagerId}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Email công việc</label>
+                    <input type="text" id="input-WorkEmail" name="WorkEmail" value="${data ? data.workEmail : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Ngày vào công ty</label>
+                    <input type="date" id="input-HireDate" name="HireDate" value="${data ? formatDate(data.hireDate) : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Ngày chính thức</label>
+                    <input type="date" id="input-OfficialDate" name="OfficialDate" value="${data ? formatDate(data.officialDate) : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Loại Hợp đồng hiện tại</label>
+                    <select id="select-CurrentContractType" class="form-control">${selectOptions_CurrentContractType}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Ngày hết hạn HĐ</label>
+                    <input type="date" id="input-ContractExpirationDate" name="ContractExpirationDate" value="${data ? formatDate(data.contractExpirationDate) : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Tình trạng làm việc</label>
+                    <select id="select-WorkStatusId" class="form-control">${selectOptions_WorkStatusId}</select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Mức Lương cơ bản hiện tại</label>
+                    <input type="number" id="input-CurrentBasicSalary" name="CurrentBasicSalary" value="${data ? data.currentBasicSalary : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Số Tài khoản Ngân hàng</label>
+                    <input type="text" id="input-BankAccountNumber" name="BankAccountNumber" value="${data ? data.bankAccountNumber : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Tên Ngân hàng</label>
+                    <input type="text" id="input-BankName" name="BankName" value="${data ? data.bankName : ''}" class="form-control" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Phương thức thanh toán</label>
+                    <select id="input-salaryPaymentMethod" class="form-control mb-2">
+                        <option value="">-- Chọn phương thức --</option>
+                        <option value="1" ${data ? data.salaryPaymentMethod : '' == "Chuyển khoản" ? 'selected' : ''}>Chuyển khoản</option>
+                       <option value="2" ${data ? data.salaryPaymentMethod : '' == "Tiền mặt" ? 'selected' : ''}>Tiền mặt</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Số lượng người phụ thuộc</label>
+                    <input type="number" id="input-TaxDependentsCount" name="TaxDependentsCount" value="${data ? data.taxDependentsCount : ''}" class="form-control" />
+                </div>
+            </form>
+            <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+        `;
+        const footerHtml = `
+            <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu "}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>`;
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            $('#error_msg').text("");
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const isEdit = $(this).data("isedit") === true;
+            const id = $(this).data("id");
+            if (!validateFormInfor())
+               return;
+            const dataSend = {
+                Id: id,
+                EmployeeId: $('#input-EmployeeId').val() || "",
+                FullName: $('#input-FullName').val() || "",
+                Gender: $('#input-Gender').val() || "",
+                DateOfBirth: $('#input-DateOfBirth').val() || null,
+                IdentityCardNumber: $('#input-IdentityCardNumber').val() || "",
+                IdentityCardIssueDate: $('#input-IdentityCardIssueDate').val() || null,
+                IdentityCardIssuePlace: $('#input-IdentityCardIssuePlace').val() || "",
+                TaxCode: $('#input-TaxCode').val() || "",
+                SocialInsuranceNumber: $('#input-SocialInsuranceNumber').val() || "",
+                MobilePhone: $('#input-MobilePhone').val() || "",
+                PersonalEmail: $('#input-PersonalEmail').val() || "",
+                PermanentAddress: $('#input-PermanentAddress').val() || "",
+                CurrentAddress: $('#input-CurrentAddress').val() || "",
+                EmergencyContactName: $('#input-EmergencyContactName').val() || "",
+                EmergencyContactPhone: $('#input-EmergencyContactPhone').val() || "",
+                DepartmentFrId: $('#select-DepartmentFrId').val() || "",
+                ChucVuId: $('#select-ChucVuId').val() || "",
+                ManagerId: $('#select-ManagerId').val() || "",
+                WorkEmail: $('#input-WorkEmail').val() || "",
+                HireDate: $('#input-HireDate').val() || null,
+                OfficialDate: $('#input-OfficialDate').val() || null,
+                CurrentContractType: $('#select-CurrentContractType').val() || "",
+                ContractExpirationDate: $('#input-ContractExpirationDate').val() || null,
+                WorkStatusId: $('#select-WorkStatusId').val() || "",
+                CurrentBasicSalary: $('#input-CurrentBasicSalary').val() || 0.0,
+                BankAccountNumber: $('#input-BankAccountNumber').val() || "",
+                BankName: $('#input-BankName').val() || "",
+                SalaryPaymentMethod: $('#input-SalaryPaymentMethod').val() || "",
+                TaxDependentsCount: $('#input-TaxDependentsCount').val() || 0,
+                GroupId: groupId,
+                Ordinarily: 0,
+                CreateAt: new Date().toISOString(),
+                CreateBy: userName,
+                IsActive: isEdit && data ? data.isActive : 0,
+                ApprovalUserId: "",
+                DateApproval: null,
+                ApprovalDept: "",
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: ""
+            };
+            try {
+                const res = await $.ajax({
+                    url: `/api/NhanSuEmployeeProfile/Create?isEdit=${isEdit}`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(dataSend)
+                });
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công " : "Lưu thành công");
+                    $('#globalModal').modal('hide');
+                    loadDataInfor();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu");
+                }
+            } catch (err) {
+                $('#error_msg').text("Có lỗi xảy ra khi lưu");
+            }
+        });
+    }
+    function validateFormInfor() {
+        // Xóa lỗi cũ
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+
+        let isValid = true;
+        let firstInvalid = null;
+
+        const requiredFields = [
+            { selector: '#input-EmployeeId', message: 'Vui lòng nhập mã nhân viên.' },
+            { selector: '#input-FullName', message: 'Vui lòng nhập Họ và tên.' },
+            { selector: '#input-Gender', message: 'Vui lòng nhập Giới tính.' },
+            { selector: '#input-IdentityCardNumber', message: 'Vui lòng nhập Số CCCD/CMND.' },
+            { selector: '#input-MobilePhone', message: 'Vui lòng nhập Điện thoại di động.' },
+            { selector: '#input-PersonalEmail', message: 'Vui lòng nhập Email cá nhân.' },
+        ];
+
+        // 1) --- Kiểm tra bắt buộc ---
+        requiredFields.forEach(f => {
+            const $input = $(f.selector);
+            const val = $input.val();
+
+            if (!val || val.trim() === '') {
+                showErrorInfor(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $input[0];
+                isValid = false;
+            }
+        });
+
+        // 2) --- Validate nâng cao ---
+
+        // EMPLOYEE ID: phải đúng 6 ký tự
+        let empId = $('#input-EmployeeId').val();
+        if (empId && empId.trim().length !== 6) {
+            showErrorInfor('#input-EmployeeId', 'Mã nhân viên phải gồm đúng 6 ký tự.');
+            if (!firstInvalid) firstInvalid = $('#input-EmployeeId')[0];
+            isValid = false;
+        }
+
+        // HỌ VÀ TÊN: chỉ chữ + khoảng trắng
+        let fullName = $('#input-FullName').val();
+        if (fullName && !/^[a-zA-ZÀ-ỹ\s]+$/.test(fullName.trim())) {
+            showErrorInfor('#input-FullName', 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.');
+            if (!firstInvalid) firstInvalid = $('#input-FullName')[0];
+            isValid = false;
+        }
+
+        // CCCD: đúng 12 số
+        let cccd = $('#input-IdentityCardNumber').val();
+        if (cccd && !/^\d{12}$/.test(cccd)) {
+            showErrorInfor('#input-IdentityCardNumber', 'Số CCCD phải gồm đúng 12 chữ số.');
+            if (!firstInvalid) firstInvalid = $('#input-IdentityCardNumber')[0];
+            isValid = false;
+        }
+
+        // SĐT: 10 số, đầu số Việt Nam: 03|05|07|08|09
+        let phone = $('#input-MobilePhone').val();
+        if (phone && !/^(03|05|07|08|09)\d{8}$/.test(phone)) {
+            showErrorInfor('#input-MobilePhone', 'Số điện thoại không hợp lệ (phải có 10 số và bắt đầu bằng 03/05/07/08/09).');
+            if (!firstInvalid) firstInvalid = $('#input-MobilePhone')[0];
+            isValid = false;
+        }
+
+        // Email: định dạng chuẩn
+        let email = $('#input-PersonalEmail').val();
+        if (email && !/^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email)) {
+            showErrorInfor('#input-PersonalEmail', 'Email không đúng định dạng.');
+            if (!firstInvalid) firstInvalid = $('#input-PersonalEmail')[0];
+            isValid = false;
+        }
+
+        // Scroll đến lỗi đầu tiên
+        if (!isValid && firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            const $el = $(firstInvalid);
+            if ($el.hasClass('select2-hidden-accessible')) {
+                $el.next('.select2-container').find('.select2-selection').focus();
+            } else {
+                $el.focus();
+            }
+        }
+
+        return isValid;
+    }
+    function showErrorInfor(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+    async function chiTietInfor(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        try {
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/GetHistory?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                let tableRows = res.data.map((item, idx) => `
+                    <tr>
+                        <td class="text-center">${idx + 1}</td>
+                        <td>${item.employeeId || ''}</td>
+                        <td>${item.fullName || ''}</td>
+                        <td>${item.gender || ''}</td>
+                        <td>${item.dateOfBirth || ''}</td>
+                        <td>${item.identityCardNumber || ''}</td>
+                        <td>${item.identityCardIssueDate || ''}</td>
+                        <td>${item.identityCardIssuePlace || ''}</td>
+                        <td>${item.taxCode || ''}</td>
+                        <td>${item.socialInsuranceNumber || ''}</td>
+                        <td>${item.mobilePhone || ''}</td>
+                        <td>${item.personalEmail || ''}</td>
+                        <td>${item.permanentAddress || ''}</td>
+                        <td>${item.currentAddress || ''}</td>
+                        <td>${item.emergencyContactName || ''}</td>
+                        <td>${item.emergencyContactPhone || ''}</td>
+                        <td>${item.departmentFrId || ''}</td>
+                        <td>${item.chucVuId || ''}</td>
+                        <td>${item.managerId || ''}</td>
+                        <td>${item.workEmail || ''}</td>
+                        <td>${item.hireDate || ''}</td>
+                        <td>${item.officialDate || ''}</td>
+                        <td>${item.currentContractType || ''}</td>
+                        <td>${item.contractExpirationDate || ''}</td>
+                        <td>${item.workStatusId || ''}</td>
+                        <td>${item.currentBasicSalary || ''}</td>
+                        <td>${item.bankAccountNumber || ''}</td>
+                        <td>${item.bankName || ''}</td>
+                        <td>${item.salaryPaymentMethod || ''}</td>
+                        <td>${item.taxDependentsCount || ''}</td>
+                        <td>${item.groupId || ''}</td>
+                        <td>${item.ordinarily || ''}</td>
+                        <td>${item.createAt || ''}</td>
+                        <td>${item.createBy || ''}</td>
+                        <td>${item.isActive || ''}</td>
+                        <td>${item.approvalUserId || ''}</td>
+                        <td>${item.dateApproval || ''}</td>
+                        <td>${item.approvalDept || ''}</td>
+                        <td>${item.departmentId || ''}</td>
+                        <td>${item.departmentOrder || ''}</td>
+                        <td>${item.approvalOrder || ''}</td>
+                        <td>${item.approvalId || ''}</td>
+                        <td>${item.lastApprovalId || ''}</td>
+                        <td>${item.isStatus || ''}</td>
+                        <td>${item.createBy || ''}</td>
+                        <td>${item.createAt ? new Date(item.createAt).toLocaleString() : ''}</td>
+                    </tr>`).join('');
+
+                const bodyHtml = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover no-wrap-table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th> Mã nhân viên</th>
+                                    <th> Họ và tên</th>
+                                    <th> Giới tính</th>
+                                    <th> Ngày sinh</th>
+                                    <th> Số CCCD/CMND</th>
+                                    <th> Ngày cấp CCCD</th>
+                                    <th> Nơi cấp CCCD</th>
+                                    <th> Mã số Thuế TNCN</th>
+                                    <th> Số sổ BHXH</th>
+                                    <th> Điện thoại di động</th>
+                                    <th> Email cá nhân</th>
+                                    <th> Địa chỉ thường trú</th>
+                                    <th> Địa chỉ hiện tại</th>
+                                    <th> Tên người liên hệ khẩn cấp</th>
+                                    <th> Mã người liên hệ khẩn cấp</th>
+                                    <th> ID Phòng ban</th>
+                                    <th> ID Chức danh/Vị trí</th>
+                                    <th> Mã Quản lý trực tiếp</th>
+                                    <th> Email công việc</th>
+                                    <th> Ngày vào công ty</th>
+                                    <th> Ngày chính thức</th>
+                                    <th> Loại Hợp đồng hiện tại</th>
+                                    <th> Ngày hết hạn HĐ</th>
+                                    <th> Tình trạng làm việc</th>
+                                    <th> Mức Lương cơ bản hiện tại</th>
+                                    <th> Số Tài khoản Ngân hàng</th>
+                                    <th> Tên Ngân hàng</th>
+                                    <th> Phương thức thanh toán</th>
+                                    <th> Số lượng người phụ thuộc</th>
+                                    <th> GroupId</th>
+                                    <th> Thứ tự</th>
+                                    <th> Ngày tạo</th>
+                                    <th> Người tạo</th>
+                                    <th> IsActive</th>
+                                    <th> Người duyệt</th>
+                                    <th> Ngày duyệt</th>
+                                    <th> Phòng ban duyệt</th>
+                                    <th> Phòng ban duyệt tiếp</th>
+                                    <th> Thứ tự phòng ban</th>
+                                    <th> Thứ tự duyệt</th>
+                                    <th> ID duyệt</th>
+                                    <th> Id duyệt cuối</th>
+                                    <th> Trạng thái</th>
+                                    <th>Nguoi thao tác</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>${tableRows}</tbody>
+                        </table>
+                    </div>`;
+
+                showGlobalModal("Lịch sử", bodyHtml, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+            } else {
+                showGlobalModal("Lịch sử", `<div class="text-center text-muted">Không có lịch sử</div>`, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+            }
+        } catch (err) {
+            showGlobalModal("Lịch sử", `<div class="text-center text-danger">Lỗi khi tải dữ liệu lịch sử</div>`, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+        }
+    }
+    async function xemChiTietInfor(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId
+        // Hàm safe value
+        const val = (v) => (v === null || v === undefined || v === "" ? "—" : v);
+
+        try {
+            let [profileRes, salaryRes, contractRes] = await Promise.all([
+            $.ajax({
+                url: `/api/NhanSuEmployeeProfile/GetDetail?id=${id}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            }).catch(err => ({ error: err })),
+
+            $.ajax({
+                url: `/api/NhanSuSalaryHistory/GetByVM?groupId=${groupId}`,
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                data: JSON.stringify({
+                    employeeId: id,
+                    effectiveDate: null,
+                    basicSalary: 0,
+                    totalFixedAllowance: 0,
+                    allowanceDetails: "",
+                    decisionCode: ""
+                })
+            }).catch(err => ({ error: err })),
+
+            $.ajax({
+                url: `/api/NhanSuContract/GetByVM?groupId=${groupId}`,
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                data: JSON.stringify({
+                    employeeId: id,
+                    contractTypeId: "",
+                    contractCode: "",
+                    contractName: "",
+                    signingDate: null,
+                    effectiveDate: null,
+                    expirationDate: null,
+                    contractStatusId: "",
+                    contractSalary: 0,
+                    durationMonths: 0,
+                    filePath: "",
+                    isESignRequired: false,
+                    lastRenewalDate: null,
+                    notes: "",
+                    alertDate: null,
+                    signerId: "",
+                    signerPosition: ""
+                })
+            }).catch(err => ({ error: err }))
+        ]);
+
+        // ===== KIỂM TRA LỖI =====
+        if (profileRes.error) return showErrorModal("Lỗi tải thông tin nhân viên");
+        if (salaryRes.error) return showErrorModal("Lỗi tải thông tin lương");
+        if (contractRes.error) return showErrorModal("Lỗi tải thông tin hợp đồng");
+
+        const p = profileRes?.data || [];
+        const s = salaryRes?.data[0] || [];
+        const c = contractRes?.data[0] || [];
+
+        // Render lương
+        let salaryHtml = "";
+        if (salaryRes?.data.length === 0) {
+            salaryHtml = `
+                <div class="text-center text-muted">Không có dữ liệu lương</div>
+            `;
+        } else {
+            salaryHtml = `
+                <div class="row mb-3">
+                    <div class="col-md-6"><strong>Lương cơ bản:</strong><br/>${s.basicSalary?.toLocaleString("vi-VN") || "0"}</div>
+                    <div class="col-md-6"><strong>Phụ cấp cố định:</strong><br/>${s.totalFixedAllowance?.toLocaleString("vi-VN") || "0"}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><strong>Chi tiết phụ cấp:</strong><br/>${val(s.allowanceDetails)}</div>
+                </div>
+            `;
+        }
+
+        let contractHtml = "";
+        if (salaryRes?.data.length === 0) {
+            contractHtml = `<tr><td colspan="5" class="text-center text-muted">Không có dữ liệu hợp đồng</td></tr>`;
+        } else {
+            contractHtml = `
+                <tr>
+                    <td>${val(c.contractCode)}</td>
+                    <td>${val(c.contractName)}</td>
+                    <td>${formatVNDate(c.effectiveDate)}</td>
+                    <td>${formatVNDate(c.expirationDate)}</td>
+                    <td>${c.contractSalary?.toLocaleString("vi-VN") || "0"}</td>
+                </tr>
+            `
+        }
+
+        var bodyHtml =`<div class="container py-2">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-3 text-center">
+                                <img src="/assets/images/user.png"
+                                     class="rounded-circle mb-3" width="150" height="150" />
+                                <h5 class="fw-bold mb-1">${val(p.fullName)}</h5>
+                                <span class="text-muted">${val(p.employeeId)}</span>
+                            </div>
+
+                            <div class="col-md-9">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Mã nhân viên:</label>
+                                        <div><span id="info-employeeId">${val(p.employeeId)}</span></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Họ và tên:</label>
+                                        <div><span id="info-fullName">${val(p.fullName)}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Giới tính:</label>
+                                        <div><span id="info-gender">${val(p.gender)}</span></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Ngày sinh:</label>
+                                        <div><span id="info-dateOfBirth">${formatVNDate(p.dateOfBirth)}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Số CCCD/CMND:</label>
+                                        <div><span id="info-identityCardNumber">${val(p.identityCardNumber)}</span></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Ngày cấp CCCD:</label>
+                                        <div><span id="info-identityCardIssueDate">${formatVNDate(p.identityCardIssueDate)}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Nơi cấp CCCD:</label>
+                                        <div><span id="info-identityCardIssuePlace">${val(p.identityCardIssuePlace)}</span></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Phòng ban:</label>
+                                        <div><span id="info-departmentFrId">${val(p.departmentFrId)}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">SĐT:</label>
+                                        <div><span id="info-mobilePhone">${val(p.mobilePhone)}</span></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Email cá nhân:</label>
+                                        <div><span id="info-personalEmail">${val(p.personalEmail)}</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label class="fw-bold">Email công việc:</label>
+                                        <div><span id="info-workEmail">${val(p.workEmail)}</span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Tabs -->
+                <ul class="nav nav-tabs" id="profileTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tab-detail-info">Thông tin chung</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tab-detail-contract">Hợp đồng lao động</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tab-detail-salary">Lương & Phụ cấp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tab-detail-files">Tài liệu</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content p-4 bg-white border border-top-0 rounded-bottom shadow-sm">
+                    <!-- Tab 1 -->
+                      <div class="tab-pane fade show active" id="tab-detail-info">
+                          <div class="d-flex align-items-center mb-3">
+                                <h5 class="fw-bold mb-0 me-2">Thông tin chung</h5>
+                                <button type="button"
+                                        class="btn btn-light border btn-sm rounded-circle shadow-sm"
+                                        id="btnEditInfor"
+                                        onclick='EditInfor(${JSON.stringify(p)})'
+                                        title="Chỉnh sửa thông tin">
+                                    <i class="bi bi-pencil text-primary"></i>
+                                </button>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Mã số Thuế TNCN:</strong><br/>
+                                    <span id="info-taxCode">${val(p?.taxCode)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Số sổ BHXH:</strong><br/>
+                                    <span id="info-socialInsuranceNumber">${val(p?.socialInsuranceNumber)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Địa chỉ thường trú:</strong><br/>
+                                    <span id="info-permanentAddress">${val(p?.permanentAddress)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Địa chỉ hiện tại:</strong><br/>
+                                    <span id="info-currentAddress">${val(p?.currentAddress)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Người liên hệ khẩn cấp:</strong><br/>
+                                    <span id="info-emergencyContactName">${val(p?.emergencyContactName)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>SĐT liên hệ khẩn cấp:</strong><br/>
+                                    <span id="info-emergencyContactPhone">${val(p?.emergencyContactPhone)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Mã quản lý trực tiếp:</strong><br/>
+                                    <span id="info-managerId">${val(p?.managerId)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>ID Chức danh/Vị trí:</strong><br/>
+                                    <span id="info-chucVuId">${val(p?.chucVuId)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Ngày vào công ty:</strong><br/>
+                                    <span id="info-hireDate">${val(p?.hireDate)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Loại HĐ hiện tại:</strong><br/>
+                                    <span id="info-currentContractType">${val(p?.currentContractType)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Ngày hết hạn HĐ:</strong><br/>
+                                    <span id="info-contractExpirationDate">${val(p?.contractExpirationDate)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Tình trạng làm việc:</strong><br/>
+                                    <span id="info-workStatusId">${val(p?.workStatusId)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Mức lương cơ bản hiện tại:</strong><br/>
+                                    <span id="info-currentBasicSalary">${val(p?.currentBasicSalary)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Số người phụ thuộc:</strong><br/>
+                                    <span id="info-taxDependentsCount">${val(p?.taxDependentsCount)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Số tài khoản Ngân hàng:</strong><br/>
+                                    <span id="info-bankAccountNumber">${val(p?.bankAccountNumber)}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <strong>Ngày chính thức:</strong><br/>
+                                    <span id="info-officialDate">${val(p?.officialDate)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Tên Ngân hàng:</strong><br/>
+                                    <span id="info-bankName">${val(p?.bankName)}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Phương thức thanh toán:</strong><br/>
+                                    <span id="info-salaryPaymentMethod">${val(p?.salaryPaymentMethod)}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-3" id="btn-tab1"></div>
+
+                    </div>
+
+                    <!-- Tab 2 -->
+                    <div class="tab-pane fade" id="tab-detail-contract">
+                        <h5 class="fw-bold mb-3">Hợp đồng lao động</h5>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Mã HĐ</th>
+                                    <th>Loại HĐ</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày kết thúc</th>
+                                    <th>Lương cơ bản</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${contractHtml}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tab 3 -->
+                    <div class="tab-pane fade" id="tab-detail-salary">
+                        <h5 class="fw-bold mb-3">Lương & Phụ cấp</h5>
+                        ${salaryHtml}
+                    </div>
+
+                    <!-- Tab 4 -->
+                    <div class="tab-pane fade" id="tab-detail-files">
+                        <h5 class="fw-bold mb-3">Tài liệu đính kèm</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Sơ yếu lý lịch.pdf
+                                <button class="btn btn-sm btn-outline-primary">Tải xuống</button>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Hợp đồng lao động HD001.pdf
+                                <button class="btn btn-sm btn-outline-primary">Tải xuống</button>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Bằng đại học.jpg
+                                <button class="btn btn-sm btn-outline-primary">Tải xuống</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+            showGlobalModal("Hồ sơ nhân viên", bodyHtml, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+
+            $('#profileTabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        } catch (err) {
+            showGlobalModal("Hồ sơ nhân viên", `<div class="text-center text-danger">Lỗi khi tải dữ liệu lịch sử</div>`, `<button class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`);
+        }
+    }
+
+
+    // Helper chuyển date -> input value (YYYY-MM-DD)
+    function formatDateInput(date) {
+        if (!date) return "";
+        const d = new Date(date);
+        if (isNaN(d)) return "";
+        return d.toISOString().split('T')[0];
+    }
+    function toPascalCase(str) {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    function toCamelCaseLower(str) {
+        if (!str) return str;
+        return str.charAt(0).toLowerCase() + str.slice(1);
+    }
+
+
+
+    // Hàm gọi API cập nhật (bạn có thể thay endpoint / xử lý theo project)
+    async function SaveInforToServer(updated,isEdit = true) {
+        try {
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const groupId = resUser.userInfor.groupId;
+            const userName = resUser.userInfor.userName;
+
+            updated.GroupId= groupId;
+            updated.CreateBy= userName,
+            updated.IsActive = isEdit && (updated.isActive !== undefined) ? updated.isActive : 0;
+
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/Create?isEdit=${isEdit}`,
+                method: "POST",
+                contentType: "application/json",
+                headers: { Authorization: `Bearer ${token}` },
+                data: JSON.stringify(updated)
+            });
+
+            return res;
+        } catch (err) {
+            console.error("SaveInforToServer error:", err);
+            return { success: false, message: "Lỗi server" };
+        }
+    }
+    
+    // backup nguyên HTML để restore khi Cancel
+    const originalHtml = {};
+    
+    // Hàm chính: replace toàn bộ info -> input/select (mở rộng đầy đủ các field)
+    async function EditInfor(data) {
+        if (!data) return;
+
+        // Lấy token + groupId để load các select
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+
+        // helper load select giống modal
+        async function loadSelect(url, selectedValue, textField) {
+            let html = `<option value="">-- Chọn --</option>`;
+            try {
+                const res = await $.ajax({
+                    url: `${url}?groupId=${groupId}`,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    }
+                });
+                if (res.success && Array.isArray(res.data)) {
+                    res.data.forEach(item => {
+                        html += `<option value="${item.id}" ${selectedValue == item.id ? 'selected' : ''}>${item[textField]}</option>`;
+                    });
+                }
+            } catch (e) {
+                html += `<option value="">Lỗi tải dữ liệu</option>`;
+            }
+            return html;
+        }
+
+        // pre-load select options async
+        const optDepartment = await loadSelect("/api/Department/GetAll", data.departmentFrId, "deptName");
+        const optChucVu = await loadSelect("/api/ChucVu/GetAll", data.chucVuId, "chucVu");
+        const optManager = await loadSelect("/api/NhanSuEmployeeProfile/GetAll", data.managerId, "fullName");
+        const optContractType = await loadSelect("/api/NhanSuDMContractType/GetAll", data.currentContractType, "contractTypeName");
+        const optWorkStatus = await loadSelect("/api/NhanSuDMWorkStatu/GetAll", data.workStatusId, "workStatusName");
+
+        // Danh sách fields cần replace — đầy đủ
+        const fields = [
+            "id","employeeId", "fullName", "gender", "dateOfBirth",
+            "identityCardNumber", "identityCardIssueDate", "identityCardIssuePlace",
+            "taxCode", "socialInsuranceNumber",
+            "permanentAddress", "currentAddress",
+            "emergencyContactName", "emergencyContactPhone",
+            "departmentFrId", "chucVuId", "managerId",
+            "workEmail", "hireDate", "officialDate",
+            "currentContractType", "contractExpirationDate", "workStatusId",
+            "currentBasicSalary", "taxDependentsCount",
+            "bankAccountNumber", "bankName", "salaryPaymentMethod",
+            "mobilePhone", "personalEmail"
+        ];
+
+        // map tên info -> cách tạo input (selects handled separately)
+        const createInput = (field) => {
+            // date fields
+            if (/(date|Date|DOB|IssueDate|hireDate|officialDate|contractExpirationDate)/i.test(field)) {
+                return `<input id="input-${toPascalCase(field)}" type="date" class="form-control mb-2" value="${formatDateInput(data[field])}">`;
+            }
+            // number fields
+            if (/(salary|Count|count|TaxDependents)/i.test(field) || field === "currentBasicSalary" || field === "taxDependentsCount") {
+                return `<input id="input-${toPascalCase(field)}" type="number" class="form-control mb-2" value="${data[field] != null ? data[field] : ''}">`;
+            }
+            // email
+            if (/email/i.test(field) || field === "personalEmail" || field === "workEmail") {
+                return `<input id="input-${toPascalCase(field)}" type="email" class="form-control mb-2" value="${data[field] || ''}">`;
+            }
+            // default text
+            return `<input id="input-${toPascalCase(field)}" type="text" class="form-control mb-2" value="${data[field] || ''}">`;
+        };
+
+        // Replace: nếu tồn tại #info-<field> trên DOM thì replaceWith input/select
+        for (const f of fields) {
+            const sel = `#info-${f}`;
+            if ($(sel).length > 0) {
+                originalHtml[toPascalCase(f)] = $(sel).prop("outerHTML");
+
+                // some special: selects
+                if (f === "departmentFrId") {
+                    $(sel).replaceWith(`<select id="select-${toPascalCase(f)}" class="form-control mb-2">${optDepartment}</select>`);
+                } else if (f === "chucVuId") {
+                    $(sel).replaceWith(`<select id="select-${toPascalCase(f)}" class="form-control mb-2">${optChucVu}</select>`);
+                } else if (f === "managerId") {
+                    $(sel).replaceWith(`<select id="select-${toPascalCase(f)}" class="form-control mb-2">${optManager}</select>`);
+                } else if (f === "currentContractType") {
+                    $(sel).replaceWith(`<select id="select-${toPascalCase(f)}" class="form-control mb-2">${optContractType}</select>`);
+                } else if (f === "workStatusId") {
+                    $(sel).replaceWith(`<select id="select-${toPascalCase(f)}" class="form-control mb-2">${optWorkStatus}</select>`);
+                } else if (f === "gender") {
+                    // gender as select
+                    $(sel).replaceWith(`
+                        <select id="input-Gender" class="form-control mb-2">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="Nam" ${data.gender === 'Nam' ? 'selected' : ''}>Nam</option>
+                            <option value="Nữ" ${data.gender === 'Nữ' ? 'selected' : ''}>Nữ</option>
+                            <option value="Khác" ${data.gender === 'Khác' ? 'selected' : ''}>Khác</option>
+                        </select>
+                    `);
+                } else if (f === "salaryPaymentMethod") {
+                    // use select with 2 options (Chuyển khoản / Tiền mặt)
+                    $(sel).replaceWith(`
+                        <select id="input-SalaryPaymentMethod" class="form-control mb-2">
+                            <option value="">-- Chọn phương thức --</option>
+                            <option value="Chuyển khoản" ${data.salaryPaymentMethod == "Chuyển khoản" ? 'selected' : ''}>Chuyển khoản</option>
+                            <option value="Tiền mặt" ${data.salaryPaymentMethod == "Tiền mặt" ? 'selected' : ''}>Tiền mặt</option>
+                        </select>
+                    `);
+                } else {
+                    $(sel).replaceWith(createInput(f));
+                }
+            }
+        }
+
+        $('#input-EmployeeId').prop('disabled', true);
+
+        // Thêm 2 nút SAVE + CANCEL ở cuối (nếu chưa có vùng chứa, tạo 1 vùng)
+        $('#btn-tab1').html(`<div class="col-md-12 mt-3" id="edit-action-buttons">
+                    <input id="input-Id" type="hidden" value="${data.id || ''}">
+                    <button class="btn btn-success me-2" id="btnSaveEdit" onclick="LuuEditInfor()">
+                        <i class="bi bi-check-lg"></i> Lưu
+                    </button>
+                    <button class="btn btn-secondary" id="btnCancelEdit" onclick="huyEditInfor()">
+                        <i class="bi bi-x-lg"></i> Hủy
+                    </button>
+               </div>
+            `);
+
+        // Save handler: thu thập tất cả field (cùng tên như modal)
+        
+    }
+
+    async function LuuEditInfor(){
+        if (!validateFormInfor())
+               return;
+            const updated = {
+                Id: $('#input-Id').val() || "",
+                EmployeeId: $('#input-EmployeeId').val() || "",
+                FullName: $('#input-FullName').val() || "",
+                Gender: $('#input-Gender').val() || "",
+                DateOfBirth: $('#input-DateOfBirth').val() || null,
+                IdentityCardNumber: $('#input-IdentityCardNumber').val() || "",
+                IdentityCardIssueDate: $('#input-IdentityCardIssueDate').val() || null,
+                IdentityCardIssuePlace: $('#input-IdentityCardIssuePlace').val() || "",
+                TaxCode: $('#input-TaxCode').val() || "",
+                SocialInsuranceNumber: $('#input-SocialInsuranceNumber').val() || "",
+                MobilePhone: $('#input-MobilePhone').val() || "",
+                PersonalEmail: $('#input-PersonalEmail').val() || "",
+                PermanentAddress: $('#input-PermanentAddress').val() || "",
+                CurrentAddress: $('#input-CurrentAddress').val() || "",
+                EmergencyContactName: $('#input-EmergencyContactName').val() || "",
+                EmergencyContactPhone: $('#input-EmergencyContactPhone').val() || "",
+                DepartmentFrId: $('#select-DepartmentFrId').val() || "",
+                ChucVuId: $('#select-ChucVuId').val() || "",
+                ManagerId: $('#select-ManagerId').val() || "",
+                WorkEmail: $('#input-WorkEmail').val() || "",
+                HireDate: $('#input-HireDate').val() || null,
+                OfficialDate: $('#input-OfficialDate').val() || null,
+                CurrentContractType: $('#select-CurrentContractType').val() || "",
+                ContractExpirationDate: $('#input-ContractExpirationDate').val() || null,
+                WorkStatusId: $('#select-WorkStatusId').val() || "",
+                CurrentBasicSalary: $('#input-CurrentBasicSalary').val() || 0.0,
+                BankAccountNumber: $('#input-BankAccountNumber').val() || "",
+                BankName: $('#input-BankName').val() || "",
+                SalaryPaymentMethod: $('#input-SalaryPaymentMethod').val() || "",
+                TaxDependentsCount: $('#input-TaxDependentsCount').val() || 0,
+                GroupId:"",
+                Ordinarily: 0,
+                CreateBy:"",
+                CreateAt: new Date().toISOString(),
+                ApprovalUserId: "",
+                DateApproval: null,
+                ApprovalDept: "",
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: "",
+                IsActive: 0,
+            };
+
+            // gọi API lưu (dùng hàm helper)
+            const res = await SaveInforToServer(updated, true);
+            if (res?.success) {
+                $('#btn-tab1').html("");
+                showToastSuccess("Cập nhật thành công");
+                // Ẩn nút save/cancel
+                $("#edit-action-buttons").html("");
+                // Thay thế input/select bằng span chứa giá trị cập nhật
+                for (const key in originalHtml) {
+                    const selEdit = `#input-${toPascalCase(key)}`;
+                    const selectEdit = `#select-${toPascalCase(key)}`;
+                    // Replace lại giao diện gốc
+                    if ($(selEdit).length > 0) {
+                        $(selEdit).replaceWith(originalHtml[key]);
+                        // Sau khi replace, cập nhật giá trị mới
+                        setTimeout(() => {
+                            $(`#input-${toPascalCase(key)}`).val(updated[key] ?? "");
+                        }, 0);
+                    }
+                    if ($(selectEdit).length > 0) {
+                        $(selectEdit).replaceWith(originalHtml[key]);
+                        setTimeout(() => {
+                            $(`#select-${toPascalCase(key)}`).val(updated[key] ?? "");
+                        }, 0);
+                    }
+                }
+            } else {
+                showToastError(res?.message || "Lưu thất bại");
+            }
+    }
+      
+    function huyEditInfor(){
+            $('#btn-tab1').html("");
+            // replace each input-* back to original
+            for (const key in originalHtml) {
+                const selEdit = `#input-${toPascalCase(key)}`;
+                const selectEdit = `#select-${toPascalCase(key)}`;
+                if ($(selEdit).length > 0) {
+                    $(selEdit).replaceWith(originalHtml[key]);
+                }
+                if ($(selectEdit).length > 0) {
+                    $(selectEdit).replaceWith(originalHtml[key]);
+                }
+            }
+            // remove action buttons
+            $("#edit-action-buttons").html("");
+    }
+
+
+
+    async function duyetInfor(id) {
+        if (!confirm('Bạn có chắc chắn muốn duyệt ')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/Duyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Duyệt thành công !");
+                loadDataInfor();
+            } else {
+                showToastError(res.message || "Duyệt thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi duyệt");
+        }
+    }
+    async function huyDuyetInfor(id) {
+        if (!confirm('Bạn có chắc chắn muốn hủy duyẹt !')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/HuyDuyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Hủy duyệt thành công");
+                loadDataInfor();
+            } else {
+                showToastError(res.message || "Hủy duyệt thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi hủy duyệt");
+        }
+    }
+    async function chinhSuaInfor(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/GetById?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success && res.data) {
+                showModalTaoMoiInfor(true, res.data);
+            } else {
+                showToastError(res.message || "Không lấy được dữ liệu");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi chỉnh sửa ");
+        }
+    }
+    async function xoaInfor(id) {
+        if (!confirm('Bạn chác chắn muốn xóa ?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NhanSuEmployeeProfile/${id}`,
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Xóa thành công !");
+                loadDataInfor();
+            } else {
+                showToastError(res.message || "Xóa thất bại");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi xóa");
+        }
+    }
+    function showHuongDanNghiepVuInfor() {
+        const headerHtml =
+            `<div><div class="card-header">
+                <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                <form id="SearchInfo">
+                    <select id="ChiNhanhInfo" class="form-control">
+                        <option value="">-- Chọn danh mục --</option>
+                    </select>
+                </form>
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm nav btn-group">
+                        <a data-toggle="tab" href="#tab-hdsd" class="btn-shadow active btn btn-primary">Hướng dẫn sử dụng </a>
+                        <a data-toggle="tab" href="#tab-ttd" class="btn-shadow  btn btn-primary">Thứ tự duyệt</a>
+                    </div>
+                </div>
+            </div>`;
+
+        const tabsHtml = `
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane tabs-animation fade active show" id="tab-hdsd" role="tabpanel">
+                        <div class="p-3">Nội dung hướng dẫn sư dụng... </div>
+                    </div>
+                    <div class="tab-pane tabs-animation fade" id="tab-ttd" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="mb-3">
+                                        <div role="group" class="btn-group-sm nav btn-group">
+                                            <a data-toggle="tab" href="#tab-them" class="btn-pill pl-3 btn btn-warning active show">Thêm</a>
+                                            <a data-toggle="tab" href="#tab-sua" class="btn btn-warning show">S?a</a>
+                                            <a data-toggle="tab" href="#tab-xoa" class="btn-pill pr-3 btn btn-warning show">Xóa</a>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="tab-them" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-them"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-them">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane show" id="tab-sua" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-sua"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-sua">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane show" id="tab-xoa" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <ul class="list-group" id="ul-xoa"></ul>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body" id="content-xoa">Chọn phòng ban để xem chi tiết</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        const bodyHtml = headerHtml + tabsHtml;
+        const footerHtml = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Ðóng</button>`;
+        showGlobalModal("Thông tin nghi?p v?", bodyHtml, footerHtml);
+
+        getJwtToken().then(function (resUser) {
+            const groupId = resUser.userInfor.groupId;
+            $.ajax({
+                url: `/api/caidatsoluotduyet/GetChiNhanhsForCompanyId?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                const $ddl = $('#ChiNhanhInfo');
+                $ddl.empty().append('<option value="">--- Chọn danh mục ---</option>');
+                if (res.success && Array.isArray(res.data)) {
+                    res.data.forEach(function (item) {
+                        $ddl.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`);
+                    });
+                }
+            }).fail(function (err) {
+                $('#ChiNhanhInfo').empty().append('<option value="">--- Lỗi tải danh mục ---</option>');
+            });
+            $.ajax({
+                url: `/api/caidatphongbanduyet/ListDept?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                let htmlUl = "";
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    var stt =1 ;
+                    res.data.forEach(function (item, idx) {
+                        htmlUl += `<li class="list-group-item" data-idx="${idx}" style="cursor:pointer;">
+                            <b>${stt + '.' + item.deptName}</b><br/>
+                            <span>Trạng thái : : ${item.isActive ? "Hoạt động" : "--- Ngưng ---"}</span>
+                        </li>`;
+                        stt++;
+                    });
+                } else {
+                    htmlUl = `<li class="list-group-item text-muted">không có dữ liêụ phòng ban.</li>`;
+                }
+                $('#ul-them').html(htmlUl);
+                $('#ul-sua').html(htmlUl);
+                $('#ul-xoa').html(htmlUl);
+
+                function bindDeptClick(tab, data, groupId) {
+                    const permissionMap = {
+                        'them': '5fe86889-5019-4cca-bec7-6a8baad3ed14',
+                        'sua': '3488c9e9-3542-4340-b831-61a1621d73d7',
+                        'xoa': 'ef236725-edd1-43ae-95b1-5d6fcdf41829'
+                    };
+                    $(`#ul-${tab}`).off('click').on('click', 'li', function () {
+                        const idx = $(this).data('idx');
+                        const dept = data[idx];
+                        let content = '';
+                        if (dept) {
+                            $.ajax({
+                                  url: `/api/caidatsoluotduyet/ListStepSetting?groupId=${groupId}&majorId=523f812e-5bf5-4784-bbf4-d986816796d1&departmentId=${dept.id || ''}&permissionId=${permissionMap[tab]}`,
+                                method: "GET",
+                                headers: {
+                                     "Authorization": "Bearer " + resUser.token
+                                 }
+                            }).done(function (res) {
+                                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                                    let stepsHtml = `<h5>${dept.deptName}</h5>`;
+                                    stepsHtml += `<ul class="list-group mb-2">`;
+                                    res.data.forEach((step, i) => {
+                                        stepsHtml += `<li class="list-group-item">
+                                            <b>Bu?c ${i + 1}:</b> ${step.content || ''}
+                                            <span class="badge badge-info ml-2">${step.isStatus || ''}</span>
+                                        </li>`;
+                                    });
+                                    stepsHtml += `</ul>`;
+                                    content = stepsHtml;
+                                } else {
+                                    content = `<div class="text-muted">không có dữ liêụ duyệt.</div>`;
+                                }
+                                $(`#content-${tab}`).html(content);
+                            }).fail(function (err) {
+                                $(`#content-${tab}`).html('<div class="text-danger">Lỗi khi tải dữ liêụ duyệt.</div>');
+                            });
+                        } else {
+                            $(`#content-${tab}`).html("không có dữ liêụ chi tiết.");
+                        }
+                        $(`#ul-${tab} li`).removeClass('active');
+                        $(this).addClass('active');
+                    });
+                }
+                bindDeptClick('them', res.data, groupId);
+                bindDeptClick('sua', res.data, groupId);
+                bindDeptClick('xoa', res.data, groupId);
+            }).fail(function (err) {
+                $('#ul-them, #ul-sua, #ul-xoa').html('<li class="list-group-item text-danger">Lỗi khi tải dữ liệu phòng ban.</li>');
+                $('#content-them, #content-sua, #content-xoa').html('');
+            });
+        });
+        if (window.$ && $.fn.select2) {
+            $('#ChiNhanhInfo').select2();
+        }
+        $('#ChiNhanhInfo').off('change').on('change', function () {
+            if (typeof onSelectChange === 'function') {
+                onSelectChange($(this).val());
+            }
+        });
+    }
+
+</script>
+

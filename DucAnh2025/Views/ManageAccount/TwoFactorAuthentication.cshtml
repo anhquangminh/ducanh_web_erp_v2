@@ -1,0 +1,52 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model TwoFactorAuthenticationViewModel
+@{
+    ViewData["Title"] = "Two-factor authentication (2FA)";
+}
+<h3>Two-factor authentication (2FA)</h3>
+@if (TempData["StatusMessage"] != null)
+{
+    <div class="alert alert-info">@TempData["StatusMessage"]</div>
+}
+@if (Model.Is2faEnabled)
+{
+    if (Model.RecoveryCodesLeft == 0)
+    {
+        <div class="alert alert-danger">
+            <strong>You have no recovery codes left.</strong>
+            <p>You must <a href="@Url.Action("GenerateRecoveryCodes")">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+        </div>
+    }
+    else if (Model.RecoveryCodesLeft == 1)
+    {
+        <div class="alert alert-danger">
+            <strong>You have 1 recovery code left.</strong>
+            <p>You can <a href="@Url.Action("GenerateRecoveryCodes")">generate a new set of recovery codes</a>.</p>
+        </div>
+    }
+    else if (Model.RecoveryCodesLeft <= 3)
+    {
+        <div class="alert alert-warning">
+            <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
+            <p>You should <a href="@Url.Action("GenerateRecoveryCodes")">generate a new set of recovery codes</a>.</p>
+        </div>
+    }
+    if (Model.IsMachineRemembered)
+    {
+        <form asp-action="ForgetBrowser" method="post" style="display:inline-block">
+            <button type="submit" class="btn btn-primary">Forget this browser</button>
+        </form>
+    }
+    <a href="@Url.Action("Disable2fa")" class="btn btn-primary">Disable 2FA</a>
+    <a href="@Url.Action("GenerateRecoveryCodes")" class="btn btn-primary">Reset recovery codes</a>
+}
+<h4>Authenticator app</h4>
+@if (!Model.HasAuthenticator)
+{
+    <a href="@Url.Action("EnableAuthenticator")" class="btn btn-primary">Add authenticator app</a>
+}
+else
+{
+    <a href="@Url.Action("EnableAuthenticator")" class="btn btn-primary">Set up authenticator app</a>
+    <a href="@Url.Action("ResetAuthenticator")" class="btn btn-primary">Reset authenticator app</a>
+}

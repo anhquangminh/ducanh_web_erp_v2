@@ -1,0 +1,81 @@
+﻿
+<div class="container-fluid">
+    <div class="app-inner-layout__top-pane p-0 bg-link">
+        <div class="pane-left">
+            <div class="mobile-app-menu-btn"><button type="button" class="hamburger hamburger--elastic"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button></div>
+            <div class="pane-right ">
+                <div class="page-title-subheading opacity-10">
+                    <nav class="" aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background:none!important;padding-bottom:0px">
+                            <li class="breadcrumb-item"><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a>Công ty Đức Anh</a></li>
+
+                            <li class="breadcrumb-item"><a>Giao việc</a></li>
+
+                            <li class="active breadcrumb-item" aria-current="page">
+                                Đánh giá
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3 p-2">
+        <div class="card-header"><h3 class="card-title">Danh sách</h3></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover w-100" id="table_danhgia">
+                    <thead>
+                        <tr>
+                            <th style="width:1%">STT</th>
+                            <th>Tên công việc</th>
+                            <th>Nội dung công việc</th>
+                            <th>Người thực hiện</th>
+                            <th>Trạng thái</th>
+                            <th>Đánh giá</th>
+                            <th>Ghi chú</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công việc</th>
+                            <th>Nội dung công việc</th>
+                            <th>Người thực hiện</th>
+                            <th>Trạng thái</th>
+                            <th>Đánh giá</th>
+                            <th>Ghi chú</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-body, .table-responsive {
+        overflow-x: auto;
+    }
+
+    #table_danhgia {
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+        table-layout: auto !important;
+    }
+
+    /* Căn giữa modal */
+    #globalModal .modal-dialog {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<script src="~/js/QLNV/qlnv_danhgia.js?v=2"></script>
+
+

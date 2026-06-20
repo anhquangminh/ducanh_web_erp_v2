@@ -1,0 +1,16 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model EnableAuthenticatorViewModel
+@{
+    ViewData["Title"] = "Enable Authenticator";
+}
+<h3>Configure authenticator app</h3>
+<p>Scan the QR code or enter this key <kbd>@Model.SharedKey</kbd> into your authenticator app.</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?data=@Model.AuthenticatorUri&size=200x200" alt="QR Code" />
+<form asp-action="EnableAuthenticator" method="post">
+    <div class="form-group">
+        <label asp-for="Code"></label>
+        <input asp-for="Code" class="form-control" autocomplete="off" />
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Verify</button>
+</form>

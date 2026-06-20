@@ -1,0 +1,503 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG ĐƯỜNG ỐNG VÀ PHỤ KIỆN HỆ THỐNG CẤP NƯỚC SẠCH </h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Loại cấu kiện </th>
+                            <th>Tổng khối lượng </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Loại cấu kiện </th>
+                            <th>Tổng khối lượng </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG ĐƯỜNG ỐNG VÀ PHỤ KIỆN HỆ THỐNG CẤP NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 01", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "5. THKL ống + P.Kiện", "5.THKL ống+P.Kiện.xlsx");
+    }
+    $(function () {
+        loadData();
+    });
+
+    async function loadData() {
+        // Gọi song song cả hai API
+        const [data1, data2] = await Promise.all([get1_5(), get2_5()]);
+
+        // Lấy tất cả tuyến đường động từ cả hai bảng
+        let allTuyenDuong = [];
+        if (Array.isArray(data1) && data1.length > 0) {
+            allTuyenDuong = allTuyenDuong.concat(
+                ...data1.map(row => Object.keys(row)).flat()
+            );
+        }
+        if (Array.isArray(data2) && data2.length > 0) {
+            allTuyenDuong = allTuyenDuong.concat(
+                ...data2.map(row => Object.keys(row)).flat()
+            );
+        }
+
+        // Lọc ra các tuyến đường động (bỏ các trường cố định)
+        const staticFields = [
+            'stt', 'id_ChiNhanh', 'tenChiNhanh', 'id_HangMucCongViec', 'hangMucCongViec',
+            'id_LoaiCauKien', 'loaiCauKien', 'id_HangMucKhoiLuong', 'hangMucKhoiLuong',
+            'id_LoaiKhoiLuong', 'loaiKhoiLuong', 'tenCongtac', 'donVi', 'tongKhoiLuong'
+        ];
+        let uniqueTuyenDuong = [...new Set(
+            allTuyenDuong.filter(td => !staticFields.includes(td))
+        )];
+        uniqueTuyenDuong.sort();
+        addDynamicColumns(uniqueTuyenDuong);
+
+        // Gộp hai bảng, duy nhất theo id_ChiNhanh + id_LoaiCauKien
+        const mergedMap = new Map();
+        [...data1, ...data2].forEach(item => {
+            const key = `${item.id_ChiNhanh}|${item.id_LoaiCauKien}`;
+            if (!mergedMap.has(key)) {
+                // Clone object để không ảnh hưởng dữ liệu gốc
+                mergedMap.set(key, { ...item });
+            } else {
+                const exist = mergedMap.get(key);
+                // Cộng dồn các trường tuyến đường động
+                uniqueTuyenDuong.forEach(td => {
+                    exist[td] = (parseFloat(exist[td]) || 0) + (parseFloat(item[td]) || 0);
+                });
+                // Cộng dồn tổng khối lượng
+                exist.tongKhoiLuong = (parseFloat(exist.tongKhoiLuong) || 0) + (parseFloat(item.tongKhoiLuong) || 0);
+            }
+        });
+        const mergedData = Array.from(mergedMap.values());
+
+         // Tính lại tổng khối lượng theo từng tuyến đường và loại cấu kiện (giống SUMPRODUCT)
+        mergedData.forEach(row => {
+            let tong = 0;
+            uniqueTuyenDuong.forEach(td => {
+                // Tính tổng từ cả data1 và data2 cho từng tổ hợp loaiCauKien và tuyenDuong
+                let sum1 = data1
+                    .filter(x => x.loaiCauKien === row.loaiCauKien && typeof x[td] !== 'undefined')
+                    .reduce((acc, x) => acc + (parseFloat(x[td]) || 0), 0);
+                let sum2 = data2
+                    .filter(x => x.loaiCauKien === row.loaiCauKien && typeof x[td] !== 'undefined')
+                    .reduce((acc, x) => acc + (parseFloat(x[td]) || 0), 0);
+                let total = sum1 + sum2;
+                row[td] = total > 0 ? Math.round(total * 100) / 100 : "0";
+                tong += total;
+            });
+            row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+        });
+
+
+        // Render DataTable
+        const $table = $('#table_data');
+        // Cấu hình cột cố định
+        let columns = [
+            { data: 'stt', className: 'text-center align-middle', width: '1%' },
+            { data: 'tenChiNhanh', className: 'align-middle' },
+            { data: 'loaiCauKien', className: 'align-middle' },
+            { data: 'tongKhoiLuong', className: 'align-middle' },
+        ];
+        // Thêm các cột động
+        uniqueTuyenDuong.forEach(td => {
+            columns.push({
+                data: td,
+                className: 'align-middle',
+                defaultContent: ''
+            });
+        });
+
+        if ($.fn.DataTable.isDataTable($table)) {
+            $table.DataTable().clear().destroy();
+        }
+        $table.DataTable({
+            data: mergedData,
+            columns: columns,
+            autoWidth: false,
+            ordering: true,
+            searching: true,
+            paging: true,
+            pageLength: 10,
+            info: true,
+            language: {
+                lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                zeroRecords: "Không tìm thấy dữ liệu",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoEmpty: "Không có bản ghi nào",
+                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                search: "Tìm kiếm:",
+                paginate: {
+                    first: "Đầu",
+                    last: "Cuối",
+                    next: "Sau",
+                    previous: "Trước"
+                }
+            },
+        });
+    }
+
+    async function get1_5() {
+        try {
+            const resUser = await getJwtToken();
+
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            let dataSet = [];
+            let mappedData = [];
+            let uniqueTuyenDuong = [];
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                // Lấy unique tuyenDuong
+                uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                // Cập nhật header/footer
+                addDynamicColumns(uniqueTuyenDuong);
+
+                // Map dữ liệu
+                mappedData = res.data.map((item, idx) => {
+                    let obj = {
+                        stt: idx + 1,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec || '',
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien || '',
+                        loaiCauKien: item.loaiCauKien || '',
+                        id_HangMucKhoiLuong: item.id_HangMucKhoiLuong || '',
+                        hangMucKhoiLuong: item.hangMucKhoiLuong || '',
+                        id_LoaiKhoiLuong: item.id_LoaiKhoiLuong || '',
+                        loaiKhoiLuong: item.loaiKhoiLuong || '',
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "",
+                    };
+
+                    // Thêm field động
+                    uniqueTuyenDuong.forEach(td => {
+                        obj[td] = "";
+                    });
+
+                    return obj;
+                });
+
+                // Lọc duy nhất theo 5 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.id_HangMucKhoiLuong,
+                        row.id_LoaiKhoiLuong
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo lookup để lưu tổng chieuDaiOngNhua / chieuDaiMOngThep
+                const sumLookup = {};
+                res.data.forEach(item => {
+                    const keyNhua = [
+                        item.id_ChiNhanh,
+                        item.id_LoaiCauKien,
+                        item.tuyenDuong
+                    ].join('|');
+                    sumLookup[keyNhua] = (sumLookup[keyNhua] || 0) + (parseFloat(item.chieuDaiOngNhua) || 0);
+
+                    if (item.id_LoaiCauKienOngThep) {
+                        const keyThep = [
+                            item.id_ChiNhanh,
+                            item.id_LoaiCauKienOngThep,
+                            item.tuyenDuong
+                        ].join('|');
+                        sumLookup[keyThep] = (sumLookup[keyThep] || 0) + (parseFloat(item.chieuDaiMOngThep) || 0);
+                    }
+                });
+
+                // Tạo lookup danhMucCongTacs
+                const tenCongTacLookup = {};
+                danhMucCongTacs.forEach(item => {
+                    const key = [
+                        item.id_HangMucCongViec,
+                        item.id_LoaiCauKien,
+                        item.id_HangMucKhoiLuong,
+                        item.id_LoaiKhoiLuong
+                    ].join('|');
+                    tenCongTacLookup[key] = item;
+                });
+
+                // Gán giá trị vào dataSet
+                dataSet.forEach(row => {
+                    let tong = 0;
+                    uniqueTuyenDuong.forEach(td => {
+                        const keyNhua = [
+                            row.id_ChiNhanh,
+                            row.id_LoaiCauKien,
+                            td
+                        ].join('|');
+                        const keyThep = row.id_LoaiCauKienOngThep
+                            ? [row.id_ChiNhanh, row.id_LoaiCauKienOngThep, td].join('|')
+                            : null;
+
+                        let sum = (sumLookup[keyNhua] || 0) + (keyThep ? (sumLookup[keyThep] || 0) : 0);
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                        tong += sum;
+                    });
+                    const key = [
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.id_HangMucKhoiLuong,
+                        row.id_LoaiKhoiLuong
+                    ].join('|');
+                    if (tenCongTacLookup[key]) {
+                        row.tenCongtac = tenCongTacLookup[key].tenCongTac || "";
+                        row.donVi = tenCongTacLookup[key].donVi || "";
+                    }
+                    row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "";
+                });
+            }
+
+            return dataSet;
+
+        } catch (err) {
+            console.error("Error loadData:", err);
+            return [];
+        }
+    }
+
+    async function get2_5() {
+        try {
+            const resUser = await getJwtToken();
+
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua2TtChungNSachNgang/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            let dataSet = [];
+            let mappedData = [];
+            let uniqueTuyenDuong = [];
+
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                // Lấy unique tuyenDuong
+                uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                // Cập nhật header/footer
+                addDynamicColumns(uniqueTuyenDuong);
+
+                // Map dữ liệu
+                mappedData = res.data.map((item, idx) => {
+                    let obj = {
+                        stt: idx + 1,
+                        id_ChiNhanh: item.id_ChiNhanh || '',
+                        tenChiNhanh: item.tenChiNhanh || '',
+                        id_HangMucCongViec: item.id_HangMucCongViec || '',
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        id_LoaiCauKien: item.id_LoaiCauKien || '',
+                        loaiCauKien: item.loaiCauKien || '',
+                        id_HangMucKhoiLuong: item.id_HangMucKhoiLuong || '',
+                        hangMucKhoiLuong: item.hangMucKhoiLuong || '',
+                        id_LoaiKhoiLuong: item.id_LoaiKhoiLuong || '',
+                        loaiKhoiLuong: item.loaiKhoiLuong || '',
+                        tenCongtac: "",
+                        donVi: "",
+                        tongKhoiLuong: "",
+                    };
+
+                    // Thêm field động
+                    uniqueTuyenDuong.forEach(td => {
+                        obj[td] = "";
+                    });
+
+                    return obj;
+                });
+
+                // Lọc duy nhất theo 5 trường
+                let seen = new Set();
+                dataSet = mappedData.filter(row => {
+                    let key = [
+                        row.id_ChiNhanh,
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.id_HangMucKhoiLuong,
+                        row.id_LoaiKhoiLuong
+                    ].join('|');
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+
+                // Tạo lookup để lưu tổng chieuDaiOngNhua / chieuDaiMOngThep
+                const sumLookup = {};
+                res.data.forEach(item => {
+                    const keyNhua = [
+                        item.id_ChiNhanh,
+                        item.id_LoaiCauKien,
+                        item.tuyenDuong
+                    ].join('|');
+                    sumLookup[keyNhua] = (sumLookup[keyNhua] || 0) + (parseFloat(item.chieuDaiOngNhua) || 0);
+
+                    if (item.id_LoaiCauKienOngThep) {
+                        const keyThep = [
+                            item.id_ChiNhanh,
+                            item.id_LoaiCauKienOngThep,
+                            item.tuyenDuong
+                        ].join('|');
+                        sumLookup[keyThep] = (sumLookup[keyThep] || 0) + (parseFloat(item.chieuDaiMOngThep) || 0);
+                    }
+                });
+
+                // Tạo lookup danhMucCongTacs
+                const tenCongTacLookup = {};
+                danhMucCongTacs.forEach(item => {
+                    const key = [
+                        item.id_HangMucCongViec,
+                        item.id_LoaiCauKien,
+                        item.id_HangMucKhoiLuong,
+                        item.id_LoaiKhoiLuong
+                    ].join('|');
+                    tenCongTacLookup[key] = item;
+                });
+
+                // Gán giá trị vào dataSet
+                dataSet.forEach(row => {
+                    let tong = 0;
+                    uniqueTuyenDuong.forEach(td => {
+                        const keyNhua = [
+                            row.id_ChiNhanh,
+                            row.id_LoaiCauKien,
+                            td
+                        ].join('|');
+                        const keyThep = row.id_LoaiCauKienOngThep
+                            ? [row.id_ChiNhanh, row.id_LoaiCauKienOngThep, td].join('|')
+                            : null;
+
+                        let sum = (sumLookup[keyNhua] || 0) + (keyThep ? (sumLookup[keyThep] || 0) : 0);
+                        row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "";
+                        tong += sum;
+                    });
+                    const key = [
+                        row.id_HangMucCongViec,
+                        row.id_LoaiCauKien,
+                        row.id_HangMucKhoiLuong,
+                        row.id_LoaiKhoiLuong
+                    ].join('|');
+                    if (tenCongTacLookup[key]) {
+                        row.tenCongtac = tenCongTacLookup[key].tenCongTac || "";
+                        row.donVi = tenCongTacLookup[key].donVi || "";
+                    }
+                    row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "";
+                });
+            }
+
+            return dataSet;
+
+        } catch (err) {
+            console.error("Error loadData:", err);
+            return [];
+        }
+    }
+    let danhMucCongTacs=[];
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_LoaiCauKien: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_data tfoot tr').last();
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+    }
+</script>
+
+
+

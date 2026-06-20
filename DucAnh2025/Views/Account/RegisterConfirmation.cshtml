@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Xác nhận đăng ký";
+}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+        <div class="text-center mb-4">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+            <h2 class="mt-2">Đăng ký thành công!</h2>
+        </div>
+        <p class="text-center">
+            Vui lòng kiểm tra email <strong>@ViewData["Email"]</strong> để xác nhận tài khoản.
+        </p>
+        <div class="d-grid gap-2 mt-4">
+            <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-block">Đăng nhập</a>
+        </div>
+    </div>
+</div>

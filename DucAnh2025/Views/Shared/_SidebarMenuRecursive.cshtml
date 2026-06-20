@@ -1,0 +1,93 @@
+@model List<MenuItem>
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<ul class="vertical-nav-menu">
+    @foreach (var item in Model)
+    {
+        if (!string.IsNullOrEmpty(item.Heading))
+        {
+            <li class="app-sidebar__heading">@item.Heading</li>
+        }
+        else if (item.Children != null && item.Children.Any())
+        {
+            var isSection = item.Children.Any(child =>
+            child.Controller == currentController &&
+            child.Action == currentAction);
+
+            <li>
+                <a href="javascript:void(0)" class="@(isSection ? "mm-active" : "")">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <i class="metismenu-icon @item.Icon"></i>
+                    }
+                    @item.Title
+                    <i class="metismenu-state-icon @item.StateIcon"></i>
+                </a>
+
+                <ul class="@(isSection ? "mm-show" : "mm-collapse")">
+                    @foreach (var child in item.Children)
+                    {
+                        <li>
+                            <a href="@Url.Action(child.Action, child.Controller)"
+                               class="@(currentController == child.Controller && currentAction == child.Action ? "mm-active" : "")">
+                                <i class="metismenu-icon"></i>@child.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    }
+</ul>
+
+
+
+@* @model List<MenuItem>
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<ul class="vertical-nav-menu">
+    @foreach (var item in Model)
+    {
+        if (!string.IsNullOrEmpty(item.Heading))
+        {
+            <li class="app-sidebar__heading mm-active">@item.Heading</li>
+        }
+        else if (item.Children != null && item.Children.Any())
+        {
+            var isSection = item.Children.Any(child =>
+            child.Controller == currentController && child.Action == currentAction);
+            <li>
+                <a href="javascript:void(0)" class="@(isSection ? "mm-active" : "")">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <i class="metismenu-icon @item.Icon"></i>
+                    }
+                    @item.Title
+                    @if (!string.IsNullOrEmpty(item.StateIcon))
+                    {
+                        <i class="metismenu-state-icon @item.StateIcon"></i>
+                    }
+                </a>
+                <ul class="@(isSection ? "mm-show" : "mm-collapse")">
+                    @foreach (var child in item.Children)
+                    {
+                        Console.WriteLine(child);
+                        <li>
+                            <a href="@Url.Action(child.Action, child.Controller)"
+                               class="@(currentController == child.Controller && currentAction == child.Action ? "mm-active" : "")">
+                                <i class="metismenu-icon"></i>@child.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    }
+</ul> *@
+
+

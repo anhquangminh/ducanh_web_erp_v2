@@ -1,0 +1,229 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG CAO ĐỘ ĐÀO HỐ MÓNG ỐNG NƯỚC SẠCH NGANG  </h3>
+
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable()">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportPDF()">PDF</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th colspan="3" rowspan="2"></th>
+                            <th colspan="3" rowspan="2">Thông tin lý trình</th>
+                            <th colspan="4" rowspan="2">Thông tin ống nhựa (m)</th>
+                            <th colspan="6">Thông tin cao độ (m)</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">Thượng lưu</th>
+                            <th colspan="3">Hạ lưu</th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Trạng thái</th>
+                            <th>Tên chi nhánh</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Đến lý trình</th>
+                            <th>Loại ống nhựa</th>
+                            <th>Đ.Kính ngoài</th>
+                            <th>C.Dầy ống </th>
+                            <th>C.Dài</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào</th>
+                            <th>C.Sâu đào</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào</th>
+                            <th>C.Sâu đào</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Trạng thái</th>
+                            <th>Tên chi nhánh</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Đến lý trình</th>
+                            <th>Loại ống nhựa</th>
+                            <th>Đ.Kính ngoài</th>
+                            <th>C.Dầy ống </th>
+                            <th>C.Dài</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào</th>
+                            <th>C.Sâu đào</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào</th>
+                            <th>C.Sâu đào</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG THÉP HỆ THỐNG CẤP NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 05", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "2.2 C.Độ đào N.Sạch ngang", "2.2 C.Độ đào N.Sạch ngang.xlsx");
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua2TtChungNSachNgang/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh ||'',
+
+                        id_TuyenDuong: item.id_TuyenDuong || '',
+                        tuyenDuong: item.tuyenDuong || '',
+                        id_TuLyTrinh: item.id_TuLyTrinh || '',
+                        tuLyTrinh: item.tuLyTrinh || '',
+                        id_DenLyTrinh: item.id_DenLyTrinh || '',
+                        denLyTrinh: item.denLyTrinh || '',
+
+                        loaiCauKien: item.loaiCauKien || '',
+                        duongKinhNgoaiOngNhua: item.duongKinhNgoaiOngNhua || '0',
+                        cDayOngOngNhua: item.cDayOngOngNhua || '0',
+                        chieuDaiOngNhua: item.chieuDaiOngNhua || '0',
+
+                        hTrangTruocKhiDaoThuongLuu: item.hTrangTruocKhiDaoThuongLuu || '0',
+                        dayDaoThuongLuu: item.dayDaoThuongLuu || '0',
+                        chieuSauDaoThuongLuu: item.chieuSauDaoThuongLuu || '0',
+                        hTrangTruocKhiDaoHaLuu: item.hTrangTruocKhiDaoHaLuu || '0',
+                        dayDaoHaLuu: item.dayDaoHaLuu || '0',
+                        chieuSauDaoHaLuu: item.chieuSauDaoHaLuu || '0',
+
+                        isStatus: item.isStatus || '',
+                        isActive: item.isActive || '',
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'isStatus', className: 'align-middle' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+
+                        { data: 'tuyenDuong', className: 'align-middle' },
+                        { data: 'tuLyTrinh', className: 'align-middle' },
+                        { data: 'denLyTrinh', className: 'align-middle' },
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'duongKinhNgoaiOngNhua', className: 'align-middle' },
+                        { data: 'cDayOngOngNhua', className: 'align-middle' },
+                        { data: 'chieuDaiOngNhua', className: 'align-middle' },
+
+                        { data: 'hTrangTruocKhiDaoThuongLuu', className: 'align-middle' },
+                        { data: 'dayDaoThuongLuu', className: 'align-middle' },
+                        { data: 'chieuSauDaoThuongLuu', className: 'align-middle' },
+                        { data: 'hTrangTruocKhiDaoHaLuu', className: 'align-middle' },
+                        { data: 'dayDaoHaLuu', className: 'align-middle' },
+                        { data: 'chieuSauDaoHaLuu', className: 'align-middle' },
+
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    order: [[0, 'asc']],
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0 || colIdx === 1) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+
+                        });
+                    }
+
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+    
+    // Hiển thị lỗi
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+</script>
+

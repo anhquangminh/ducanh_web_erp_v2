@@ -1,0 +1,42 @@
+﻿@using DucAnh2025.ViewModels.Accounts
+@model LoginWith2faViewModel
+@{
+    Layout = "_AccountLayout";
+    ViewData["Title"] = "Two-factor authentication";
+}
+
+<h1>Two-factor authentication</h1>
+<hr />
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.StatusMessage</div>
+}
+<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="LoginWith2fa" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="RememberMe" />
+            <div class="form-floating mb-3">
+                <input asp-for="TwoFactorCode" class="form-control" autocomplete="off" />
+                <label asp-for="TwoFactorCode" class="form-label"></label>
+                <span asp-validation-for="TwoFactorCode" class="text-danger"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label>
+                    <input asp-for="RememberMachine" /> Remember this machine
+                </label>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+        </form>
+    </div>
+</div>
+<p>
+    Don't have access to your authenticator device? You can
+    <a asp-action="LoginWithRecoveryCode" asp-route-ReturnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
+</p>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

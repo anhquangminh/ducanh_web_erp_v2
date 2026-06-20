@@ -1,0 +1,327 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG THÉP TẤM ĐAN HỐ VAN NƯỚC SẠCH THEO LOẠI TẤM ĐAN</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <td colspan="6">Thông tin thép</td>
+                            <td colspan="1" id="col-dynamic">Thông tin khối lượng theo tuyến đường</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Loại cấu kiện</th>
+                            <th>Tên công tác theo vị trí lấy KL</th>
+                            <th>Tên công tác theo Đ.Kính</th>
+                            <th> Trọng lượng 01 thanh (kg) </th>
+                            <th> Tổng KL</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Loại cấu kiện</th>
+                            <th>Tên công tác theo vị trí lấy KL</th>
+                            <th>Tên công tác theo Đ.Kính</th>
+                            <th> Trọng lượng 01 thanh (kg) </th>
+                            <th> Tổng KL</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG THÉP TẤM ĐAN HỐ VAN NƯỚC SẠCH THEO LOẠI TẤM ĐAN", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 20", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+        ], "4.10a TH thép theo loại TĐHG", "4.10a TH thép theo loại TĐHG.xlsx");
+    }
+
+    $(function () {
+        loadDMTenCongTac().then(loadData);
+    });
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_data tfoot tr');
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+        $('#col-dynamic').attr('colspan', uniqueTuyenDuong.length + 1);
+    }
+    let danhMucCongTacs = [];
+
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(async function (res) {
+                let dataSet = [];
+                let mappedData = [];
+                let uniqueTuyenDuong = [];
+
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+
+                    // Map dữ liệu
+                    res.data.forEach((item, idx) => {
+                        // 1.id_HangMucKhoiLuongTamDan	id_LoaiKhoiLuongTamDan
+                        let obj1 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            id_LoaiCauKien: item.id_LoaiCauKien|| '',
+                            loaiCauKien: item.loaiCauKien || '',
+                            tenCongTacTheoKL: item.tenCongTacTheoKL|| '',
+                            tenCongTacTheoDK: item.tenCongTacTheoDK|| '',
+                            soHieuThep: item.soHieuThep ||'0',
+                            trongLuong: item.tongTrongLuong||'0',
+                            tongTrongLuong : '0'
+                        };
+                        mappedData.push(obj1);
+                    });
+                    // lọc duy nhất theo 4 trường
+                    let seen = new Set();
+                    dataSet = mappedData.filter(row => {
+                        let key = [
+                            row.id_ChiNhanh,
+                            row.id_LoaiCauKien,
+                            row.tenCongTacTheoKL,
+                            row.tenCongTacTheoKL
+                        ].join('|');
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    });
+
+                    
+                    const data4_6 = await get4_6();
+                    
+                    uniqueTuyenDuong = [...new Set(data4_6.map(item => item.tuyenDuong).filter(Boolean))];
+                    addDynamicColumns(uniqueTuyenDuong);
+
+                    const sumLookup = {};
+                    // Gom nhóm và tính tổng trước
+                    data4_6.forEach(row => {
+                        // Key
+                        const key = [
+                                row.id_ChiNhanh,
+                                row.id_LoaiCauKien,
+                        ].join('|');
+                        sumLookup[key] = (sumLookup[key] || 0) + (parseFloat(row.soLuong)|| 0);
+
+                    });
+
+                    dataSet.forEach((row, idx) => {
+                        let tong = 0;
+                        uniqueTuyenDuong.forEach(td => {
+                            const key = [
+                                row.id_ChiNhanh,
+                                row.id_LoaiCauKien
+                            ].join('|');
+                            const sum = (sumLookup[key] * row.trongLuong) || 0;
+                            row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                            tong += sum;
+                        });
+                        row.stt = idx + 1;
+                        row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+                    });
+
+                    const $table = $('#table_data');
+
+                    // Config cột cố định
+                    let columns = [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'tenCongTacTheoKL', className: 'align-middle' },
+                        { data: 'tenCongTacTheoDK', className: 'align-middle' },
+                        { data: 'trongLuong', className: 'align-middle' },
+                        { data: 'tongKhoiLuong', className: 'align-middle' },
+                    ];
+
+                    uniqueTuyenDuong.forEach(td => {
+                        columns.push({
+                            data: td,
+                            className: 'align-middle',
+                            defaultContent: ''
+                        });
+                    });
+
+                    if ($.fn.DataTable.isDataTable($table)) {
+                        $table.DataTable().clear().rows.add(dataSet).draw();
+                    } else {
+                        $table.DataTable({
+                            data: dataSet,
+                            columns: columns,
+                            autoWidth: false,
+                            ordering: true,
+                            searching: true,
+                            paging: true,
+                            pageLength: 10,
+                            info: true,
+                            language: {
+                                lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                                zeroRecords: "Không tìm thấy dữ liệu",
+                                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                                infoEmpty: "Không có bản ghi nào",
+                                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                                search: "Tìm kiếm:",
+                                paginate: {
+                                    first: "Đầu",
+                                    last: "Cuối",
+                                    next: "Sau",
+                                    previous: "Trước"
+                                }
+                            },
+                            initComplete: function () {
+                                this.api().columns().every(function (colIdx) {
+                                    var column = this;
+                                    var $footer = $(column.footer()).empty();
+                                    if (colIdx === 0) {
+                                        $footer.append('<p></p>');
+                                    } else {
+                                        var select = $('<select><option value=""></option></select>')
+                                            .appendTo($footer)
+                                            .on('change', function () {
+                                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                                column
+                                                    .search(val ? '^' + val + '$' : '', true, false)
+                                                    .draw();
+                                            });
+
+                                        column.data().unique().sort().each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                }
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead tr:last th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+    async function get4_6() {
+        try {
+            const resUser = await getJwtToken();
+
+            const response = await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            });
+
+            if (response.success && Array.isArray(response.data) && response.data.length > 0) {
+                return response.data.map((item, idx) => ({
+                    stt: idx + 1,
+                    id: item.id,
+                    id_ChiNhanh: item.id_ChiNhanh || '',
+                    tenChiNhanh: item.tenChiNhanh || '',
+                    tuyenDuong: item.tuyenDuong || '',
+                    lyTrinh: item.lyTrinh || '',
+                    tenHoVan: item.tenHoVan || '',
+                    id_LoaiCauKien: item.id_LoaiCauKien || '0',
+                    loaiCauKien: item.loaiCauKien || '0',
+                    daiXayTamDan: item.daiXayTamDan || '0',
+                    rongXayTamDan: item.rongXayTamDan || '0',
+                    caoXayTamDan: item.caoXayTamDan || '0',
+                    soLuong: item.soLuong || '0'
+                }));
+            }
+
+            return []; // nếu không có data
+        } catch (error) {
+            console.error("Error getDataSet:", error);
+            return [];
+        }
+    }
+
+
+</script>
+

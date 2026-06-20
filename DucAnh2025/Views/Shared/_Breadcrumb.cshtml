@@ -1,0 +1,22 @@
+@model List<BreadcrumbItem>
+@if (Model != null && Model.Any())
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background:none!important;padding-bottom:0px">
+            <li class="breadcrumb-item"><a href="/"><i aria-hidden="true" class="fa fa-home"></i></a></li>
+            @foreach (var item in Model)
+            {
+                if (item.IsActive)
+                {
+                    <li class="active breadcrumb-item" aria-current="page">@item.Title</li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item">
+                        <a href="@item.Url">@item.Title</a>
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+}

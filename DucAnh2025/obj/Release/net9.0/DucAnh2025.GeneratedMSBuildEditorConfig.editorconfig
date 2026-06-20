@@ -1,0 +1,733 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = DucAnh2025
+build_property.RootNamespace = DucAnh2025
+build_property.ProjectDir = D:\my code\DucAnh2025\DucAnh2025\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\my code\DucAnh2025\DucAnh2025
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ChangePasswordConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ChangePasswordEmailConfirm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZEVtYWlsQ29uZmlybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ConfirmEmailChange.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb25maXJtRW1haWxDaGFuZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ConfirmLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb25maXJtTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ForgotPasswordConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/InvalidPasswordReset.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbnZhbGlkUGFzc3dvcmRSZXNldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/InvalidUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbnZhbGlkVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/Lockout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2Nrb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/LoginWith2fa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbldpdGgyZmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/LoginWithRecoveryCode.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbldpdGhSZWNvdmVyeUNvZGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/QrSignInPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxRclNpZ25JblBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/RegisterConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ResendEmailConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Account/ResetPasswordConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkQ29uZmlybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Chat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmDanhMucThep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtRGFuaE11Y1RoZXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmHangMucCongViec.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtSGFuZ011Y0NvbmdWaWVjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmHangMucKhoiLuong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtSGFuZ011Y0tob2lMdW9uZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmHinhThucDapTra.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtSGluaFRodWNEYXBUcmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmHinhThucDayHoGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtSGluaFRodWNEYXlIb0dhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmLoaiCauKien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtTG9haUNhdUtpZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmLoaiDauNoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtTG9haURhdU5vaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmLoaiKhoiLuong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtTG9haUtob2lMdW9uZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmLyTrinh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtTHlUcmluaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmTenCongTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtVGVuQ29uZ1RhYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmTenLoaiThep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtVGVuTG9haVRoZXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmThongTinVatTu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtVGhvbmdUaW5WYXRUdS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmTrangThaiThiCong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtVHJhbmdUaGFpVGhpQ29uZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/DmTuyenDuong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXERtVHV5ZW5EdW9uZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1TtChungNSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xVHRDaHVuZ05TYWNoRG9jLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_1LTrinhNSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzFMVHJpbmhOU2FjaERvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_2CDoDapNSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzJDRG9EYXBOU2FjaERvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_3CDoDapNSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzNDRG9EYXBOU2FjaERvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_4KLDaoDapOngNhuaDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzRLTERhb0RhcE9uZ05odWFEb2MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_5THKLXDungNuocSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzVUSEtMWER1bmdOdW9jU2FjaERvYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_6THKLDaoNSachDoc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzZUSEtMRGFvTlNhY2hEb2MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_1_7THKLDaoDapTheoLoaiKL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8xXzdUSEtMRGFvRGFwVGhlb0xvYWlLTC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2TtChungNSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yVHRDaHVuZ05TYWNoTmdhbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_1LTrinhNSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzFMVHJpbmhOU2FjaE5nYW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_2CDoDaoNSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzJDRG9EYW9OU2FjaE5nYW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_3CDoDapNSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzNDRG9EYXBOU2FjaE5nYW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_4DapTraOngNhuaNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzREYXBUcmFPbmdOaHVhTmdhbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_5THKLNuocSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzVUSEtMTnVvY1NhY2hOZ2FuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_6THKLDaoNSachNgang.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzZUSEtMRGFvTlNhY2hOZ2FuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_2_7THKLDaoDapTheoLoaiKL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8yXzdUSEtMRGFvRGFwVGhlb0xvYWlLTC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_3TTinLDatVanTruCHoa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8zVFRpbkxEYXRWYW5UcnVDSG9hLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_3_1THKLVanTruCHoa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV8zXzFUSEtMVmFuVHJ1Q0hvYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410TKThepTDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBUS1RoZXBURGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410_aTHThepTheoLoaiTDHG.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBfYVRIVGhlcFRoZW9Mb2FpVERIRy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410_bTHThepTDHVTenCTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBfYlRIVGhlcFRESFZUZW5DVGFjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410_cTHDKinhThepTDHV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBfY1RIREtpbmhUaGVwVERIVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410_dTHThepTDHVCDai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBfZFRIVGhlcFRESFZDRGFpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_410_eTHCDaiThanhTDHV.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80MTBfZVRIQ0RhaVRoYW5oVERIVi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_47TKThepHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80N1RLVGhlcEhHYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_47_aTHThepHGaTheoCTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80N19hVEhUaGVwSEdhVGhlb0NUYWMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_47_bTHThepHGaTheoLThep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80N19iVEhUaGVwSEdhVGhlb0xUaGVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_47_cTHThepHGaTheoCDai.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80N19jVEhUaGVwSEdhVGhlb0NEYWkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4ThongTinChungHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80VGhvbmdUaW5DaHVuZ0hHYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_1aCaoDoDapHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzFhQ2FvRG9EYXBIR2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_1CaoDoKCauHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzFDYW9Eb0tDYXVIR2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_2KLdaoDapHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzJLTGRhb0RhcEhHYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_3THKLDaoDapTTuyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzNUSEtMRGFvRGFwVFR1eWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_4KTHHHG.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzRLVEhISEcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_5HinhThucDauNoi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzVIaW5oVGh1Y0RhdU5vaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_6KHopTDanHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzZLSG9wVERhbkhHYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_7aKLHGaTheoTenCTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzdhS0xIR2FUaGVvVGVuQ1RhYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_7bTHKLHGaTTuyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzdiVEhLTEhHYVRUdXllbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_7cTHKLHGaTheoLoaiKL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzdjVEhLTEhHYVRoZW9Mb2FpS0wuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_7KLHGaTheoTenHGa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzdLTEhHYVRoZW9UZW5IR2EuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_8KTHHTDan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzhLVEhIVERhbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_9aTHKLTDHGTheoTenCTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzlhVEhLTFRESEdUaGVvVGVuQ1RhYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_9bTHKLTDHVTTuyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzliVEhLTFRESFZUVHV5ZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_9cTHKLTDHGTheoLoaiKL.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzljVEhLTFRESEdUaGVvTG9haUtMLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_4_9KLTDHGTheoLTrinh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV80XzlLTFRESEdUaGVvTFRyaW5oLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_5THKLongPKien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV81VEhLTG9uZ1BLaWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_5_1THKLVanTruCHoa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV81XzFUSEtMVmFuVHJ1Q0hvYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_5_2THKLVanTruCHoa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV81XzJUSEtMVmFuVHJ1Q0hvYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_5_3THKLXayDung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV81XzNUSEtMWGF5RHVuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/PKKL_OngNhua_5_4THKLThep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFBLS0xfT25nTmh1YV81XzRUSEtMVGhlcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/CongTrinh/QuanLyCongTrinh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZ1RyaW5oXFF1YW5MeUNvbmdUcmluaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/CaiDatPhongBanDuyet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xDYWlEYXRQaG9uZ0JhbkR1eWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/CaiDatSoLuotDuyet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xDYWlEYXRTb0x1b3REdXlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/ChiNhanh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xDaGlOaGFuaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/DanhSachQuyen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xEYW5oU2FjaFF1eWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/LoaiChiNhanh.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xMb2FpQ2hpTmhhbmguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/NghiepVu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xOZ2hpZXBWdS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/PhanQuyenCaiDatDuyet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xQaGFuUXV5ZW5DYWlEYXREdXlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/PhanQuyenCaiDatThaoTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xQaGFuUXV5ZW5DYWlEYXRUaGFvVGFjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/PhanQuyenDuyet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xQaGFuUXV5ZW5EdXlldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/PhanQuyenThaoTac.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xQaGFuUXV5ZW5UaGFvVGFjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/HeThong/UserRoleManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVUaG9uZ1xVc2VyUm9sZU1hbmFnZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Home/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMDanhMucBaoCao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNRGFuaE11Y0Jhb0Nhby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMDonVi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNRG9uVmkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMLoaiNhaCungCap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTG9haU5oYUN1bmdDYXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMLoaiNhienLieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTG9haU5oaWVuTGlldS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMLoaiPhuTung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTG9haVBodVR1bmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMNhaCungCap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTmhhQ3VuZ0NhcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMNhanHieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTmhhbkhpZXUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMNhomNhienLieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTmhvbU5oaWVuTGlldS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMNhomPhuTung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNTmhvbVBodVR1bmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/DMTenBaoCao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXERNVGVuQmFvQ2FvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/KhoHDMuaNhienLieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXEtob0hETXVhTmhpZW5MaWV1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/NhapKhoNhienLieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXE5oYXBLaG9OaGllbkxpZXUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/NhapKhoPhuTung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXE5oYXBLaG9QaHVUdW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/XuatKhoNhienLieu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXFh1YXRLaG9OaGllbkxpZXUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Kho/XuatKhoPhuTung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2hvXFh1YXRLaG9QaHVUdW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/ChangePasswordConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxDaGFuZ2VQYXNzd29yZENvbmZpcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/DeletePersonalData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxEZWxldGVQZXJzb25hbERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/Disable2fa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxEaXNhYmxlMmZhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/Email.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxFbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/EnableAuthenticator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxFbmFibGVBdXRoZW50aWNhdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/ExternalLogins.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxFeHRlcm5hbExvZ2lucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/GenerateRecoveryCodes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxHZW5lcmF0ZVJlY292ZXJ5Q29kZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/PersonalData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxQZXJzb25hbERhdGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/ResetAuthenticator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxSZXNldEF1dGhlbnRpY2F0b3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/SetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxTZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/ShowRecoveryCodes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxTaG93UmVjb3ZlcnlDb2Rlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/ManageAccount/TwoFactorAuthentication.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlQWNjb3VudFxUd29GYWN0b3JBdXRoZW50aWNhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/ChucVu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XENodWNWdS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/ChuyenMon.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XENodXllbk1vbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMChangeType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNQ2hhbmdlVHlwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMContractType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNQ29udHJhY3RUeXBlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMDisciplineType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNRGlzY2lwbGluZVR5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMLeaveType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNTGVhdmVUeXBlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMRequestType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNUmVxdWVzdFR5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMRewardType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNUmV3YXJkVHlwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMTerminationReason.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNVGVybWluYXRpb25SZWFzb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMWorkStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNV29ya1N0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/DMWorkType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XERNV29ya1R5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuAppointmentsHistorys.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdUFwcG9pbnRtZW50c0hpc3RvcnlzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuContract.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdUNvbnRyYWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdURhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuDiscipline.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdURpc2NpcGxpbmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuEmployeeLeaveQuota.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdUVtcGxveWVlTGVhdmVRdW90YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuEmployeeProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdUVtcGxveWVlUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdVJlcXVlc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuRewards.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdVJld2FyZHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuSalaryHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdVNhbGFyeUhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuTermination.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdVRlcm1pbmF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanSuTimeSheet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5TdVRpbWVTaGVldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/NhanVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XE5oYW5WaWVuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Nhansu/PhongBan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmhhbnN1XFBob25nQmFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/QLNV/CongViecDuocGiao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUxOVlxDb25nVmllY0R1b2NHaWFvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/QLNV/DanhGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUxOVlxEYW5oR2lhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/QLNV/NhanVien.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUxOVlxOaGFuVmllbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/QLNV/QuanLyCongViec.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUxOVlxRdWFuTHlDb25nVmllYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/QLNV/QuanLyNhom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUUxOVlxRdWFuTHlOaG9tLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/Components/Sidebar/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2lkZWJhclxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_AccountLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NvdW50TGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_Breadcrumb.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CcmVhZGNydW1iLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_GlobalModalPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9HbG9iYWxNb2RhbFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_HeaderPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXJQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_HeadPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_LayoutChat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRDaGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_LayoutHome.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRIb21lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_ScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_SidebarMenuRecursive.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyTWVudVJlY3Vyc2l2ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_SidebarPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/my code/DucAnh2025/DucAnh2025/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-uplw2lumjw

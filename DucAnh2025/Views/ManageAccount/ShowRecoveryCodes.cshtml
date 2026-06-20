@@ -1,0 +1,12 @@
+﻿@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Recovery Codes";
+}
+<h3>Your new recovery codes</h3>
+<ul>
+    @foreach (var code in Model)
+    {
+        <li>@code</li>
+    }
+</ul>
+<a href="@Url.Action("Index", "ManageAccount")" class="btn btn-primary">Back to Profile</a>

@@ -1,0 +1,200 @@
+﻿<!doctype html>
+<html lang="en">
+@await Html.PartialAsync("_HeadPartial")
+@RenderSection("Styles", required: false)
+<body>
+    <script src="~/assets/datatable/js/jquery-3.5.1.js"></script>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
+        @await Html.PartialAsync("_HeaderPartial")
+        <div class="app-main">
+            <div id="sidebar-container">
+                @await Component.InvokeAsync("Sidebar", new {
+                menuKey = Context.Request.Cookies["sidebarMenuKey"]
+                ?? ViewContext.RouteData.Values["controller"]?.ToString()
+                                })
+            </div>
+
+            <div class="app-main__outer" style="width:100% !important">
+                <div class="container-fluid">
+                    <div class="app-inner-layout__top-pane p-0 bg-link">
+                        <div class="pane-left">
+                            @* <div class="mobile-app-menu-btn"><button type="button" class="hamburger hamburger--elastic"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button></div> *@
+                            <div class="pane-right ">
+                                <div class="page-title-subheading opacity-10">
+                                    @await Html.PartialAsync("_Breadcrumb", ViewBag.Breadcrumbs as List<BreadcrumbItem>)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @RenderBody()
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_GlobalModalPartial")
+    @await Html.PartialAsync("_ScriptsPartial")
+    @RenderSection("Scripts", required: false)
+    <script src="@Url.Content("~/lib/signalr.min.js")"></script>
+    <script src="@Url.Content("~/js/notification-realtime.js?v=2")"></script>
+    <script>
+
+        // Đặt đoạn này vào cuối <body> hoặc trong ScriptsPartial
+        function resizeAppMainOuter() {
+            var sidebar = document.getElementById('sidebar-container');
+            var mainOuter = document.querySelector('.app-main__outer');
+            if (!sidebar || !mainOuter) return;
+
+            var appContainer = document.querySelector('.app-container');
+            var appClasses = appContainer ? appContainer.className : '';
+
+            // Nếu có các class này thì coi như sidebar ẩn
+            var sidebarIsClosed =
+                appClasses.includes('closed-sidebar-mobile') ||
+                appClasses.includes('closed-sidebar') ||
+                appClasses.includes('sidebar-mobile-open');
+
+            var windowWidth = window.innerWidth;
+            var newWidth;
+             var totalPadding = 30;
+            if (!sidebarIsClosed) {
+                // Sidebar đang hiển thị
+                var sidebarStyle = window.getComputedStyle(sidebar);
+                var sidebarWidth = sidebar.offsetWidth;
+                
+                newWidth = windowWidth - sidebarWidth - totalPadding;
+            } else {
+                // Sidebar bị đóng hoặc ẩn
+                 newWidth = windowWidth - totalPadding;
+            }
+
+            if (newWidth < 0) newWidth = 0;
+            mainOuter.style.width = newWidth + 'px';
+        }
+
+        // Gọi khi load trang và khi resize
+        window.addEventListener('resize', resizeAppMainOuter);
+        window.addEventListener('DOMContentLoaded', resizeAppMainOuter);
+
+
+        //menu chính
+        // Khi click vào nút chức năng
+        function setSidebarMenuKeyCookie(menuKey) {
+            document.cookie = "sidebarMenuKey=" + menuKey + ";path=/";
+        }
+
+        // Mapping menuKey -> default route
+        const defaultMenuRoutes = {
+            "GiaoViec": { controller: "QLNV", action: "QuanLyCongViec" },
+            "HeThong": { controller: "HeThong", action: "CaiDatPhongBanDuyet" },
+            "CongTrinh": { controller: "CongTrinh", action: "QuanLyCongTrinh" },
+            "NhanSu": { controller: "NhanSu", action: "NhanVien" }
+        };
+
+        function changeapp(menuKey){
+            localStorage.setItem('sidebarMenuKey', menuKey);
+            setSidebarMenuKeyCookie(menuKey);
+            $('#sidebar-container').load('/Shared/Sidebar?menuKey=' + menuKey, function () {
+                var def = defaultMenuRoutes[menuKey];
+                if (def) {
+                    window.location.href = '/' + def.controller + '/' + def.action;
+                }
+            });
+        }
+
+        $(document).on('click', '.function-menu-btn', async function () {
+            const menuKey = $(this).data('menu');
+            localStorage.setItem('sidebarMenuKey', menuKey);
+            setSidebarMenuKeyCookie(menuKey);
+
+            // Đợi load sidebar xong
+            await new Promise(resolve => {
+                $('#sidebar-container').load('/Shared/Sidebar?menuKey=' + menuKey, resolve);
+            });
+
+            const def = defaultMenuRoutes[menuKey];
+            if (def) {
+                window.location.href = '/' + def.controller + '/' + def.action;
+            }
+        });
+
+        function showBlockLoading(selector) {
+            $(selector).block({
+                message: $(`
+                      <div class="loader mx-auto text-center">
+                      <div class="ball-pulse-sync">
+                        <div class="bg-warning"></div>
+                        <div class="bg-warning"></div>
+                        <div class="bg-warning"></div>
+                    </div>
+                   </div>
+                `),
+                css: { border: "none", backgroundColor: "transparent", width:"100%" },
+                overlayCSS: { backgroundColor: "#000", opacity: 0.5 }
+            });
+        }
+
+        function hideBlockLoading(selector) {
+            $(selector).unblock();
+        }
+
+        // Hide menu when clicking outside
+        $(document).on('click', function () {
+            $('#header-function-menu').hide();
+        });
+
+        // Prevent menu from closing when clicking inside
+        $(document).on('click', '#header-function-menu', function (e) {
+            e.stopPropagation();
+        });
+
+
+       // $(document).ready(function () {
+       //       // Only run if sidebar exists (not on Home layout)
+       //       if ($('#sidebar-container').length) {
+       //           // Map controller/action to menuKey
+       //           const controllerActionToMenuKey = [
+       //               { controller: "QLNV", actions: ["QuanLyCongViec", "NhanVien", "QuanLyNhom", "DanhGia", "CongViecDuocGiao"], menuKey: "QLNV" },
+       //               { controller: "HeThong", actions: ["CaiDatPhongBanDuyet","CaiDatSoLuotDuyet","PhanQuyenCaiDatDuyet","PhanQuyenCaiDatThaoTac","PhanQuyenDuyet","PhanQuyenThaoTac","LoaiChiNhanh","ChiNhanh","NghiepVu"], menuKey: "HeThong"  },
+       //               { controller: "CongTrinh", actions: ["QuanLyCongTrinh"], menuKey: "CongTrinh" },
+       //                { controller: "NhanSu", actions: ["NhanVien","ChucVu","ChuyenMon","PhongBan"], menuKey: "NhanSu" }
+       //               // Add more mappings as needed
+       //           ];
+
+       //           // Parse current path
+       //           const pathParts = window.location.pathname.split('/').filter(Boolean);
+       //           if (pathParts.length >= 2) {
+       //               const controller = pathParts[0];
+       //               const action = pathParts[1];
+       //               const found = controllerActionToMenuKey.find(m =>
+       //                   m.controller.toLowerCase() === controller.toLowerCase() &&
+       //                   m.actions.map(a => a.toLowerCase()).includes(action.toLowerCase())
+       //               );
+       //               if (found) {
+       //                   const currentKey = localStorage.getItem('sidebarMenuKey');
+       //                   if (currentKey !== found.menuKey) {
+       //                       localStorage.setItem('sidebarMenuKey', found.menuKey);
+       //                       setSidebarMenuKeyCookie(found.menuKey);
+       //                       $('#sidebar-container').load('/Shared/Sidebar?menuKey=' + found.menuKey);
+       //                   }
+       //               }
+       //           }
+       //       }
+       //   });
+        //end menu chính
+
+
+         function handleLogout(e) {
+            e.preventDefault(); // Ngăn submit mặc định
+
+            // Xóa localStorage và sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Submit lại form
+            document.getElementById('logoutForm').submit();
+        }
+    </script>
+</body>
+</html>

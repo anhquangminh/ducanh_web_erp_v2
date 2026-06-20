@@ -1,0 +1,266 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG THỐNG KÊ KÍCH THƯỚC HÌNH HỌC HỐ VAN NƯỚC SẠCH</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <td colspan="5" rowspan="2">Thông tin hố van</td>
+                            <td colspan="25">Thông tin kích thước hình học (m)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Phủ bì (m)</td>
+                            <td colspan="4">Lót móng (m)</td>
+                            <td colspan="4">Móng (m)</td>
+                            <td colspan="5">Tường (m)</td>
+                            <td colspan="5">Mũ mố thớt dưới (m)</td>
+                            <td colspan="5">Mũ mố thớt trên (m)</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Lý trình</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>Dài</th>
+                            <th>Rộng</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th>Tuyến đường</th>
+                            <th>Lý trình</th>
+                            <th>Tên HG theo bản vẽ</th>
+                            <th>Dài</th>
+                            <th>Rộng</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                            <th>Loại KL</th>
+                            <th>Dài</th>
+                            <th>rộng </th>
+                            <th>Cao</th>
+                            <th>C.Dầy tường</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+   async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+             { text: "BẢNG THỐNG KÊ KÍCH THƯỚC HÌNH HỌC HỐ VAN NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 04", align: "center", fontSize: 12, bold: true },
+             { text: "In theo tuyến. Kèm theo bảng này là các bảng:", align: "center", fontSize: 11 }
+          ], "4.4 KTHH HG", "4.4 KTHH HG.xlsx");
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh|| '',
+
+                        tuyenDuong : item.tuyenDuong || '',
+                        lyTrinh : item.lyTrinh || '',
+                        tenHoVan : item.tenHoVan || '',
+                        daiKTHH : item.daiKTHH || '0',
+                        rongKTHH : item.rongKTHH || '0',
+                        id_LoaiKhoiLuongXayDungLotMong : item.id_LoaiKhoiLuongXayDungLotMong || '',
+                        loaiKhoiLuongXayDungLotMong : item.loaiKhoiLuongXayDungLotMong || '',
+                        daiXayDungLotMong : item.daiXayDungLotMong || '0',
+                        rongXayDungLotMong : item.rongXayDungLotMong || '0',
+                        caoXayDungLotMong : item.caoXayDungLotMong || '0',
+                        id_LoaiKhoiLuongXayDungMong : item.id_LoaiKhoiLuongXayDungMong || '',
+                        loaiKhoiLuongXayDungMong : item.loaiKhoiLuongXayDungMong || '',
+                        daiXayDungMong : item.daiXayDungMong || '0',
+                        rongXayDungMong : item.rongXayDungMong || '0',
+                        caoXayDungMong : item.caoXayDungMong || '0',
+                        id_LoaiKhoiLuongXayTuong : item.id_LoaiKhoiLuongXayTuong || '',
+                        loaiKhoiLuongXayTuong : item.loaiKhoiLuongXayTuong || '',
+                        daiXayTuong : item.daiXayTuong || '0',
+                        slCDaiXayTuong : item.slCDaiXayTuong || '0',
+                        cCaoCanhDaiXayTuong : item.cCaoCanhDaiXayTuong || '0',
+                        cDayTuongCanhDaiXayTuong : item.cDayTuongCanhDaiXayTuong || '0',
+                        id_LoaiKhoiLuongMuMoDuoi : item.id_LoaiKhoiLuongMuMoDuoi || '',
+                        loaiKhoiLuongMuMoDuoi : item.loaiKhoiLuongMuMoDuoi || '',
+                        daiMuMoDuoi : item.daiMuMoDuoi || '0',
+                        slCDaiMuMoDuoi : item.slCDaiMuMoDuoi || '0',
+                        cCaoCanhDaiMuMoDuoi : item.cCaoCanhDaiMuMoDuoi || '0',
+                        cDayTuongCanhDaiMuMoDuoi : item.cDayTuongCanhDaiMuMoDuoi || '0',
+                        id_LoaiKhoiLuongXayTren : item.id_LoaiKhoiLuongXayTren || '',
+                        loaiKhoiLuongXayTren : item.loaiKhoiLuongXayTren || '',
+                        daiXayTren : item.daiXayTren || '0',
+                        slCDaiXayTren : item.slCDaiXayTren || '0',
+                        cCaoCanhDaiXayTren : item.cCaoCanhDaiXayTren || '0',
+                        cDayTuongCanhDaiXayTren : item.cDayTuongCanhDaiXayTren || '0',
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%'},
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'tuyenDuong', className: 'align-middle' },
+                        { data: 'lyTrinh', className: 'align-middle' },
+                        { data: 'tenHoVan', className: 'align-middle' },
+                        { data: 'daiKTHH', className: 'align-middle' },
+                        { data: 'rongKTHH', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongXayDungLotMong', className: 'align-middle' },
+                        { data: 'daiXayDungLotMong', className: 'align-middle' },
+                        { data: 'rongXayDungLotMong', className: 'align-middle' },
+                        { data: 'caoXayDungLotMong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongXayDungMong', className: 'align-middle' },
+                        { data: 'daiXayDungMong', className: 'align-middle' },
+                        { data: 'rongXayDungMong', className: 'align-middle' },
+                        { data: 'caoXayDungMong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongXayTuong', className: 'align-middle' },
+                        { data: 'daiXayTuong', className: 'align-middle' },
+                        { data: 'slCDaiXayTuong', className: 'align-middle' },
+                        { data: 'cCaoCanhDaiXayTuong', className: 'align-middle' },
+                        { data: 'cDayTuongCanhDaiXayTuong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongMuMoDuoi', className: 'align-middle' },
+                        { data: 'daiMuMoDuoi', className: 'align-middle' },
+                        { data: 'slCDaiMuMoDuoi', className: 'align-middle' },
+                        { data: 'cCaoCanhDaiMuMoDuoi', className: 'align-middle' },
+                        { data: 'cDayTuongCanhDaiMuMoDuoi', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongXayTren', className: 'align-middle' },
+                        { data: 'daiXayTren', className: 'align-middle' },
+                        { data: 'slCDaiXayTren', className: 'align-middle' },
+                        { data: 'cCaoCanhDaiXayTren', className: 'align-middle' },
+                        { data: 'cDayTuongCanhDaiXayTren', className: 'align-middle' },
+                     ],
+                    autoWidth: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+                            
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+</script>
+

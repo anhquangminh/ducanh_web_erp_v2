@@ -1,0 +1,400 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 p-2">
+        <div class="card-header">
+            <h3>Danh sách</h3>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i>Tạo mới
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="table_caidatthaotac">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Chi nhánh</th>
+                            <th>Nhiệp vụ cha</th>
+                            <th>Nhiệp vụ </th>
+                            <th>Người dùng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Chi nhánh</th>
+                            <th>Nhiệp vụ cha</th>
+                            <th>Nhiệp vụ </th>
+                            <th>Người dùng</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: "/api/PhanQuyenCaiDatThaoTac/GetByVM?groupId=" + resUser.userInfor.groupId,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                      Id : "",
+                      CompanyId : "",
+                      ParentMajorId : "",
+                      MajorId : "",
+                      UserId : "",
+                      GroupId : "",
+                      Ordinarily : 0,
+                      CreateAt : "2024-01-01T00:00:00",
+                      CreateBy : "",
+                      IsActive : 0,
+                      ApprovalUserId : "",
+                      DateApproval : "2024-01-01T00:00:00",
+                      DepartmentId : "",
+                      DepartmentOrder : 0,
+                      ApprovalOrder : 0,
+                      ApprovalId : "",
+                      LastApprovalId : "",
+                      IsStatus : "",
+                      PageNumber : 1,
+                      PageSize : 10
+                    })
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        companyId: item.companyId || '',
+                        parentMajorId: item.parentMajorId || '',
+                        majorId: item.majorId ||'',
+                        userId: item.userId || '',
+                    }));
+                }
+
+                const $table = $('#table_caidatthaotac');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                        { data: 'companyId', className: 'align-middle' },
+                        { data: 'parentMajorId', className: 'align-middle' },
+                        { data: 'majorId', className: 'align-middle' },
+                        { data: 'userId', className: 'align-middle' },
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: "1%",
+                            render: function (data, type, row) {
+                                return `
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick=editCaiDat("${row.id}")><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick=deleteCaiDat("${row.id}")><i class="fas fa-trash"></i></button>
+                                    </div>
+                                `;
+                            }
+                        }
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                $('#table_caidatthaotac tbody').html('<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            });
+        });
+    }
+
+    async function showModalTaoMoi(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật cài đặt" : "Thêm mới cài đặt";
+
+        const bodyHtml = `
+            <form id="form_caidat">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>Chi nhánh</label>
+                        <select class="form-control" id="ddlChiNhanh"><option value="">-- Chọn chi nhánh --</option></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Nghiệp vụ cha</label>
+                        <select class="form-control" id="ddlNghiepVuCha" disabled><option value="">-- Chọn nghiệp vụ cha --</option></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Phân loại nghiệp vụ</label>
+                        <select class="form-control" id="ddlNghiepVu" disabled><option value="">-- Chọn nghiệp vụ --</option></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Người dùng</label>
+                        <select class="form-control" id="ddlNguoiDung" disabled><option value="">-- Chọn người dùng --</option></select>
+                    </div>
+                </div>
+            </form>
+            <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+        `;
+
+        const footerHtml = `
+            <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu cài đặt"}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>`;
+
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+
+        await loadAllDropdowns();
+
+        $('#ddlNghiepVuCha').on('change', function () {
+            const parentId = $(this).val();
+            if (parentId) {
+                loadNghiepVu(parentId);
+            }
+        });
+
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            $('#error_msg').text("");
+            $('#form_caidat select').removeClass('is-invalid');
+
+            let isValid = true;
+            $('#form_caidat select').each(function () {
+                if (!$(this).val()) {
+                    $(this).addClass('is-invalid');
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                $('#error_msg').text("Vui lòng chọn đầy đủ tất cả các trường.");
+                return;
+            }
+
+            const { token, groupId, userName } = await getUserInfo();
+            const isEdit = $(this).data("isedit") === true;
+            const id = $(this).data("id") || generateUUID();
+
+            const data = {
+                Id: id,
+                CompanyId: $('#ddlChiNhanh').val(),
+                ParentMajorId: $('#ddlNghiepVuCha').val(),
+                MajorId: $('#ddlNghiepVu').val(),
+                UserId: $('#ddlNguoiDung').val(),
+                GroupId: groupId,
+                Ordinarily: 0,
+                CreateAt: new Date().toISOString(),
+                CreateBy: userName,
+                IsActive: 1,
+                ApprovalUserId: "",
+                DateApproval: new Date().toISOString(),
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: ""
+            };
+
+            try {
+                const res = await $.ajax({
+                    url:`/api/PhanQuyenCaiDatThaoTac?isEdit=${isEdit}`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(data)
+                });
+
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công!" : "Lưu thành công!");
+                    $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu.");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu.");
+                }
+            } catch (err) {
+                console.error("Lỗi khi lưu:", err);
+                $('#error_msg').text("Lỗi hệ thống khi lưu dữ liệu.");
+            }
+        });
+        
+        setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                      theme: 'bootstrap4',
+                      dropdownParent: $('#globalModal')
+                  });
+         }, 100);
+    }
+
+    async function getUserInfo() {
+        const res = await getJwtToken();
+        return { token: res.token, groupId: res.userInfor.groupId ,userName : res.userInfor.userName };
+    }
+
+    async function loadAllDropdowns() {
+        const { token, groupId } = await getUserInfo();
+
+        // Load Chi nhánh
+        await $.ajax({
+            url: `/api/chinhanh/getall?groupId=${groupId}`,
+            headers: { Authorization: `Bearer ${token}` }
+        }).done(res => {
+            const ddl = $('#ddlChiNhanh');
+            ddl.empty().append('<option value="">-- Chọn chi nhánh --</option>');
+            res.data?.forEach(x => ddl.append(`<option value="${x.id}">${x.tenChiNhanh}</option>`));
+        });
+
+        // Load Nghiệp vụ cha
+        await $.ajax({
+            url: `/api/NghiepVu/GetAllParentMajor`,
+            headers: { Authorization: `Bearer ${token}` }
+        }).done(res => {
+            const ddl = $('#ddlNghiepVuCha');
+            ddl.prop('disabled', false).empty().append('<option value="">-- Chọn nghiệp vụ cha --</option>');
+            res.data?.forEach(x => ddl.append(`<option value="${x.id}">${x.majorName}</option>`));
+        });
+
+        // Load Người dùng
+        await $.ajax({
+            url: `/api/ApplicationUser/GetAll?groupId=${groupId}`,
+            headers: { Authorization: `Bearer ${token}` }
+        }).done(res => {
+            const ddl = $('#ddlNguoiDung');
+            ddl.prop('disabled', false).empty().append('<option value="">-- Chọn người dùng --</option>');
+            res.data?.forEach(x => ddl.append(`<option value="${x.id}">${x.userName}</option>`));
+        });
+    }
+
+    async function loadNghiepVu(parentId) {
+        const { token } = await getUserInfo();
+
+        await $.ajax({
+            url: `/api/nghiepvu/GetMajorByParentId?parentId=${parentId}`,
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        }).done(res => {
+            const ddl = $('#ddlNghiepVu');
+            ddl.prop('disabled', false).empty().append('<option value="">-- Chọn nghiệp vụ --</option>');
+            res.data?.forEach(x => ddl.append(`<option value="${x.id}">${x.majorName}</option>`));
+        }).fail((xhr, status, error) => {
+            console.error('Lỗi loadNghiepVu:', {
+                status: xhr.status,
+                responseText: xhr.responseText,
+                error: error
+            });
+        });
+    }
+
+    async function editCaiDat(id) {
+        const { token } = await getUserInfo();
+        try {
+            const res = await $.ajax({
+                url: `/api/PhanQuyenCaiDatThaoTac/GetById?id=${id}`,
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.success || !res.data) {
+                alert(res.message || 'Không lấy được dữ liệu');
+                return;
+            }
+
+            await showModalTaoMoi(true, res.data);
+
+            // Set Chi nhánh
+            $('#ddlChiNhanh').val(res.data.companyId).trigger('change');
+
+            // Set Nghiệp vụ cha
+            $('#ddlNghiepVuCha').val(res.data.parentMajorId).trigger('change');
+
+            // Wait for loadNghiepVu to finish, then set Nghiệp vụ
+            await loadNghiepVu(res.data.parentMajorId);
+            $('#ddlNghiepVu').val(res.data.majorId).trigger('change');
+
+            // Set Người dùng
+            $('#ddlNguoiDung').val(res.data.userId).trigger('change');
+        } catch (err) {
+            console.error('editCaiDat error:', err);
+            alert('Lỗi khi load dữ liệu!');
+        }
+    }
+
+    async function deleteCaiDat(id) {
+        if (!confirm('Bạn có chắc chắn muốn xoá?')) return;
+        const { token } = await getUserInfo();
+        $.ajax({
+            url: `/api/PhanQuyenCaiDatThaoTac/${id}`,
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .done(res => {
+            if (res.success) {
+
+                showToastSuccess("Xóa thành công");
+                loadData();
+            } else {
+                  showToastError(res?.message || "Xóa thất bại");
+            }
+        })
+        .fail((xhr) => {
+           showToastError("Lỗi kết nối khi xóa");
+        });
+    }
+
+
+</script>
+
+
+

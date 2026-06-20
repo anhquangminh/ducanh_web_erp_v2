@@ -1,0 +1,329 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 p-2">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">Danh sách</h3>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i>Tạo mới
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="table_NghiepVu">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nghiệp vụ cha</th>
+                            <th>Tên nghiệp vụ</th>
+                            <th>Thứ tự sắp xếp</th>
+                            <th>Tên bảng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Nghiệp vụ cha</th>
+                            <th>Tên nghiệp vụ</th>
+                            <th>Thứ tự sắp xếp</th>
+                            <th>Tên bảng</th>
+                            <th style="display: none;"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: "/api/NghiepVu/GetByVM",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    id: "",
+                    parentId: "",
+                    majorName: "",
+                    order: 0,
+                    table: "",
+                    createAt: new Date().toISOString(),
+                    createBy: "",
+                    isActive: 0,
+                    parentName: ""
+                })
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        parentName: item.parentName ||'',
+                        majorName: item.majorName ||'',
+                        order: item.order ||'',
+                        table: item.table ||'',
+                        isActive: item.isActive ||'',
+                    }));
+                }
+
+                const $table = $('#table_NghiepVu');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                        { data: 'parentName', className: 'align-middle' },
+                        { data: 'majorName', className: 'align-middle' },
+                        { data: 'order', className: 'align-middle' },
+                        { data: 'table', className: 'align-middle' },
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: "1%",
+                            render: function (data, type, row) {
+                                let buttons = `
+                                  <div class="btn-group">
+                                        <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick="editCaiDat('${row.id}')"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick="deleteCaiDat('${row.id}')"><i class="fas fa-trash"></i></button>
+                                    </div>`;
+                                return buttons;
+                           }
+                       }
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                $('#table_NghiepVu tbody').html('<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            });
+        });
+    }
+
+    async function showModalTaoMoi(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật " : "Thêm mới ";
+
+        const bodyHtml = `
+            <form id="form_caidat">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="parentId" class="form-label">Nghiệp vụ cha<span class="text-danger">*</span></label>
+                        <select id="parentId" class="form-control" required>
+                            <option value="">-- Chọn nghiệp vụ cha --</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Tên nghiệp vụ</label>
+                        <input type="text" id="input-majorName" name="name" value="${data ? data.majorName : ''}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Thứ tự sắp xếp</label>
+                        <input type="number" id="input-order" name="name" value="${data ? data.order : 0}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Tên bảng</label>
+                        <input type="text" id="input-table" name="name" value="${data ? data.table : ''}" class="form-control" />
+                    </div>
+
+                </div>
+            </form>
+            <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+        `;
+
+        const footerHtml = `
+            <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu "}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>`;
+
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+
+         getJwtToken().then(async function (resUser) {
+            await loadParentMajor(data?.parentId, resUser);
+        });
+
+        // Sự kiện click nút Lưu
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+                // Validate fields
+                $('#error_msg').text('');
+                $('#input-majorName, #input-order, #input-table').removeClass('is-invalid');
+
+                const fields = [
+                    { selector: '#input-majorName', value: $('#input-majorName').val().trim(), message: 'Vui lòng nhập tên nghiệp vụ.' },
+                    { selector: '#input-order', value: $('#input-order').val().trim(), message: 'Vui lòng nhập số thứ tự.' },
+                ];
+
+                for (const field of fields) {
+                    if (!field.value) {
+                        $(field.selector).addClass('is-invalid');
+                        $('#error_msg').text(field.message);
+                        return;
+                    }
+                }
+
+            // Lấy thông tin user
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const groupId = resUser.userInfor.groupId;
+            const userName = resUser.userInfor.userName;
+
+            // Chuẩn bị dữ liệu gửi lên API
+            const isEdit = $(this).data("isedit") === true;
+            const id = $(this).data("id") || generateUUID();
+
+            const dataSend = {
+                Id: isEdit ? id : "",
+                parentId: $('#parentId').val(),
+                majorName :  $('#input-majorName').val(),
+                order: $('#input-order').val().trim(),
+                table: $('#input-table').val().trim(),
+                createAt: new Date().toISOString(),
+                createBy: userName,
+                isActive: 3,            };
+
+            try {
+                // Gọi API lưu
+                const res = await $.ajax({
+                    url: `/api/NghiepVu/Create?isEdit=${isEdit}`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(dataSend)
+                });
+
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công!" : "Lưu thành công!");
+                    // $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu.");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu.");
+                }
+            } catch (err) {
+                $('#error_msg').text("Lỗi hệ thống khi lưu dữ liệu.");
+            }
+        });
+
+        setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                      theme: 'bootstrap4',
+                      dropdownParent: $('#globalModal')
+                  });
+         }, 100);
+    }
+
+    // Load ParentMajor
+    async function loadParentMajor(selectedId, resUser) {
+        await $.ajax({
+            url: "/api/NghiepVu/GetAllParentMajor",
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + (resUser ? resUser.token : "")
+            }
+        }).done(function (response) {
+            const $dropdown = $('#parentId');
+            $dropdown.empty().append('<option value="">-- Chọn nghiệp vụ cha --</option>');
+            if (response?.data?.length) {
+                response.data.forEach(item => $dropdown.append(`<option value="${item.id}">${item.majorName}</option>`));
+                if (selectedId) $dropdown.val(selectedId).trigger('change');
+            }
+        }).fail(() => alert('Không thể tải danh sách'));
+    }
+
+    // Chỉnh sửa chuyên môn
+    async function editCaiDat(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NghiepVu/GetById?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success && res.data) {
+                showModalTaoMoi(true, res.data);
+            } else {
+                showToastError(res.message || "Không lấy được dữ liệu để chỉnh sửa!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi lấy dữ liệu chỉnh sửa!");
+        }
+    }
+
+    // Xóa chuyên môn
+    async function deleteCaiDat(id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa chuyên môn này?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/NghiepVu/${id}`,
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Xóa thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Xóa thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi xóa!");
+        }
+    }
+
+</script>
+
+
+

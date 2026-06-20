@@ -1,0 +1,434 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG ĐÀO, ĐẮP, VẬN CHUYỂN ĐẤT HỆ THỐNG CẤP NƯỚC SẠCH DỌC THEO TUYẾN </h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th colspan="8">Thông tin hạng mục công việc</th>
+                            <th colspan="2" id="kldao">Thông tìn KL đào</th>
+                        </tr>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên công trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng </th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG ĐÀO, ĐẮP, VẬN CHUYỂN ĐẤT HỆ THỐNG CẤP NƯỚC SẠCH DỌC THEO TUYẾN", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 06", align: "center", fontSize: 12, bold: true },
+            { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3). Kèm theo bảng này là bảng tổng hợp khối lượng theo hạng mục, loại khối lượng đào, đắp, vận chuyển", align: "center", fontSize: 11 }
+        ], "1.6. THKL đào N.Sạch dọc", "1.6. THKL đào N.Sạch dọc.xlsx");
+    }
+
+    $(function () {
+        loadDMTenCongTac().then(loadData);
+    });
+    let danhMucCongTacs = [];
+
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_LoaiCauKien: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_data thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_data tfoot tr');
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+        $('#kldao').attr('colspan', uniqueTuyenDuong.length + 1);
+    }
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                let mappedData = [];
+                let uniqueTuyenDuong = [];
+
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    // lấy unique tuyenDuong
+                    uniqueTuyenDuong = [...new Set(res.data.map(item => item.tuyenDuong).filter(Boolean))];
+
+                    // cập nhật header/footer
+                    addDynamicColumns(uniqueTuyenDuong);
+
+                    // Map dữ liệu
+                    res.data.forEach((item, idx) => {
+                        // 1. KL Đào Đất
+                        let obj1 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec || '',
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            hangMucKlDaoDat: item.hangMucKlDaoDat,
+                            loaiKlDaoDat: item.loaiKlDaoDat,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: ""
+                        };
+                        uniqueTuyenDuong.forEach(td => { obj1[td] = ""; });
+                        mappedData.push(obj1);
+
+                        // 2. KL Đắp Cát
+                        let obj2 = {
+                            stt: idx * 4 + 2,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec || '',
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            hangMucKlDaoDat: item.hangMucKlDapCat,
+                            loaiKlDaoDat: item.loaiKlDapCat,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: ""
+                        };
+                        uniqueTuyenDuong.forEach(td => { obj2[td] = ""; });
+                        mappedData.push(obj2);
+
+                        // 3. KL Đắp Đất
+                        let obj3 = {
+                            stt: idx * 4 + 3,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec || '',
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            hangMucKlDaoDat: item.hangMucKlDapDat,
+                            loaiKlDaoDat: item.loaiKlDapDat,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: ""
+                        };
+                        uniqueTuyenDuong.forEach(td => { obj3[td] = ""; });
+                        mappedData.push(obj3);
+
+                        // 4. KL Đất Thừa
+                        let obj4 = {
+                            stt: idx * 4 + 4,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec || '',
+                            id_LoaiCauKien: item.id_LoaiCauKien,
+                            loaiCauKien: item.loaiCauKien,
+                            hangMucKlDaoDat: item.hangMucKlDatThua,
+                            loaiKlDaoDat: item.loaiKlDatThua,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: ""
+                        };
+                        uniqueTuyenDuong.forEach(td => { obj4[td] = ""; });
+                        mappedData.push(obj4);
+                    });
+
+                    // lọc duy nhất theo 5 trường
+                    let seen = new Set();
+                    dataSet = mappedData.filter(row => {
+                        let key = [
+                            row.id_ChiNhanh,
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.hangMucKlDaoDat,
+                            row.loaiKlDaoDat
+                        ].join('|');
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    });
+
+                    // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                    const tenCongTacLookup = {};
+                    danhMucCongTacs.forEach(item => {
+                        const key = [
+                            item.id_HangMucCongViec,
+                            item.id_LoaiCauKien,
+                            item.hangMucKhoiLuong,
+                            item.loaiKhoiLuong
+                        ].join('|');
+                        tenCongTacLookup[key] = item;
+                    });
+
+                    const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                    const makeKey = (idCN, idHMCV, idLCK, hm, loai, td) => [idCN, idHMCV, idLCK, hm, loai, td].join('|');
+
+                    // Tách riêng 4 map (tránh đè/đụng key giữa các nguồn)
+                    const mapDao = new Map();
+                    const mapDapCat = new Map();
+                    const mapDapDat = new Map();
+                    const mapDatThua = new Map();
+
+                    res.data.forEach(it => {
+                        const idCN = it.id_ChiNhanh;
+                        const idHMCV = it.id_HangMucCongViec;
+                        const idLCK = it.id_LoaiCauKien;
+                        const td = it.tuyenDuong;
+
+                        // 1) KL Đào đất (BW)
+                        if (it.hangMucKlDaoDat && it.loaiKlDaoDat) {
+                            const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDaoDat, it.loaiKlDaoDat, td);
+                            mapDao.set(key, (mapDao.get(key) || 0) + num(it.klDao));
+                        }
+
+                        // 2) KL Đắp cát (CJ)
+                        if (it.hangMucKlDapCat && it.loaiKlDapCat) {
+                            const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapCat, it.loaiKlDapCat, td);
+                            mapDapCat.set(key, (mapDapCat.get(key) || 0) + num(it.klDapCatSauCCho));
+                        }
+
+                        // 3) KL Đắp đất (CS)
+                        if (it.hangMucKlDapDat && it.loaiKlDapDat) {
+                            const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDapDat, it.loaiKlDapDat, td);
+                            mapDapDat.set(key, (mapDapDat.get(key) || 0) + num(it.klDapDatSauCCho));
+                        }
+
+                        // 4) KL Đất thừa (CW)
+                        if (it.hangMucKlDatThua && it.loaiKlDatThua) {
+                            const key = makeKey(idCN, idHMCV, idLCK, it.hangMucKlDatThua, it.loaiKlDatThua, td);
+                            mapDatThua.set(key, (mapDatThua.get(key) || 0) + num(it.klDatThua));
+                        }
+                    });
+
+                    dataSet.forEach(row => {
+                        let tong = 0;
+
+                        uniqueTuyenDuong.forEach(td => {
+                            const key = makeKey(
+                                row.id_ChiNhanh,
+                                row.id_HangMucCongViec,
+                                row.id_LoaiCauKien,
+                                row.hangMucKlDaoDat,
+                                row.loaiKlDaoDat,
+                                td
+                            );
+                            const sum =
+                                (mapDao.get(key) || 0) +
+                                (mapDapCat.get(key) || 0) +
+                                (mapDapDat.get(key) || 0) +
+                                (mapDatThua.get(key) || 0);
+
+                            row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                            tong += sum;
+                        });
+
+                        // Tên công tác 
+                        const keyCongTac = [
+                            row.id_HangMucCongViec,
+                            row.id_LoaiCauKien,
+                            row.hangMucKlDaoDat,
+                            row.loaiKlDaoDat
+                        ].join('|');
+                        if (tenCongTacLookup[keyCongTac]) {
+                            row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                            row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                        }else{
+                            row.tenCongtac="";
+                            row.donVi="";
+                        }
+
+                        row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+                    });
+
+
+                    const $table = $('#table_data');
+
+                    // Config cột cố định
+                    let columns = [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'hangMucCongViec', className: 'align-middle' },
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'hangMucKlDaoDat', className: 'align-middle' },
+                        { data: 'loaiKlDaoDat', className: 'align-middle' },
+                        { data: 'tenCongtac', className: 'align-middle' },
+                        { data: 'donVi', className: 'align-middle' },
+                        { data: 'tongKhoiLuong', className: 'align-middle' }
+                    ];
+
+                    // Thêm các cột động
+                    uniqueTuyenDuong.forEach(td => {
+                        columns.push({
+                            data: td,
+                            className: 'align-middle',
+                            defaultContent: ''
+                        });
+                    });
+
+                    if ($.fn.DataTable.isDataTable($table)) {
+                        $table.DataTable().clear().rows.add(dataSet).draw();
+                    } else {
+                        $table.DataTable({
+                            data: dataSet,
+                            columns: columns,
+                            autoWidth: false,
+                            ordering: true,
+                            searching: true,
+                            paging: true,
+                            pageLength: 10,
+                            info: true,
+                            language: {
+                                lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                                zeroRecords: "Không tìm thấy dữ liệu",
+                                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                                infoEmpty: "Không có bản ghi nào",
+                                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                                search: "Tìm kiếm:",
+                                paginate: {
+                                    first: "Đầu",
+                                    last: "Cuối",
+                                    next: "Sau",
+                                    previous: "Trước"
+                                }
+                            },
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'excel', 'pdf'],
+                            initComplete: function () {
+                                this.api().columns().every(function (colIdx) {
+                                    var column = this;
+                                    var $footer = $(column.footer()).empty();
+                                    if (colIdx === 0) {
+                                        $footer.append('<p></p>');
+                                    } else {
+                                        var select = $('<select><option value=""></option></select>')
+                                            .appendTo($footer)
+                                            .on('change', function () {
+                                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                                column
+                                                    .search(val ? '^' + val + '$' : '', true, false)
+                                                    .draw();
+                                            });
+
+                                        column.data().unique().sort().each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                }
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead tr:last th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+
+    // Hiển thị lỗi
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+</script>
+

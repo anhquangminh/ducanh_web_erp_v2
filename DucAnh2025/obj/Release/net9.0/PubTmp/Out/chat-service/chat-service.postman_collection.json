@@ -1,0 +1,855 @@
+{
+  "info": {
+    "_postman_id": "b51cfc83-9a7e-421f-82ff-6aa68cf45f25",
+    "name": "DucAnh Chat Service",
+    "description": "Debug-ready collection for ASP.NET JWT authentication, chat-service REST API, uploads, seen status and Socket.IO auth notes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "webBaseUrl",
+      "value": "http://localhost:5220",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "conversationId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "messageId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "groupId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "email",
+      "value": "user@example.com",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "P@ssw0rd!",
+      "type": "string"
+    },
+    {
+      "key": "clientMessageId",
+      "value": "postman-{{$timestamp}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Use ASP.NET API to obtain a JWT compatible with chat-service. If web login uses cookies, first sign in on the web app, then call Get JWT Token with cookies enabled.",
+      "item": [
+        {
+          "name": "Login - ASP.NET API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('login returned 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.environment.set(\"token\", pm.response.json().token); }",
+                  "const token = json.token || json.Token || json.data?.token || json.data?.Token;",
+                  "if (token) pm.environment.set('token', token);",
+                  "pm.test('token saved when present', function () { pm.expect(pm.environment.get('token') || '').to.not.equal(''); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Authenticates against ASP.NET `/api/User/Login`. The response token is saved into `token`.",
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{webBaseUrl}}/api/User/Login",
+              "host": [
+                "{{webBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "User",
+                "Login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"P@ssw0rd!\"\n}"
+                },
+                "url": "{{webBaseUrl}}/api/User/Login"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Dang nhap thanh cong\",\n  \"data\": {\n    \"token\": \"jwt-token\",\n    \"expiration\": \"2026-05-25T12:00:00\"\n  }\n}"
+            },
+            {
+              "name": "Failed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": "{{webBaseUrl}}/api/User/Login"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"message\": \"Mat khau khong dung\",\n  \"data\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get JWT Token - Cookie Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('get token returned 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.environment.set(\"token\", pm.response.json().token); }",
+                  "const token = json.token || json.Token;",
+                  "if (token) pm.environment.set('token', token);",
+                  "if (json.userInfor?.id) pm.environment.set('userId', json.userInfor.id);",
+                  "if (json.userInfor?.groupId) pm.environment.set('groupId', json.userInfor.groupId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Gets a JWT from the current ASP.NET cookie session. Enable cookie jar in Postman or call after browser login.",
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{webBaseUrl}}/api/User/GetJwtToken",
+              "host": [
+                "{{webBaseUrl}}"
+              ],
+              "path": [
+                "api",
+                "User",
+                "GetJwtToken"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{webBaseUrl}}/api/User/GetJwtToken"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"token\": \"jwt-token\",\n  \"userInfor\": {\n    \"id\": \"user-id\",\n    \"userName\": \"user@example.com\",\n    \"groupId\": \"group-id\",\n    \"companyId\": \"company-id\",\n    \"name\": \"User Name\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Chat Service Health",
+          "request": {
+            "description": "Checks whether chat-service and MongoDB are reachable.",
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/health"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"ok\": true,\n  \"mongo\": {\n    \"connected\": true\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "description": "Search users in the same group for direct messages, group creation and mentions.",
+      "item": [
+        {
+          "name": "Search Users",
+          "request": {
+            "description": "Searches ApplicationUsers scoped by current user's group.",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/users/search?q={{email}}&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "users",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "{{email}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/chat/users/search?q=user&limit=20"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"target-user-id\",\n      \"userName\": \"target@example.com\",\n      \"firstName\": \"Target\",\n      \"lastName\": \"User\",\n      \"email\": \"target@example.com\",\n      \"companyId\": \"company-id\",\n      \"groupId\": \"group-id\"\n    }\n  ]\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/users/search"
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"message\": \"Unauthorized\",\n  \"code\": \"AUTH_REQUIRED\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Conversations",
+      "description": "List and create private conversations.",
+      "item": [
+        {
+          "name": "List Conversations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('conversations returned 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.data?.[0]?._id) pm.environment.set('conversationId', json.data[0]._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Lists current user's conversations. Requires `Authorization: Bearer {{token}}`.",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations?limit=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/chat/conversations?limit=50"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"_id\": \"conversation-id\",\n      \"type\": \"private\",\n      \"title\": \"\",\n      \"lastMessageAt\": \"2026-05-25T00:00:00.000Z\"\n    }\n  ]\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/conversations?limit=50"
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"message\": \"Unauthorized\",\n  \"code\": \"AUTH_REQUIRED\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Private Conversation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('private conversation created', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.data?.conversationId) pm.environment.set('conversationId', json.data.conversationId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Creates or returns a direct conversation with `userId`.",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetUserId\": \"{{userId}}\",\n  \"targetUserName\": \"target@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/private",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "private"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/chat/conversations/private"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"conversationId\": \"conversation-id\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "description": "Create group conversations and inspect group members.",
+      "item": [
+        {
+          "name": "Create Group Chat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('group created', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.data?._id) pm.environment.set('conversationId', json.data._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Creates a group conversation. The actor is added as owner automatically.",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Test Group\",\n  \"members\": [\n    {\n      \"userId\": \"{{userId}}\",\n      \"userName\": \"target@example.com\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/group",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "group"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/chat/conversations/group"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"_id\": \"conversation-id\",\n    \"type\": \"group\",\n    \"title\": \"Postman Test Group\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Conversation Members",
+          "request": {
+            "description": "Lists active members in a conversation.",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/members",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "members"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/members"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"userId\": \"user-id\",\n      \"userName\": \"user@example.com\",\n      \"role\": \"owner\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "description": "List messages, send messages over REST and mark messages as seen. Socket.IO remains the primary realtime path.",
+      "item": [
+        {
+          "name": "List Messages",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('messages returned 200', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.data?.[0]?._id) pm.environment.set('messageId', json.data[0]._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Lists messages using cursor pagination. Latest messages are returned first by backend.",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/messages?limit=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "messages"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/messages?limit=50"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"_id\": \"message-id\",\n      \"conversationId\": \"conversation-id\",\n      \"senderId\": \"user-id\",\n      \"body\": \"Hello from Postman\",\n      \"type\": \"text\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Send Message - REST Debug",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('message sent', function () { pm.response.to.have.status(200); });",
+                  "const json = pm.response.json();",
+                  "if (json.data?._id) pm.environment.set('messageId', json.data._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "description": "Sends a message over REST for debugging. Production UI sends messages through Socket.IO.",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientMessageId\": \"{{clientMessageId}}\",\n  \"body\": \"Hello from Postman\",\n  \"type\": \"text\",\n  \"attachments\": [],\n  \"mentionedUserIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "messages"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/messages"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"_id\": \"message-id\",\n    \"body\": \"Hello from Postman\",\n    \"type\": \"text\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mark Message Seen",
+          "request": {
+            "description": "Marks a message as read/seen for current user.",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageId\": \"{{messageId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/seen",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "seen"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": "{{baseUrl}}/api/chat/conversations/{{conversationId}}/seen"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"conversationId\": \"conversation-id\",\n    \"messageId\": \"message-id\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uploads / WebSocket",
+      "description": "File upload and Socket.IO auth debug notes.",
+      "item": [
+        {
+          "name": "Upload File",
+          "request": {
+            "description": "Uploads an image/file and returns attachment metadata for `message:send`.",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat/uploads",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat",
+                "uploads"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/chat/uploads"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"type\": \"image\",\n    \"url\": \"/uploads/chat/file.png\",\n    \"fileName\": \"file.png\",\n    \"mimeType\": \"image/png\",\n    \"size\": 12345\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Socket.IO Auth Notes",
+          "request": {
+            "description": "Socket namespace: `{{baseUrl}}/chat`. Browser client connects with `io('{{baseUrl}}/chat', { auth: { token: '{{token}}' }, transports: ['websocket', 'polling'] })`. Events: `conversation:join`, `message:send`, `message:seen`, `message:typing`. Server emits: `message:new`, `message:seen`, `message:typing`, `presence:online`, `presence:offline`, `notification:new`.",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/socket.io/?EIO=4&transport=polling",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socket.io",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "EIO",
+                  "value": "4"
+                },
+                {
+                  "key": "transport",
+                  "value": "polling"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Socket Auth Error Example",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/chat"
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": false,\n  \"message\": \"Unauthorized\",\n  \"code\": \"AUTH_REQUIRED\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

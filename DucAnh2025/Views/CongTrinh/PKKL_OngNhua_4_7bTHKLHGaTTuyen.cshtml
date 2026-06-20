@@ -1,0 +1,689 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG TỔNG HỢP KHỐI LƯỢNG HỐ GA NƯỚC SẠCH THEO TUYẾN ĐƯỜNG (LẬP DỰ TOÁN)</h3>
+        </div>
+        <div class="card-body">
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_hoga">
+                    <thead>
+                        <tr>
+                            <th colspan="7">Thông tin hạng mục công việc</th>
+                            <th colspan="1" id="col-dynamic">Khối lượng theo tuyến đường</th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+                            <th> Hạng mục công việc</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên công trình</th>
+
+                            <th> Hạng mục công việc</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Tên công tác thực tế</th>
+                            <th>Đơn vị</th>
+                            <th>Tổng khối lượng</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+   async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+             { text: "BẢNG TỔNG HỢP KHỐI LƯỢNG HỐ GA NƯỚC SẠCH THEO TUYẾN ĐƯỜNG (LẬP DỰ TOÁN)", align: "center", fontSize: 12, bold: true },
+            { text: "Mẫu số 08", align: "center", fontSize: 12, bold: true },
+             { text: "In tổng thể (Nếu số lượng cột đủ để in được A3 thì in tổng thể; Nếu số lượng cột không đủ để in A3 thì căn chỉnh để in thành nhiều trang A3)", align: "center", fontSize: 11 }
+          ], "4.7b THKL H.Ga T.Tuyến", "4.7b THKL H.Ga T.Tuyến.xlsx");
+    }
+
+    $(function () {
+        loadDMTenCongTac().then(loadData);
+    });
+    let danhMucCongTacs = [];
+
+    function loadDMTenCongTac() {
+        return getJwtToken().then(function (resUser) {
+            return $.ajax({
+                url: `/api/DMTenCongTac/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    Id_HangMucCongViec: "",
+                    Id_HangMucKhoiLuong: "",
+                    Id_LoaiKhoiLuong: "",
+                    TenCongTac: "",
+                    DonVi: "",
+
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    danhMucCongTacs = res.data;
+                } else {
+                    danhMucCongTacs = [];
+                }
+            }).fail(function (xhr) {
+                danhMucCongTacs = [];
+            });
+        });
+    }
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua4ThongTinChungHGa/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                let mappedData = [];
+                let uniqueTuyenDuong = [];
+
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+
+                    // Map dữ liệu
+                    res.data.forEach((item, idx) => {
+                        // 1.
+                        let obj1 = {
+                            stt: idx * 4 + 1,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayDungLotMong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayDungLotMong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongXayDungLotMong,
+                            loaiKhoiLuong: item.loaiKhoiLuongXayDungLotMong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj1);
+                        //2
+                        let obj2 = {
+                            stt: idx * 4 + 2,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayDungLotMong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayDungLotMong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongVanKhuanLotMong,
+                            loaiKhoiLuong: item.loaiKhoiLuongVanKhuanLotMong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj2);
+                        //3
+                        let obj3 = {
+                            stt: idx * 4 + 3,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayDungMong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayDungMong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongXayDungMong,
+                            loaiKhoiLuong: item.loaiKhoiLuongXayDungMong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj3);
+                        //4
+                        let obj4 = {
+                            stt: idx * 4 + 4,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayDungMong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayDungMong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongVanKhuanMong,
+                            loaiKhoiLuong: item.loaiKhoiLuongVanKhuanMong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj4);
+                        //5
+                        let obj5 = {
+                            stt: idx * 4 + 5,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTuong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTuong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongXayTuong,
+                            loaiKhoiLuong: item.loaiKhoiLuongXayTuong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj5);
+                        //6
+                        let obj6 = {
+                            stt: idx * 4 + 6,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTuong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTuong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatNgoai,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatNgoai,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj6);
+                        //7
+                        let obj7 = {
+                            stt: idx * 4 + 7,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTuong,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTuong,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatTrong,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatTrong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj7);
+                        //8
+                        let obj8 = {
+                            stt: idx * 4 + 8,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongMuMoDuoi,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongMuMoDuoi,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongMuMoDuoi,
+                            loaiKhoiLuong: item.loaiKhoiLuongMuMoDuoi,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj8);
+                        //9
+                        let obj9 = {
+                            stt: idx * 4 + 9,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongMuMoDuoi,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongMuMoDuoi,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatDuoiNgoai,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatDuoiNgoai,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj9);
+                        //10
+                        let obj10 = {
+                            stt: idx * 4 + 10,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongMuMoDuoi,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongMuMoDuoi,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatDuoiTrong,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatDuoiTrong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj10);
+                        //11
+                        let obj11 = {
+                            stt: idx * 4 + 11,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTren,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTren,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongXayTren,
+                            loaiKhoiLuong: item.loaiKhoiLuongXayTren,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj11);
+                        //12
+                        let obj12 = {
+                            stt: idx * 4 + 12,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTren,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTren,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatTren,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatTren,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj12);
+                        //13
+                        let obj13 = {
+                            stt: idx * 4 + 13,
+                            id_ChiNhanh: item.id_ChiNhanh || '',
+                            tenChiNhanh: item.tenChiNhanh || '',
+                            tuyenDuong: item.tuyenDuong || '',
+                            lyTrinh: item.lyTrinh || '',
+                            id_HangMucCongViec: item.id_HangMucCongViec,
+                            hangMucCongViec: item.hangMucCongViec,
+                            tenHoVan: item.tenHoVan,
+                            id_HangMucKhoiLuong: item.id_HangMucKhoiLuongXayTren,
+                            hangMucKhoiLuong: item.hangMucKhoiLuongXayTren,
+                            id_LoaiKhoiLuong: item.id_LoaiKhoiLuongChatTrenTrong,
+                            loaiKhoiLuong: item.loaiKhoiLuongChatTrenTrong,
+                            tenCongtac: "",
+                            donVi: "",
+                            tongKhoiLuong: "0"
+                        };
+                        mappedData.push(obj13);
+                    });
+
+                    dataSet = mappedData;
+                    // Tạo lookup để tra cứu nhanh từ danhMucCongTacs
+                    const tenCongTacLookup = {};
+                    danhMucCongTacs.forEach(item => {
+                        const key = [
+                            item.id_HangMucCongViec,
+                            item.id_HangMucKhoiLuong,
+                            item.id_LoaiKhoiLuong
+                        ].join('|');
+                        tenCongTacLookup[key] = item;
+                    });
+
+                    const num = v => (v == null || v === '' ? 0 : (Number(v) || 0));
+                    const makeKey = (idCN, tenHoVan, hangMucKhoiLuong, loaiKhoiLuong) => [idCN, tenHoVan, hangMucKhoiLuong, loaiKhoiLuong].join('|');
+
+                    // Tách riêng 4 map (tránh đè/đụng key giữa các nguồn)
+                    const map1 = new Map();
+                    const map2 = new Map();
+                    const map3 = new Map();
+                    const map4 = new Map();
+                    const map5 = new Map();
+                    const map6 = new Map();
+                    const map7 = new Map();
+                    const map8 = new Map();
+                    const map9 = new Map();
+                    const map10 = new Map();
+                    const map11 = new Map();
+                    const map12 = new Map();
+                    const map13 = new Map();
+
+                    res.data.forEach(it => {
+                        const idCN = it.id_ChiNhanh;
+                        const tenHoVan =it.tenHoVan;
+
+                        // 1)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayDungLotMong && it.id_LoaiKhoiLuongXayDungLotMong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayDungLotMong, it.id_LoaiKhoiLuongXayDungLotMong);
+                            map1.set(key, (map1.get(key) || 0) + num(it.klXayDungLotMong));
+                        }
+                        // 2)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayDungLotMong && it.id_LoaiKhoiLuongVanKhuanLotMong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayDungLotMong, it.id_LoaiKhoiLuongVanKhuanLotMong);
+                                map2.set(key, (map2.get(key) || 0) + num(it.tongKlVanKhuanLotMongVanKhuanLotMong));
+                        }
+                        // 3)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayDungMong && it.id_LoaiKhoiLuongXayDungMong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayDungMong, it.id_LoaiKhoiLuongXayDungMong);
+                                map3.set(key, (map3.get(key) || 0) + num(it.klXayDungMong));
+                        }
+                        // 4)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayDungMong && it.id_LoaiKhoiLuongVanKhuanMong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayDungMong, it.id_LoaiKhoiLuongVanKhuanMong);
+                                map4.set(key, (map4.get(key) || 0) + num(it.tongKlVanKhuanMongVanKhuanMong));
+                        }
+                        // 5)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTuong && it.id_LoaiKhoiLuongXayTuong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTuong, it.id_LoaiKhoiLuongXayTuong);
+                                    map5.set(key, (map5.get(key) || 0) + num(it.klSauChiemChoXayTuong));
+                        }
+                        // 6)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTuong && it.id_LoaiKhoiLuongChatNgoai) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTuong, it.id_LoaiKhoiLuongChatNgoai);
+                                        map6.set(key, (map6.get(key) || 0) + num(it.klSauChiemChoChatNgoai));
+                        }
+                        // 7)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTuong && it.id_LoaiKhoiLuongChatTrong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTuong, it.id_LoaiKhoiLuongChatTrong);
+                                        map7.set(key, (map7.get(key) || 0) + num(it.klSauChiemChoChatTrong));
+                        }
+                        // 8)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongMuMoDuoi && it.id_LoaiKhoiLuongMuMoDuoi) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongMuMoDuoi, it.id_LoaiKhoiLuongMuMoDuoi);
+                                        map8.set(key, (map8.get(key) || 0) + num(it.tongKlMuMoDuoi));
+                        }
+                        // 9)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongMuMoDuoi && it.id_LoaiKhoiLuongChatDuoiNgoai) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongMuMoDuoi, it.id_LoaiKhoiLuongChatDuoiNgoai);
+                                        map9.set(key, (map9.get(key) || 0) + num(it.tongKlChatDuoiNgoai));
+                        }
+                        // 10)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongMuMoDuoi && it.id_LoaiKhoiLuongChatDuoiTrong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongMuMoDuoi, it.id_LoaiKhoiLuongChatDuoiTrong);
+                                        map10.set(key, (map10.get(key) || 0) + num(it.tongKlChatDuoiTrong));
+                        }
+                        // 11)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTren && it.id_LoaiKhoiLuongXayTren) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTren, it.id_LoaiKhoiLuongXayTren);
+                                        map11.set(key, (map11.get(key) || 0) + num(it.tongKlXayTren));
+                        }
+                        // 12)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTren && it.id_LoaiKhoiLuongChatTren) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTren, it.id_LoaiKhoiLuongChatTren);
+                                        map12.set(key, (map12.get(key) || 0) + num(it.tongKlChatTren));
+                        }
+                        // 13)
+                        if (it.tenHoVan && it.id_HangMucKhoiLuongXayTren && it.id_LoaiKhoiLuongChatTrenTrong) {
+                            const key = makeKey(idCN,tenHoVan,it.id_HangMucKhoiLuongXayTren, it.id_LoaiKhoiLuongChatTrenTrong);
+                                        map13.set(key, (map13.get(key) || 0) + num(it.tongKlChatTrenTrong));
+                        }
+
+                    });
+                    dataSet.forEach(row => {
+                        let tong = 0;
+
+                         const key = makeKey(
+                                row.id_ChiNhanh,
+                                row.tenHoVan,
+                                row.id_HangMucKhoiLuong,
+                                row.id_LoaiKhoiLuong,
+                            );
+                            const sum =
+                                (map1.get(key) || 0) +
+                                (map2.get(key) || 0) +
+                                (map3.get(key) || 0) +
+                                (map4.get(key) || 0) +
+                                (map5.get(key) || 0) +
+                                (map6.get(key) || 0) +
+                                (map7.get(key) || 0) +
+                                (map8.get(key) || 0) +
+                                (map9.get(key) || 0) +
+                                (map10.get(key) || 0) +
+                                (map11.get(key) || 0) +
+                                (map12.get(key) || 0) +
+                                (map13.get(key) || 0);
+
+                        row.tongKhoiLuong = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                        
+                        // Tên công tác
+                        const keyCongTac = [
+                            row.id_HangMucCongViec,
+                            row.id_HangMucKhoiLuong,
+                            row.id_LoaiKhoiLuong
+                        ].join('|');
+                        if (tenCongTacLookup[keyCongTac]) {
+                            row.tenCongtac = tenCongTacLookup[keyCongTac].tenCongTac || "";
+                            row.donVi = tenCongTacLookup[keyCongTac].donVi || "";
+                        }
+
+                    });
+
+                    let data_47a = dataSet;
+
+                    const sumLookup = {};
+
+                    // Gom nhóm và tính tổng trước
+                    data_47a.forEach(row => {
+                        // Key
+                        const key = [
+                                row.id_ChiNhanh,
+                                row.id_HangMucCongViec,
+                                row.id_HangMucKhoiLuong,
+                                row.id_LoaiKhoiLuong,
+                                row.tenCongtac,
+                                row.donVi,
+                                row.tuyenDuong
+                        ].join('|');
+                        sumLookup[key] = (sumLookup[key] || 0) + (parseFloat(row.tongKhoiLuong) || 0);
+
+                    });
+
+                    // lọc duy nhất theo 6 trường
+                    let seen = new Set();
+                    dataSet = data_47a.filter(row => {
+                        let key = [
+                            row.id_ChiNhanh,
+                            row.id_HangMucCongViec,
+                            row.id_HangMucKhoiLuong,
+                            row.id_LoaiKhoiLuong,
+                            row.tenCongtac,
+                            row.donVi,
+                        ].join('|');
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    });
+                    uniqueTuyenDuong = [...new Set(data_47a.map(item => item.tuyenDuong).filter(Boolean))];
+                    addDynamicColumns(uniqueTuyenDuong);
+                 
+                    dataSet.forEach(row => {
+                        let tong = 0;
+
+                        uniqueTuyenDuong.forEach(td => {
+                            const key = [
+                                row.id_ChiNhanh,
+                                row.id_HangMucCongViec,
+                                row.id_HangMucKhoiLuong,
+                                row.id_LoaiKhoiLuong,
+                                row.tenCongtac,
+                                row.donVi,
+                                td
+                            ].join('|');
+                            
+                            let sum = (sumLookup[key] || 0) ;
+                            row[td] = sum > 0 ? Math.round(sum * 100) / 100 : "0";
+                            tong = +sum;
+                        });
+                         row.tongKhoiLuong = tong > 0 ? Math.round(tong * 100) / 100 : "0";
+                        
+                    });
+
+
+                    const $table = $('#table_hoga');
+
+                    // Config cột cố định
+                    let columns = [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'hangMucCongViec', className: 'align-middle' },
+                        { data: 'hangMucKhoiLuong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuong', className: 'align-middle' },
+                        { data: 'tenCongtac', className: 'align-middle' },
+                        { data: 'donVi', className: 'align-middle' },
+                        { data: 'tongKhoiLuong', className: 'align-middle' }
+                    ];
+
+                    uniqueTuyenDuong.forEach(td => {
+                        columns.push({
+                            data: td,
+                            className: 'align-middle',
+                            defaultContent: ''
+                        });
+                    });
+                   
+                    if ($.fn.DataTable.isDataTable($table)) {
+                        $table.DataTable().clear().rows.add(dataSet).draw();
+                    } else {
+                        $table.DataTable({
+                            data: dataSet,
+                            columns: columns,
+                            autoWidth: false,
+                            ordering: true,
+                            searching: true,
+                            paging: true,
+                            pageLength: 10,
+                            info: true,
+                            language: {
+                                lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                                zeroRecords: "Không tìm thấy dữ liệu",
+                                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                                infoEmpty: "Không có bản ghi nào",
+                                infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                                search: "Tìm kiếm:",
+                                paginate: {
+                                    first: "Đầu",
+                                    last: "Cuối",
+                                    next: "Sau",
+                                    previous: "Trước"
+                                }
+                            },
+                            initComplete: function () {
+                                this.api().columns().every(function (colIdx) {
+                                    var column = this;
+                                    var $footer = $(column.footer()).empty();
+                                    if (colIdx === 0) {
+                                        $footer.append('<p></p>');
+                                    } else {
+                                        var select = $('<select><option value=""></option></select>')
+                                            .appendTo($footer)
+                                            .on('change', function () {
+                                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                                column
+                                                    .search(val ? '^' + val + '$' : '', true, false)
+                                                    .draw();
+                                            });
+
+                                        column.data().unique().sort().each(function (d) {
+                                            select.append('<option value="' + d + '">' + d + '</option>');
+                                        });
+                                    }
+
+                                });
+                            }
+                        });
+                    }
+                }
+            }).fail(function (xhr) {
+                var colCount = $('#table_hoga thead tr:last th').length;
+                $('#table_hoga tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+
+    // Hiển thị lỗi
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+    function addDynamicColumns(uniqueTuyenDuong) {
+        const $theadRow = $('#table_hoga thead tr').last(); // lấy row cuối trong thead
+        const $tfootRow = $('#table_hoga tfoot tr');
+
+        // Xoá cột động cũ
+        $theadRow.find('th.dynamic-col').remove();
+        $tfootRow.find('th.dynamic-col').remove();
+
+        // Thêm cột động mới
+        uniqueTuyenDuong.forEach(td => {
+            $theadRow.append(`<th class="dynamic-col">${td}</th>`);
+            $tfootRow.append(`<th class="dynamic-col">${td}</th>`);
+        });
+        $('#col-dynamic').attr('colspan', uniqueTuyenDuong.length + 1);
+    }
+
+</script>
+

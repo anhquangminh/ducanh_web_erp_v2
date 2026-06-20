@@ -1,0 +1,1114 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG THỐNG KÊ THÉP TẤM ĐAN HỐ VAN NƯỚC SẠCH </h3>
+            <span style="cursor:pointer;" onclick="showHuongDanNghiepVu()" title="Hướng dẫn sử dụng">
+                <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+            </span>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i>Tạo mới
+                </button>
+            </div>
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Trạng thái</th>
+                            <th>Chi nhánh</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Tên công tác theo vị trí lấy KL</th>
+                            <th>Tên công tác theo Đ.Kính</th>
+                            <th>Vị trí lấy khối lượng</th>
+                            <th>Loại thép</th>
+                            <th>Tên thanh thép theo C.Kiện</th>
+                            <th>Tên thanh thép theo C.Dài</th>
+                            <th>Số hiệu thép</th>
+                            <th>ĐK/C.Dầy(mm,mm2)</th>
+                            <th>Số thanh/ CK </th>
+                            <th>Số CK</th>
+                            <th>Tổng số thanh</th>
+                            <th>C.Dài 01 thanh (mm)/DT (mm2)</th>
+                            <th>Tổng C.Dài (m,m2) </th>
+                            <th>T.Lượng/kg </th>
+                            <th>Tổng T.lượng (kg) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Trạng thái</th>
+                            <th>Chi nhánh</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Tên công tác theo vị trí lấy KL</th>
+                            <th>Tên công tác theo Đ.Kính</th>
+                            <th>Vị trí lấy khối lượng</th>
+                            <th>Loại thép</th>
+                            <th>Tên thanh thép theo C.Kiện</th>
+                            <th>Tên thanh thép theo C.Dài</th>
+                            <th>Số hiệu thép</th>
+                            <th>ĐK/C.Dầy(mm,mm2)</th>
+                            <th>Số thanh/ CK </th>
+                            <th>Số CK</th>
+                            <th>Tổng số thanh</th>
+                            <th>C.Dài 01 thanh (mm)/DT (mm2)</th>
+                            <th>Tổng C.Dài (m,m2) </th>
+                            <th>T.Lượng/kg </th>
+                            <th>Tổng T.lượng (kg) </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+   async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+             { text: "BẢNG THỐNG KÊ THÉP TẤM ĐAN HỐ VAN NƯỚC SẠCH", align: "center", fontSize: 12, bold: true },
+             { text: "Mẫu số 19", align: "center", fontSize: 12, bold: true },
+             { text: "In tổng thể", align: "center", fontSize: 11 }
+           ], "4.10 TK thép T.Đan", "4.10 TK thép T.Đan.xlsx",[1,2]);
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh ||'',
+
+                        id_LoaiCauKien:  item.id_LoaiCauKien ||'',
+                        loaiCauKien:  item.loaiCauKien ||'',
+                        tenCongTacTheoKL:  item.tenCongTacTheoKL ||'',
+                        tenCongTacTheoDK:  item.tenCongTacTheoDK ||'',
+                        viTriLayKL:  item.viTriLayKL ||'',
+                        id_TenLoaiThep:  item.id_TenLoaiThep ||'',
+                        tenLoaiThep:  item.tenLoaiThep ,
+                        tenThanhThepTheoCK:  item.tenThanhThepTheoCK ||'',
+                        tenThanhThepTheoCD:  item.tenThanhThepTheoCD ||'',
+                        soHieuThep:  item.soHieuThep ||0,
+                        dKCDay:  item.dkcDay ||0,
+                        soThanhCK:  item.soThanhCK ||0,
+                        soCK:  item.soCK ||0,
+                        tongSoThanh:  item.tongSoThanh ||0,
+                        cDai1Thanh:  item.cDai1Thanh ||0,
+                        tongCDai:  item.tongCDai ||0,
+                        trongLuong:  item.trongLuong ||0,
+                        tongTrongLuong:  item.tongTrongLuong ||0,
+
+                        isStatus: item.isStatus || '',
+                        isActive: item.isActive || '',
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: "1%",
+                            render: function (data, type, row) {
+                                let buttons = `
+                                         <div class="btn-group">
+                                     `;
+                                // Chỉ hiển thị nút duyệt/hủy duyệt khi isActive == 0,1,2 (chờ duyệt)
+                                 if (row.isActive < 3) {
+                                     buttons += `
+                                         <button class="btn btn-sm btn-success btn-approve" title="Duyệt" data-id="${row.id}" onclick="duyet('${row.id}')"><i class="fas fa-check"></i></button>
+                                         <button class="btn btn-sm btn-warning btn-cancel-approve" title="Hủy duyệt" data-id="${row.id}" onclick="huyDuyet('${row.id}')"><i class="fas fa-times"></i></button>
+                                     `;
+                                 }else if (row.isActive = 3) {
+                                      buttons += `
+                                      <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick=deleteCaiDat("${row.id}")><i class="fas fa-trash"></i></button>`;
+                                 }
+                                 buttons += `
+                                     <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick=editCaiDat("${row.id}")><i class="fas fa-edit"></i></button>
+                                     <button class="btn btn-sm btn-danger btn-delete" title="Chi tiết" data-id="${row.id}" onclick=chiTiet("${row.id}")><i class="fas fa-eye"></i></button>
+
+                                 </div>
+                                 `;
+                                return buttons;
+                            }
+                        },
+                        { data: 'isStatus', className: 'align-middle' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'tenCongTacTheoKL', className: 'align-middle' },
+                        { data: 'tenCongTacTheoDK', className: 'align-middle' },
+                        { data: 'viTriLayKL', className: 'align-middle' },
+                        { data: 'tenLoaiThep', className: 'align-middle' },
+                        { data: 'tenThanhThepTheoCK', className: 'align-middle' },
+                        { data: 'tenThanhThepTheoCD', className: 'align-middle' },
+                        { data: 'soHieuThep', className: 'align-middle' },
+                        { data: 'dKCDay', className: 'align-middle' },
+                        { data: 'soThanhCK', className: 'align-middle' },
+                        { data: 'soCK', className: 'align-middle' },
+                        { data: 'tongSoThanh', className: 'align-middle' },
+                        { data: 'cDai1Thanh', className: 'align-middle' },
+                        { data: 'tongCDai', className: 'align-middle' },
+                        { data: 'trongLuong', className: 'align-middle' },
+                        { data: 'tongTrongLuong', className: 'align-middle' },
+                        ],
+                    autoWidth: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0 || colIdx === 1) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+                            
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+    async function showModalTaoMoi(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật " : "Thêm mới ";
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+        const userName = resUser.userInfor.userName;
+
+        // Dropdowns mapping
+        const dropdownApis = [
+            { url: "/api/DMLoaiCauKien/GetAll", id: ["id_LoaiCauKien"], text: "Loại cấu kiện" },
+        ];
+        
+        const dropdowns = {};
+        for (const item of dropdownApis) {
+            let options = `<option value="">-- Chọn ${item.text} --</option>`;
+            let resData = [];
+
+            try {
+                const res = await $.ajax({
+                    url: `${item.url}?groupId=${groupId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (res.success && Array.isArray(res.data)) {
+                    resData = res.data;
+                }
+            } catch {
+                options += '<option>Lỗi tải dữ liệu</option>';
+            }
+
+            for (const idKey of item.id) {
+                let selectOptions = options;
+
+                resData.forEach(x => {
+                    const selected = data && data[idKey] === x.id ? 'selected' : '';
+                    selectOptions += `<option value="${x.id}" ${selected}>${x.tenDanhMuc}</option>`;
+                });
+
+                dropdowns[idKey] = selectOptions;
+            }
+        }
+
+        try {
+            let selectChiNhanh = '<option value="">-- Chọn công trình --</option>';
+            const res = await $.ajax({
+                 url: "/api/ChiNhanh/GetByVM?groupId=" +groupId,
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "Authorization": "Bearer " + resUser.token
+                 },
+                 data: JSON.stringify({
+                     Id : "",
+                     ParentId : "",
+                     TenChiNhanh : "",
+                     CompanyType : "",
+                     Phone : "",
+                     Email : "",
+                     Address : "",
+                     GroupId : "",
+                     Ordinarily : 0,
+                     CreateAt : null,
+                     CreateBy : "",
+                     IsActive : 0,
+                     ApprovalUserId : "",
+                     DateApproval : null,
+                     ApprovalDept : "",
+                     DepartmentId : "",
+                     DepartmentOrder : 0,
+                     ApprovalOrder : 0,
+                     ApprovalId : "",
+                     LastApprovalId : "",
+                     IsStatus : ""
+                 })
+             });
+
+            if (res && res.success && Array.isArray(res.data)) {
+                res.data.forEach(x => {
+                    const selected = (data && data["id_ChiNhanh"] === x.id) ? 'selected' : '';
+                    selectChiNhanh += `<option value="${x.id}" ${selected}>${x.tenChiNhanh || ''}</option>`;
+                });
+            } else {
+                selectChiNhanh += '<option>Lỗi tải dữ liệu</option>';
+            }
+            dropdowns["id_ChiNhanh"] = selectChiNhanh;
+        } catch (err) {
+            let selectChiNhanh = '<option>Lỗi tải dữ liệu</option>';
+            dropdowns["id_ChiNhanh"] = selectChiNhanh;
+        }
+        try {
+            let selectLoaiThep = '<option value="">-- Chọn loại thép --</option>';
+            const res = await $.ajax({
+                 url: `/api/DMDanhMucThep/GetByVM?groupId=${groupId}`,
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "Authorization": "Bearer " + resUser.token
+                 },
+                 data: JSON.stringify({
+                    Id : "",
+                    Id_TenLoaiThep : "",
+                    TenLoaiThep : "",
+                    DuongKinh : "",
+                    TrongLuong : 0.0,
+                    DonVi : "",
+
+                    GroupId : "",
+                    Ordinarily : 0,
+                    CreateAt : null,
+                    CreateBy : "",
+                    IsActive : 0,
+                    ApprovalUserId : "",
+                    DateApproval : null,
+                    ApprovalDept : "",
+                    DepartmentId : "",
+                    DepartmentOrder : 0,
+                    ApprovalOrder : 0,
+                    ApprovalId : "",
+                    LastApprovalId : "",
+                    IsStatus : ""
+                })
+             });
+
+            if (res && res.success && Array.isArray(res.data)) {
+                res.data.forEach(x => {
+                    const selected = (data && data["id_TenLoaiThep"] === x.id) ? 'selected' : '';
+                    selectLoaiThep += `<option value="${x.id}" ${selected}>${x.tenLoaiThep} (${x.duongKinh}-${x.trongLuong})</option>`;
+                });
+            } else {
+                selectLoaiThep += '<option>Lỗi tải dữ liệu</option>';
+            }
+            dropdowns["id_TenLoaiThep"] = selectLoaiThep;
+        } catch (err) {
+            let selectLoaiThep = '<option>Lỗi tải dữ liệu</option>';
+            dropdowns["id_TenLoaiThep"] = selectLoaiThep;
+        }
+
+        const bodyHtml = `
+               <form id="form_caidat">
+                 <div class="form-row">
+                     <div class="w-100 card-custom shadow-sm p-3 my-3">
+                         <span class="card-title-custom">Thông tin lý trình</span>
+                         <div class="form-row">
+                             <div class="form-group col-md-4">
+                                 <label>Tên công trình<span class="text-danger">*</span></label>
+                                 <select id="id_ChiNhanh" class="form-control">${dropdowns.id_ChiNhanh}</select>
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Loại cấu kiện<span class="text-danger">*</span></label>
+                                 <select id="id_LoaiCauKien" class="form-control">${dropdowns.id_LoaiCauKien}</select>
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tên công tác theo vị trí lấy KL<span class="text-danger">*</span></label>
+                                 <input type="text" id="tenCongTacTheoKL" value="${data?.tenCongTacTheoKL || ''}" class="form-control" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tên công tác theo Đ.Kính<span class="text-danger">*</span></label>
+                                 <input type="text" id="tenCongTacTheoDK" value="${data?.tenCongTacTheoDK || ''}" class="form-control" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Vị trí lấy khối lượng<span class="text-danger">*</span></label>
+                                 <input type="text" id="viTriLayKL" value="${data?.viTriLayKL || ''}" class="form-control" />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Loại thép<span class="text-danger">*</span></label>
+                                 <select id="id_TenLoaiThep" class="form-control">${dropdowns.id_TenLoaiThep}</select>
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tên thanh thép theo C.Kiện<span class="text-danger">*</span></label>
+                                 <input type="text" id="tenThanhThepTheoCK" value="${data?.tenThanhThepTheoCK || ''}" class="form-control" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tên thanh thép theo C.Dài<span class="text-danger">*</span></label>
+                                 <input type="text" id="tenThanhThepTheoCD" value="${data?.tenThanhThepTheoCD || ''}" class="form-control" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Số hiệu thép<span class="text-danger">*</span></label>
+                                 <input type="number" id="soHieuThep" value="${data?.soHieuThep || 0}" class="form-control" step="any" />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>ĐK/C.Dầy(mm,mm2) thép<span class="text-danger">*</span></label>
+                                 <input type="number" id="dKCDay" value="${data?.dKCDay || 0}" class="form-control" step="any" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Số thanh/ CK<span class="text-danger">*</span></label>
+                                 <input type="number" id="soThanhCK" value="${data?.soThanhCK || 0}" class="form-control" step="any" />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Số CK<span class="text-danger">*</span></label>
+                                 <input type="number" id="soCK" value="${data?.soCK || 0}" class="form-control" step="any" />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tổng số thanh<span class="text-danger">*</span></label>
+                                 <input type="number" id="tongSoThanh" value="${data?.tongSoThanh || 0}" class="form-control" step="any" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>C.Dài 01 thanh (mm)/DT (mm2)thanh<span class="text-danger">*</span></label>
+                                 <input type="number" id="cDai1Thanh" value="${data?.cDai1Thanh || 0}" class="form-control" step="any" />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tổng C.Dài (m,m2)<span class="text-danger">*</span></label>
+                                 <input type="number" id="tongCDai" value="${data?.tongCDai || 0}" class="form-control" step="any" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>T.Lượng/kg<span class="text-danger">*</span></label>
+                                 <input type="number" id="trongLuong" value="${data?.trongLuong || 0}" class="form-control" step="any" readonly />
+                             </div>
+                             <div class="form-group col-md-4">
+                                 <label>Tổng T.lượng (kg)<span class="text-danger">*</span></label>
+                                 <input type="number" id="tongTrongLuong" value="${data?.tongTrongLuong || 0}" class="form-control" step="any" readonly />
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </form>
+             <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+         `;
+
+        const footerHtml = `
+                <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu"}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            `;
+
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            const id = $(this).data("id");
+            const isEdit = $(this).data("isedit");
+
+
+            if (!validateForm())
+                return;
+
+            const dataSend = {
+                Id: id,
+                id_ChiNhanh : $('#id_ChiNhanh').val(),
+                id_LoaiCauKien : $('#id_LoaiCauKien').val(),
+                tenCongTacTheoKL : $('#tenCongTacTheoKL').val(),
+                tenCongTacTheoDK : $('#tenCongTacTheoDK').val(),
+                viTriLayKL : $('#viTriLayKL').val(),
+                id_TenLoaiThep : $('#id_TenLoaiThep').val(),
+                tenThanhThepTheoCK : $('#tenThanhThepTheoCK').val(),
+                tenThanhThepTheoCD : $('#tenThanhThepTheoCD').val(),
+                soHieuThep :parseFloat($('#soHieuThep').val()) || 0,
+                dKCDay :parseFloat($('#dKCDay').val()) || 0,
+                soThanhCK :parseFloat($('#soThanhCK').val()) || 0,
+                soCK :parseFloat($('#soCK').val()) || 0,
+                tongSoThanh :parseFloat($('#tongSoThanh').val()) || 0,
+                cDai1Thanh :parseFloat($('#cDai1Thanh').val()) || 0,
+                tongCDai :parseFloat($('#tongCDai').val()) || 0,
+                trongLuong :parseFloat($('#trongLuong').val()) || 0,
+                tongTrongLuong :parseFloat($('#tongTrongLuong').val()) || 0,
+
+                GroupId: groupId,
+                Ordinarily: 0,
+                CreateAt: new Date().toISOString(),
+                CreateBy: userName,
+                IsActive: isEdit && data ? data.isActive : 0,
+                ApprovalUserId: "",
+                DateApproval: null,
+                ApprovalDept: "",
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: ""
+            };
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/PKKLOngNhua410TKThepTDan/Create?isEdit=${isEdit}`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(dataSend)
+                });
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công!" : "Lưu thành công!");
+                    $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu.");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu.");
+                }
+            } catch (err) {
+                $('#error_msg').text("Lỗi hệ thống khi lưu dữ liệu.");
+            }
+        });
+        setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                theme: 'bootstrap4',
+                dropdownParent: $('#globalModal')
+            });
+        }, 100);
+    }
+    // Validate form
+    function validateForm() {
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        let isValid = true;
+        let firstInvalid = null;
+        const requiredFields = [
+                { selector: '#id_ChiNhanh', message: 'Vui lòng chọn tên công trình.' },
+                { selector: '#id_LoaiCauKien', message: 'Vui lòng chọn loại cấu kiện' },
+                { selector: '#tenCongTacTheoKL', message: 'Tên công tác theo vị trí lấy KL' },
+                { selector: '#tenCongTacTheoDK', message: 'Tên công tác theo Đ.Kính' },
+                { selector: '#viTriLayKL', message: 'Vị trí lấy khối lượng' },
+                { selector: '#id_TenLoaiThep', message: 'Loại thép' },
+                { selector: '#tenThanhThepTheoCK', message: 'Tên thanh thép theo C.Kiện' },
+                { selector: '#tenThanhThepTheoCD', message: 'Tên thanh thép theo C.Dài' },
+                { selector: '#soHieuThep', message: 'Số hiệu thép' },
+                { selector: '#dKCDay', message: 'ĐK/C.Dầy(mm,mm2)' },
+                { selector: '#soThanhCK', message: 'Số thanh/ CK ' },
+                { selector: '#soCK', message: 'Số CK' },
+                { selector: '#tongSoThanh', message: 'Tổng số thanh' },
+                { selector: '#cDai1Thanh', message: 'C.Dài 01 thanh (mm)/DT (mm2)' },
+                { selector: '#tongCDai', message: 'Tổng C.Dài (m,m2) ' },
+                { selector: '#trongLuong', message: 'T.Lượng/kg ' },
+                { selector: '#tongTrongLuong', message: 'Tổng T.lượng (kg) ' },
+
+            ];
+            requiredFields.forEach(f => {
+                const $input = $(f.selector);
+                if (!$(f.selector).val() || !$(f.selector).val().trim()) {
+                    showError(f.selector, f.message);
+                    if (!firstInvalid) firstInvalid = $input[0];
+                    isValid = false;
+                }
+            });
+
+            if (!isValid && firstInvalid) {
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                const $el = $(firstInvalid);
+                if ($el.hasClass("select2-hidden-accessible")) {
+                    $el.next('.select2-container').find('.select2-selection').focus();
+                } else {
+                    $el.focus();
+                }
+            }
+         return isValid;
+    }
+
+    // Hiển thị lỗi
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+    async function chiTiet(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        // Show modal trước
+        showGlobalModal("Lịch sử", `
+            <div class="element-block-example" id="history-modal-body" style="min-height:150px;">
+                <!-- Loading hoặc dữ liệu sẽ hiển thị ở đây -->
+            </div>
+        `, `<button class="btn btn-secondary" data-dismiss="modal">Đóng</button>`);
+        showBlockLoading("#history-modal-body");
+        
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/GetHistory?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            let content = "";
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                content = generateTableHTML(res.data); // Hàm tạo bảng
+            } else {
+                content = `<div class="text-center text-muted">Không có dữ liệu lịch sử.</div>`;
+            }
+
+            $("#history-modal-body").html(content);
+        } catch (err) {
+            $("#history-modal-body").html(`<div class="text-center text-danger">Lỗi khi tải dữ liệu.</div>`);
+        } finally {
+            hideBlockLoading("#history-modal-body");
+        }
+    }
+    function generateTableHTML(data) {
+        return `
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover no-wrap-table mb-0">
+                 <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Chi nhánh</th>
+                                <th>Loại cấu kiện</th>
+                                <th>Tên công tác theo vị trí lấy KL</th>
+                                <th>Tên công tác theo Đ.Kính</th>
+                                <th>Vị trí lấy khối lượng</th>
+                                <th>Loại thép</th>
+                                <th>Tên thanh thép theo C.Kiện</th>
+                                <th>Tên thanh thép theo C.Dài</th>
+                                <th>Số hiệu thép</th>
+                                <th>ĐK/C.Dầy(mm,mm2)</th>
+                                <th>Số thanh/ CK </th>
+                                <th>Số CK</th>
+                                <th>Tổng số thanh</th>
+                                <th>C.Dài 01 thanh (mm)/DT (mm2)</th>
+                                <th>Tổng C.Dài (m,m2) </th>
+                                <th>T.Lượng/kg </th>
+                                <th>Tổng T.lượng (kg) </th>
+                                <th>Trạng thái</th>
+                                <th>Người thao tác</th>
+                                <th>Thời gian</th>
+                            </tr>
+                </thead>
+                <tbody>
+                    ${data.map((x, i) => `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                                <td>${x.tenChiNhanh|| ""}</td>
+
+                                <td>${x.loaiCauKien|| ""}</td>
+                                <td>${x.tenCongTacTheoKL|| ""}</td>
+                                <td>${x.tenCongTacTheoDK|| ""}</td>
+                                <td>${x.viTriLayKL|| ""}</td>
+                                <td>${x.tenLoaiThep|| ""}</td>
+                                <td>${x.tenThanhThepTheoCK|| ""}</td>
+                                <td>${x.tenThanhThepTheoCD|| ""}</td>
+                                <td>${x.soHieuThep|| ""}</td>
+                                <td>${x.dkcDay|| ""}</td>
+                                <td>${x.soThanhCK|| ""}</td>
+                                <td>${x.soCK|| ""}</td>
+                                <td>${x.tongSoThanh|| ""}</td>
+                                <td>${x.cDai1Thanh|| ""}</td>
+                                <td>${x.tongCDai|| ""}</td>
+                                <td>${x.trongLuong|| ""}</td>
+                                <td>${x.tongTrongLuong|| ""}</td>
+
+                                <td>${x.isStatus|| ""}</td>
+                                <td>${x.createBy || ""}</td>
+                                <td>${x.createAt ? new Date(x.createAt).toLocaleString() : ""}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>`;
+    }
+    // Duyệt
+    async function duyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn duyệt?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/Duyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Duyệt thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Duyệt thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi duyệt!");
+        }
+    }
+
+    // Hủy duyệt
+    async function huyDuyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn hủy duyệt?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/HuyDuyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Hủy duyệt thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Hủy duyệt thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi hủy duyệt!");
+        }
+    }
+
+    // Chỉnh sửa
+    async function editCaiDat(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/GetById?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success && res.data) {
+                showModalTaoMoi(true, res.data);
+            } else {
+                showToastError(res.message || "Không lấy được dữ liệu để chỉnh sửa!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi lấy dữ liệu chỉnh sửa!");
+        }
+    }
+
+    // Xóa
+    async function deleteCaiDat(id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa này?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua410TKThepTDan/${id}`,
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Xóa thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Xóa thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi xóa!");
+        }
+    }
+
+    function showHuongDanNghiepVu() {
+        const headerHtml =
+            `<div><div class="card-header">
+                     <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                     <form id="SearchInfo">
+                         <select id="ChiNhanhInfo" class="form-control">
+                             <option value="">-- Chọn  --</option>
+                         </select>
+                     </form>
+                     <div class="btn-actions-pane-right">
+                         <div role="group" class="btn-group-sm nav btn-group">
+                             <a data-toggle="tab" href="#tab-hdsd" class="btn-shadow active btn btn-primary">Hướng dẫn sử dụng</a>
+                             <a data-toggle="tab" href="#tab-ttd" class="btn-shadow  btn btn-primary">Thứ tự duyệt</a>
+                         </div>
+                     </div>
+                 </div>`;
+
+        const tabsHtml = `
+                 <div class="card-body">
+                     <div class="tab-content">
+                         <div class="tab-pane tabs-animation fade active show" id="tab-hdsd" role="tabpanel">
+                             <div class="p-3">Nội dung hướng dẫn sử dụng...</div>
+                         </div>
+                         <div class="tab-pane tabs-animation fade" id="tab-ttd" role="tabpanel">
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div>
+                                         <div class="mb-3">
+                                             <div role="group" class="btn-group-sm nav btn-group">
+                                                 <a data-toggle="tab" href="#tab-them" class="btn-pill pl-3 btn btn-warning active show">Thêm</a>
+                                                 <a data-toggle="tab" href="#tab-sua" class="btn btn-warning show">Sửa</a>
+                                                 <a data-toggle="tab" href="#tab-xoa" class="btn-pill pr-3 btn btn-warning show">Xóa</a>
+                                             </div>
+                                         </div>
+                                         <div class="tab-content">
+                                             <div class="tab-pane show active" id="tab-them" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-them"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-them">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="tab-pane show" id="tab-sua" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-sua"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-sua">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="tab-pane show" id="tab-xoa" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-xoa"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-xoa">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             `;
+
+        const bodyHtml = headerHtml + tabsHtml;
+        const footerHtml = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>`;
+
+        showGlobalModal("Thông tin nghiệp vụ", bodyHtml, footerHtml);
+
+        // Lấy groupId và token, sau đó gọi API lấy danh sách
+        getJwtToken().then(function (resUser) {
+            const groupId = resUser.userInfor.groupId;
+            $.ajax({
+                url: `/api/caidatsoluotduyet/GetChiNhanhsForCompanyId?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                const $ddl = $('#ChiNhanhInfo');
+                $ddl.empty().append('<option value="">-- Chọn  --</option>');
+                if (res.success && Array.isArray(res.data)) {
+                    res.data.forEach(function (item) {
+                        $ddl.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`);
+                    });
+                }
+            }).fail(function (err) {
+                $('#ChiNhanhInfo').empty().append('<option value="">Lỗi tải </option>');
+            });
+
+            // Sau khi gọi API ListDept thành công
+            $.ajax({
+                url: `/api/caidatphongbanduyet/ListDept?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                let htmlUl = "";
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    var stt = 1;
+                    res.data.forEach(function (item, idx) {
+                        htmlUl += `<li class="list-group-item" data-idx="${idx}" style="cursor:pointer;">
+                                 <b>${stt + "." + item.deptName}</b><br/>
+                                 <span>Trạng thái: ${item.isActive ? "Hoạt động" : "Ngừng"}</span>
+                             </li>`;
+                        stt++;
+                    });
+                } else {
+                    htmlUl = `<li class="list-group-item text-muted">Không có dữ liệu phòng ban.</li>`;
+                }
+                // Render cho cả 3 tab
+                $('#ul-them').html(htmlUl);
+                $('#ul-sua').html(htmlUl);
+                $('#ul-xoa').html(htmlUl);
+
+                function bindDeptClick(tab, data, groupId) {
+                    // Map tab to permissionId
+                    const permissionMap = {
+                        'them': 'eba52a98-e761-4deb-a3a3-099891889bd0',
+                        'sua': '97e2a1ff-12d2-490a-b7c7-3e81cd2d1a8d',
+                        'xoa': 'ed6bde75-2a8e-4d2f-aa2f-a0726b3098ee'
+                    };
+                    const permissionId = permissionMap[tab];
+
+                    $(`#ul-${tab}`).off('click').on('click', 'li', function () {
+                        const idx = $(this).data('idx');
+                        const dept = data[idx];
+                        let content = '';
+
+                        if (dept) {
+                            // Call API with correct permissionId
+                            $.ajax({
+                                url: `/api/caidatsoluotduyet/ListStepSetting?groupId=${groupId}&majorId=38f57606-5ea6-4821-8fbd-6eb2c8ecc091&departmentId=${dept.id || 0}&permissionId=${permissionId}`,
+                                method: "GET",
+                                headers: {
+                                    "Authorization": "Bearer " + resUser.token
+                                }
+                            }).done(function (res) {
+                                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                                    let stepsHtml = `<h5>${dept.deptName}</h5>`;
+                                    stepsHtml += `<ul class="list-group mb-2">`;
+                                    res.data.forEach((step, i) => {
+                                        stepsHtml += `<li class="list-group-item">
+                                                 <b>Bước ${i + 1}:</b> ${step.content || 0}
+                                                 <span class="badge badge-info ml-2">${step.isStatus || 0}</span>
+                                             </li>`;
+                                    });
+                                    stepsHtml += `</ul>`;
+                                    content = stepsHtml;
+                                } else {
+                                    content = `<div class="text-muted">Không có dữ liệu bước duyệt.</div>`;
+                                }
+                                $(`#content-${tab}`).html(content);
+                            }).fail(function (err) {
+                                $(`#content-${tab}`).html('<div class="text-danger">Lỗi khi tải dữ liệu bước duyệt.</div>');
+                            });
+                        } else {
+                            $(`#content-${tab}`).html("Không có dữ liệu chi tiết.");
+                        }
+                        $(`#ul-${tab} li`).removeClass('active');
+                        $(this).addClass('active');
+                    });
+                }
+                bindDeptClick('them', res.data, groupId);
+                bindDeptClick('sua', res.data, groupId);
+                bindDeptClick('xoa', res.data, groupId);
+            }).fail(function (err) {
+                $('#ul-them, #ul-sua, #ul-xoa').html('<li class="list-group-item text-danger">Lỗi khi tải dữ liệu phòng ban.</li>');
+                $('#content-them, #content-sua, #content-xoa').html('');
+            });
+        });
+
+        // Khởi tạo select2 nếu cần
+        if (window.$ && $.fn.select2) {
+            $('#ChiNhanhInfo').select2();
+        }
+        $('#ChiNhanhInfo').off('change').on('change', function () {
+            if (typeof onSelectChange === 'function') {
+                onSelectChange($(this).val());
+            }
+        });
+
+    }
+
+    //Tính toán
+     $(document).on('change', '#form_caidat input, #form_caidat select', function () {
+        autoCalculate()
+    });
+
+    $(document).off('change', '#id_TenLoaiThep').on('change', '#id_TenLoaiThep', async function () {
+        var value = $(this).val();
+        if (!value) return;
+
+        try {
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const res = await $.ajax({
+                url: `/api/DMDanhMucThep/GetById?id=${value}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            // Xử lý dữ liệu trả về ở đây
+            if (res.success && res.data) {
+               $("#dKCDay").val(res.data.duongKinh);
+               $("#trongLuong").val(res.data.trongLuong);
+            }
+        } catch (err) {
+            // Xử lý lỗi nếu cần
+            console.error("Lỗi khi gọi API DMDanhMucThep/GetById", err);
+            $("#dKCDay").val(0);
+             $("#trongLuong").val(0);
+        }
+    })
+
+    $(document).on('input', '#form_caidat input', function () {
+        debounce(autoCalculate, 400)
+    });
+
+    const calcMap = {
+        "tenCongTacTheoKL": {
+            func: tenCongTacTheoKL,
+            inputs: ["viTriLayKL", "dKCDay"]
+        },
+        "tenCongTacTheoDK": {
+            func: tenCongTacTheoDK,
+            inputs: ["dKCDay"]
+        },
+        "tenThanhThepTheoCK": {
+            func: tenThanhThepTheoCK,
+            inputs: ["id_LoaiCauKien", "dKCDay", "soHieuThep", "cDai1Thanh"]
+        },
+        "tenThanhThepTheoCD": {
+            func: tenThanhThepTheoCD,
+            inputs: ["dKCDay","cDai1Thanh"]
+        },
+        "tongSoThanh": {
+            func: tongSoThanh,
+            inputs: ["soThanhCK","soCK"]
+        },
+        "tongCDai": {
+            func: tongCDai,
+            inputs: ["tongSoThanh","cDai1Thanh"]
+        },
+        "tongTrongLuong": {
+            func: tongTrongLuong,
+            inputs: ["id_TenLoaiThep","dKCDay","tongCDai","trongLuong"]
+        },
+    };
+
+        // Hàm tổng quát để gọi các phép tính và set lại giá trị
+    function autoCalculate() {
+        try {
+            Object.keys(calcMap).forEach(function (resultId) {
+                const { func, inputs } = calcMap[resultId];
+                const args = inputs.map(id => {
+                    const $el = $('#' + id);
+
+                    if ($el.is('select')) {
+                        return $el.find(':selected').text();
+                    }
+
+                    const inputType = $el.attr('type');
+                    const val = $el.val();
+
+                    if (inputType === "text") {
+                        return (val === null || typeof val === "undefined") ? "" : val;
+                    }
+
+                    if (val === "" || val === null || typeof val === "undefined") return 0;
+                    const num = parseFloat(val);
+                    return isNaN(num) ? 0 : num;
+                });
+
+                let result = func.apply(null, args);
+
+                if (typeof result === "number" && isNaN(result)) result = "";
+                $('#' + resultId).val(result);
+            });
+        } catch (err) {
+            console.error('Lỗi tổng thể trong autoCalculate:', err);
+        }
+    }
+
+    function debounce(fn, delay) {
+        let timer = null;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn.apply(this, args), delay);
+        };
+    }
+
+    function tenCongTacTheoKL(viTriLayKL, dKCDay) {
+        return "Gia công lắp dựng thép " + viTriLayKL + ", thép D" + dKCDay;
+    }
+    function tenCongTacTheoDK(dKCDay) {
+        return "Gia công lắp dựng thép D" + dKCDay;
+    }
+    function tenThanhThepTheoCK(id_LoaiCauKien, dKCDay, soHieuThep, cDai1Thanh) {
+        return id_LoaiCauKien + "/D" + dKCDay + "/T" + soHieuThep + "/L=" + cDai1Thanh;
+    }
+    function tenThanhThepTheoCD(dKCDay, cDai1Thanh) {
+        return "D" + dKCDay + "/L=" + cDai1Thanh;
+    }
+    function tongSoThanh(soThanhCK, soCK) {
+        return soThanhCK * soCK;
+    }
+    function tongCDai(tongSoThanh, cDai1Thanh) {
+        return (tongSoThanh * cDai1Thanh) / 1000;
+    }
+    function tongTrongLuong(id_TenLoaiThep, dKCDay, tongCDai, trongLuong) {
+        let result;
+
+        if (id_TenLoaiThep === "Thép bản") {
+            result = (dKCDay * tongCDai * trongLuong) / 1000000;
+        } else {
+            result = tongCDai * trongLuong;
+        }
+
+        return Math.round(result * 100) / 100; // làm tròn đến 2 chữ số thập phân
+    }
+
+</script>
+

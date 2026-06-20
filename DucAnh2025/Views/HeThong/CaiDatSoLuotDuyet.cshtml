@@ -1,0 +1,958 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 p-2">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">Danh sách</h3>
+            <span style="cursor:pointer;" onclick="showHuongDanNghiepVu()" title="Hướng dẫn sử dụng">
+                <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+            </span>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i>Tạo mới
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="table_soluotduyet">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Chi nhánh</th>
+                            <th>Phòng ban</th>
+                            <th>Nhiệp vụ</th>
+                            <th>Quyền</th>
+                            <th>Loại duyệt</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>Chi nhánh</th>
+                            <th>Phòng ban</th>
+                            <th>Nhiệp vụ</th>
+                            <th>Quyền</th>
+                            <th>Loại duyệt</th>
+                            <th style="display:none"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: "/api/CaiDatSoLuotDuyet/GetByVM?groupId=" + resUser.userInfor.groupId,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+                data: JSON.stringify({
+                    Id: "",
+                    IdMain: "",
+                    CompanyId: "",
+                    DeptId: "",
+                    DeptOrder: 0,
+                    ParentMajorId: "",
+                    MajorId: "",
+                    PermissionId: "",
+                    Content: "",
+                    ApprovalStep: 0,
+                    GroupId: "",
+                    Ordinarily: 0,
+                    CreateAt: null,
+                    CreateBy: "",
+                    IsActive: 0,
+                    ApprovalUserId: "",
+                    DateApproval: null,
+                    ApprovalDept: "",
+                    DepartmentId: "",
+                    DepartmentOrder: 0,
+                    ApprovalOrder: 0,
+                    ApprovalId: "",
+                    LastApprovalId: "",
+                    IsStatus: ""
+                })
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        isActive :item.isActive,
+                        idMain: item.idMain,
+                        companyId: item.companyId || '',
+                        deptOrder: item.deptOrder + '.' + item.deptId || '',
+                        majorId: item.parentMajorId + ' => ' + item.majorId || '',
+                        permissionId: item.permissionId || '',
+                        content: item.content || '',
+                    }));
+                }
+
+                const $table = $('#table_soluotduyet');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '5%' },
+                        { data: 'companyId', className: 'align-middle' },
+                        { data: 'deptOrder', className: 'align-middle' },
+                        { data: 'majorId', className: 'align-middle' },
+                        { data: 'permissionId', className: 'align-middle' },
+                        { data: 'content', className: 'align-middle' },
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: "2%",
+                            render: function (data, type, row) {
+                                let buttons = `
+                                    <div class="btn-group">
+                                `;
+                                // Chỉ hiển thị nút duyệt/hủy duyệt khi isActive == 0 (chờ duyệt)
+                                if (row.isActive === 0) {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-success btn-approve" title="Duyệt" data-id="${row.id}" onclick="duyet('${row.id}')"><i class="fas fa-check"></i></button>
+                                        <button class="btn btn-sm btn-warning btn-cancel-approve" title="Hủy duyệt" data-id="${row.id}" onclick="huyDuyet('${row.id}')"><i class="fas fa-times"></i></button>
+                                    `;
+                                }
+                                buttons += `
+                                    <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick=editCaiDat("${row.idMain}")><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick=deleteCaiDat("${row.idMain}")><i class="fas fa-trash"></i></button>
+                                </div>
+                                `;
+                                return buttons;
+                            }
+                        }
+                    ],
+                    autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
+                        });
+                    }
+                });
+            }).fail(function (xhr) {
+                $('#table_soluotduyet tbody').html('<tr><td colspan="7" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            });
+        });
+    }
+
+    let sttDuyet = 1;
+    let cachedCompanies = [];
+    let cachedParentMajors = [];
+    let cachedMajorsMap = {};
+
+    // Hàm mở modal cho cả tạo mới và cập nhật
+    function showModalTaoMoi(isEdit = false, idMain = null) {
+        sttDuyet = 1;
+        isEditCaiDat = isEdit;
+        editidMain = idMain;
+
+        const modalTitle = isEdit ? "Cập nhật cài đặt" : "Thêm mới cài đặt";
+        const btnThemPhongBan = `<button type="button" class="btn btn-success mb-2" id="btnThemDong">Thêm phòng ban</button>`;
+        const tableHtml = `
+            <table class="table table-bordered" id="table_tao_moi">
+                <thead>
+                    <tr>
+                        <th>Chi nhánh</th>
+                        <th>Nghiệp vụ</th>
+                        <th>Phân loại</th>
+                        <th>Phòng ban duyệt</th>
+                        <th>Loại thao tác</th>
+                        <th>Nội dung</th>
+                        <th>Thứ tự duyệt</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody_tao_moi"></tbody>
+            </table>`;
+        const footerHtml = `
+            <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu cài đặt"}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>`;
+
+        const errorDiv = `<div id="error_msg" class="text-danger font-weight-bold mb-2"></div>`;
+
+        showGlobalModal(modalTitle, btnThemPhongBan + tableHtml + errorDiv, footerHtml);
+
+        $('#tbody_tao_moi').off('click', '.btn-xoa-dong').on('click', '.btn-xoa-dong', function () {
+            $(this).closest('tr').remove();
+            updateThuTuDuyet();
+        });
+
+        $('#btnThemDong').off('click').on('click', function () {
+            const $firstRow = $('#tbody_tao_moi tr:first');
+            if ($firstRow.length === 0) {
+                // Nếu chưa có dòng nào thì thêm dòng trắng như cũ
+                const row = `
+                    <tr>
+                        <td><select class="form-control company-dropdown"><option value="">-- Chọn chi nhánh --</option></select></td>
+                        <td><select class="form-control parent-dropdown" disabled><option value="">-- Chọn nghiệp vụ --</option></select></td>
+                        <td><select class="form-control major-dropdown" disabled><option value="">-- Chọn phân loại --</option></select></td>
+                        <td><select class="form-control dept-dropdown" disabled><option value="">-- Chọn phòng ban duyệt --</option></select></td>
+                        <td><select class="form-control per-dropdown" disabled><option value="">-- Loại thao tác --</option></select></td>
+                        <td><input type="text" class="form-control input-content" placeholder="Nội dung"></td>
+                        <td class="text-center align-middle">${sttDuyet}</td>
+                        <td class="text-center align-middle"><button type="button" class="btn btn-danger btn-sm btn-xoa-dong">Xóa</button></td>
+                    </tr>`;
+                $('#tbody_tao_moi').append(row);
+                sttDuyet++;
+
+                // Load chi nhánh cho dòng đầu tiên
+                getJwtToken().then(function (resUser) {
+                    $.ajax({
+                        url: "/api/chinhanh/getall?groupId=" + resUser.userInfor.groupId,
+                        method: "GET",
+                        headers: { "Authorization": "Bearer " + resUser.token }
+                    }).done(function (response) {
+                        const $company = $('#tbody_tao_moi tr:last .company-dropdown');
+                        $company.empty().append('<option value="">-- Chọn chi nhánh --</option>');
+                        if (response?.data?.length) {
+                            response.data.forEach(item => $company.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`));
+                        }
+                    });
+                });
+                return;
+            }
+
+            const $newRow = $firstRow.clone(true, true);
+            $firstRow.find('select').each(function (idx, sel) {
+                $newRow.find('select').eq(idx).val($(sel).val());
+            });
+
+            // Reset input nội dung nếu muốn (hoặc giữ nguyên)
+            $newRow.find('input.input-content').val('');
+
+            // Cập nhật số thứ tự
+            $newRow.find('td').eq(6).text($('#tbody_tao_moi tr').length + 1);
+
+            // Disable tất cả select của dòng mới
+            $newRow.find('select').prop('disabled', true);
+
+            // Gán lại sự kiện xóa dòng cho nút xóa
+            $newRow.find('.btn-xoa-dong').off('click').on('click', function () {
+                $(this).closest('tr').remove();
+                updateThuTuDuyet();
+            });
+
+            $('#tbody_tao_moi').append($newRow);
+            updateThuTuDuyet();
+        });
+
+
+
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            $('#error_msg').text("");
+            let valid = true;
+            const rows = $('#tbody_tao_moi tr');
+
+
+            if (rows.length === 0) {
+                $('#error_msg').text("Bạn phải thêm ít nhất 1 dòng cấu hình duyệt!");
+                return;
+            }
+            const approvalData = [];
+            rows.each(function () {
+                const $row = $(this);
+                const $selects = $row.find('select');
+                $selects.removeClass('is-invalid');
+                $selects.each(function () {
+                    if (!$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        valid = false;
+                    }
+                });
+                const deptId = $row.find('.dept-dropdown').val();
+            });
+
+            // Kiểm tra các input-content
+            $('.input-content').removeClass('is-invalid');
+            $('.input-content').each(function () {
+                if (!$(this).val() || $(this).val().trim() === "") {
+                    $(this).addClass('is-invalid');
+                    valid = false;
+                }
+            });
+
+            if (!valid) {
+                $('#error_msg').text("Bạn phải nhập đầy đủ các trường bắt buộc.");
+                return;
+            }
+
+            try {
+                const resUser = await getJwtToken();
+                const token = resUser.token;
+                const groupId = resUser.userInfor.groupId;
+                const createBy = resUser.userInfor.userName;
+                const companyId = $('#tbody_tao_moi tr:first .company-dropdown').val();
+                const parentId = $('#tbody_tao_moi tr:first .parent-dropdown').val();
+                const majorId = $('#tbody_tao_moi tr:first .major-dropdown').val();
+                const deptId = $('#tbody_tao_moi tr:first .dept-dropdown').val();
+                const perId = $('#tbody_tao_moi tr:first .per-dropdown').val();
+
+                const idMain = isEdit ? editidMain : generateUUID();
+                const createAt = new Date().toISOString();
+
+                // Nếu là tạo mới thì check trùng, nếu là edit thì bỏ qua check này
+                if (isEdit) {
+                    const checkChoDuyet = await $.ajax({
+                        url: `/api/CaiDatSoLuotDuyet/CheckChoDuyet?mainId=${idMain}`,
+                        method: "GET",
+                        headers: { Authorization: "Bearer " + token }
+                    });
+                    if (checkChoDuyet.success == false || (checkChoDuyet.success == true &&  checkChoDuyet.data.length >0)) {
+                        $('#error_msg').text("Nghiệp vụ đang chờ duyệt không thể sửa!");
+                        return;
+                    }
+                }
+
+                const checkSave = await $.ajax({
+                        url: `/api/CaiDatSoLuotDuyet/CheckSave?companyId=${companyId}&majorId=${majorId}&deptId=${deptId}&permissionId=${perId}&mainId=${idMain}&loai=${isEdit}`,
+                        method: "GET",
+                        headers: { Authorization: "Bearer " + token }
+                    });
+
+                if (!checkSave?.success) {
+                    $('#error_msg').text("Không thể lưu do dữ liệu đã tồn tại.");
+                    return;
+                }
+
+                var DeptOrder = await getDeptOrder(companyId,majorId,deptId);
+
+                // Build data để gọi Create/Update
+                let stt = 1;
+                rows.each(function () {
+                    const $r = $(this);
+                    const content = $r.find('.input-content').val();
+                    approvalData.push({
+                        approvalRow: {
+                            id: isEdit && $r.data('rowid') ? $r.data('rowid') : generateUUID(),
+                            idMain: idMain,
+                            companyId: companyId,
+                            deptId: deptId,
+                            parentMajorId: parentId,
+                            majorId: majorId,
+                            permissionId :perId,
+                            content: content,
+                            approvalStep: stt,
+                            groupId: groupId,
+                            ordinarily: 0,
+                            createAt: createAt,
+                            createBy: createBy,
+                            isActive: 3,// gán mặc định
+                            deptOrder: DeptOrder,
+                            approvalUserId: null,
+                            dateApproval: createAt,
+                            departmentId: null,
+                            departmentOrder: 0,
+                            approvalOrder: 0,
+                            approvalId: null,
+                            lastApprovalId: null,
+                            isStatus: ""
+                        }
+                    });
+                    stt++;
+                });
+
+                // Gọi API
+                let apiUrl = "/api/CaiDatSoLuotDuyet/CreateCaiDatSoLuotDuyet";
+                const createRes = await $.ajax({
+                    url: apiUrl,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    data: JSON.stringify(approvalData)
+                });
+
+                if (createRes?.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công!" : "Lưu thành công!");
+                    $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(createRes.message || (isEdit ? "Cập nhật thất bại!" : "Lưu thất bại!"));
+                }
+            } catch (err) {
+                $('#error_msg').text("Đã xảy ra lỗi khi lưu dữ liệu.");
+            }
+
+        });
+    }
+
+    function duyet(id) {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/Approval?id=${id}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (res) {
+                if (res.success) {
+                    showToastSuccess("Duyệt thành công!");
+                    loadData();
+                } else {
+                    showToastError(res.message || "Duyệt thất bại!");
+                }
+            }).fail(function () {
+                showToastError("Lỗi kết nối khi duyệt!");
+            });
+        });
+    }
+
+    function huyDuyet(id) {
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/ApprovalCancel?id=${id}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (res) {
+                if (res.success) {
+                    showToastSuccess("Hủy duyệt thành công!");
+                    loadData();
+                } else {
+                    showToastError(res.message || "Hủy duyệt thất bại!");
+                }
+            }).fail(function () {
+                showToastError("Lỗi kết nối khi hủy duyệt!");
+            });
+        });
+    }
+
+    async function getDeptOrder(companyId, majorId, deptId) {
+        try {
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const url = `/api/CaiDatSoLuotDuyet/GetIdApprodeptSetting?companyId=${companyId}&majorId=${majorId}&deptId=${deptId}`;
+            const response = await $.ajax({
+                url: url,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + token }
+            });
+            // Nếu API trả về thành công và có dữ liệu
+            if (response.success && response.data && response.data.approvalStep !== undefined && response.data.approvalStep !== null) {
+                return response.data.approvalStep;
+            }
+            // Nếu không có dữ liệu hoặc ApprovalStep 
+            return 0;
+        } catch (err) {
+            // Nếu lỗi cũng trả về 0
+            return 0;
+        }
+    }
+
+    function editCaiDat(idMain) {
+        // Gọi showModal trước
+        showModalTaoMoi(true, idMain);
+
+        // Hủy sự kiện cũ trước khi đăng ký mới
+        $('#globalModal').off('shown.bs.modal.edit');
+
+        // Đăng ký sự kiện chỉ 1 lần
+        $('#globalModal').one('shown.bs.modal.edit', function () {
+            fillEditCaiDat(idMain);
+        });
+
+        // Kích hoạt sự kiện khi modal thực sự hiển thị
+        $('#globalModal').modal('show').trigger('shown.bs.modal.edit');
+
+    }
+
+   
+    async function fillEditCaiDat(idMain) {
+        try {
+            const resUser = await getJwtToken();
+            const token = resUser.token;
+            const groupId = resUser.userInfor.groupId;
+
+            // Gọi API lấy dữ liệu cài đặt theo idMain
+            const res = await $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/GetByMainId?idMain=${idMain}`,
+                method: "GET",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!res.success || !res.data || !res.data.length) return;
+
+            $('#tbody_tao_moi').empty();
+            sttDuyet = 1;
+
+            for (const item of res.data) {
+                const row = $(`
+                    <tr data-rowid="${item.id}">
+                        <td><select class="form-control company-dropdown"><option>Loading...</option></select></td>
+                        <td><select class="form-control parent-dropdown"><option>Loading...</option></select></td>
+                        <td><select class="form-control major-dropdown"><option>Loading...</option></select></td>
+                        <td><select class="form-control dept-dropdown"><option>Loading...</option></select></td>
+                        <td><select class="form-control per-dropdown"><option>Loading...</option></select></td>
+                        <td><input type="text" class="form-control input-content" value="${item.content || ''}"></td>
+                        <td class="text-center align-middle">${sttDuyet}</td>
+                        <td class="text-center align-middle"><button type="button" class="btn btn-danger btn-sm btn-xoa-dong">Xóa</button></td>
+                    </tr>
+                `);
+
+                $('#tbody_tao_moi').append(row);
+                sttDuyet++;
+
+                // Load chi nhánh
+                const resChiNhanh = await $.ajax({
+                    url: `/api/chinhanh/getall?groupId=${groupId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const $company = row.find('.company-dropdown');
+                $company.empty().append(`<option value="">-- Chọn chi nhánh --</option>`);
+                resChiNhanh?.data?.forEach(c =>
+                    $company.append(`<option value="${c.id}" ${c.id === item.companyId ? 'selected' : ''}>${c.tenChiNhanh}</option>`)
+                );
+
+                // Load parentMajor
+                const resParent = await $.ajax({
+                    url: `/api/CaiDatSoLuotDuyet/LoadParentMajors?companyId=${item.companyId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const $parent = row.find('.parent-dropdown');
+                $parent.empty().append(`<option value="">-- Chọn nghiệp vụ --</option>`);
+                resParent?.data?.forEach(p =>
+                    $parent.append(`<option value="${p.id}" ${p.id === item.parentMajorId ? 'selected' : ''}>${p.majorName}</option>`)
+                );
+
+                // Load major
+                const resMajor = await $.ajax({
+                    url: `/api/CaiDatSoLuotDuyet/LoadMajors?companyId=${item.companyId}&parentmajorId=${item.parentMajorId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const $major = row.find('.major-dropdown');
+                $major.empty().append(`<option value="">-- Chọn phân loại --</option>`);
+                resMajor?.data?.forEach(m =>
+                    $major.append(`<option value="${m.id}" ${m.id === item.majorId ? 'selected' : ''}>${m.majorName}</option>`)
+                );
+
+                // Load phòng ban duyệt
+                const resDept = await $.ajax({
+                    url: `/api/phongban/GetByChiNhanhs?companyId=${item.companyId}`,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    data: JSON.stringify({
+                        CompanyId: item.companyId,
+                        GroupId: groupId,
+                        IsActive: 1,
+                        PageNumber: 1,
+                        PageSize: 100
+                    })
+                });
+                const $dept = row.find('.dept-dropdown');
+                $dept.empty().append(`<option value="">-- Chọn phòng ban duyệt --</option>`);
+                resDept?.data?.forEach(d =>
+                    $dept.append(`<option value="${d.id}" ${d.id === item.deptId ? 'selected' : ''}>${d.deptName}</option>`)
+                );
+
+                // Load loại thao tác
+                const resPer = await $.ajax({
+                    url: `/api/Permission/GetPermisonByMajorId?majorId=${item.majorId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const $per = row.find('.per-dropdown');
+                $per.empty().append(`<option value="">-- Loại thao tác --</option>`);
+                resPer?.data?.forEach(p =>
+                    $per.append(`<option value="${p.id}" ${p.id === item.permissionId ? 'selected' : ''}>${p.permissionName}</option>`)
+                );
+            }
+
+            // Disable dropdown dòng 2 trở đi
+            $('#tbody_tao_moi tr').each(function (i, tr) {
+                if (i === 0) return;
+                $(tr).find('select').prop('disabled', true);
+            });
+
+        } catch (err) {
+            console.error("Lỗi load dữ liệu:", err);
+            showToastError("Lỗi khi tải dữ liệu chỉnh sửa!");
+        }
+    }
+
+    $(document).off('change.syncrow').on('change.syncrow', '#tbody_tao_moi tr:first select', function () {
+        const $firstRow = $('#tbody_tao_moi tr:first');
+        $firstRow.find('select').each(function (idx, sel) {
+            const value = $(sel).val();
+            const html = $(sel).html();
+            $('#tbody_tao_moi tr').each(function (i, row) {
+                if (i === 0) return;
+                const $target = $(row).find('select').eq(idx);
+                $target.html(html).val(value).prop('disabled', true);
+            });
+        });
+    });
+
+    // Sự kiện chọn chi nhánh -> load parent major
+    $(document).off('change.company').on('change.company', '.company-dropdown', function () {
+        const companyId = $(this).val();
+        const $row = $(this).closest('tr');
+        const $parent = $row.find('.parent-dropdown');
+        const $major = $row.find('.major-dropdown');
+        const $dept = $row.find('.dept-dropdown');
+
+        $parent.prop('disabled', true).html('<option value="">-- Chọn nghiệp vụ --</option>');
+        $major.prop('disabled', true).html('<option value="">-- Chọn phân loại --</option>');
+        $dept.prop('disabled', true).html('<option value="">-- Chọn phòng ban duyệt --</option>');
+
+        if (!companyId) return;
+
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/LoadParentMajors?companyId=${companyId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (response) {
+                $parent.prop('disabled', false).empty().append('<option value="">-- Chọn nghiệp vụ --</option>');
+                if (response?.data?.length) {
+                    response.data.forEach(item => $parent.append(`<option value="${item.id}">${item.majorName}</option>`));
+                }
+            });
+        });
+    });
+
+    // Sự kiện chọn parent major -> load major
+    $(document).off('change.parent').on('change.parent', '.parent-dropdown', function () {
+        const $row = $(this).closest('tr');
+        const companyId = $row.find('.company-dropdown').val();
+        const parentMajorId = $(this).val();
+        const $major = $row.find('.major-dropdown');
+        const $dept = $row.find('.dept-dropdown');
+
+        $major.prop('disabled', true).html('<option value="">-- Chọn phân loại --</option>');
+        $dept.prop('disabled', true).html('<option value="">-- Chọn phòng ban duyệt --</option>');
+
+        if (!companyId || !parentMajorId) return;
+
+        getJwtToken().then(function (resUser) {
+            $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/LoadMajors?companyId=${companyId}&parentmajorId=${parentMajorId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (response) {
+                $major.prop('disabled', false).empty().append('<option value="">-- Chọn phân loại --</option>');
+                if (response?.data?.length) {
+                    response.data.forEach(item => $major.append(`<option value="${item.id}">${item.majorName}</option>`));
+                }
+            });
+        });
+    });
+
+    // Sự kiện chọn major -> load dept và quyền
+    $(document).off('change.major').on('change.major', '.major-dropdown', function () {
+        const $row = $(this).closest('tr');
+        const companyId = $row.find('.company-dropdown').val();
+        const parentMajorId = $row.find('.parent-dropdown').val();
+        const majorId = $(this).val();
+        const $dept = $row.find('.dept-dropdown');
+        const $per = $row.find('.per-dropdown');
+
+        $dept.prop('disabled', true).html('<option value="">-- Chọn phòng ban duyệt --</option>');
+
+        if (!companyId || !parentMajorId || !majorId) return;
+
+        getJwtToken().then(function (resUser) {
+            // Load phòng ban duyệt
+            $.ajax({
+                url: `/api/CaiDatSoLuotDuyet/LoadDepartments?companyId=${companyId}&parentmajorId=${parentMajorId}&majorId=${majorId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (response) {
+                $dept.prop('disabled', false).empty().append('<option value="">-- Chọn phòng ban duyệt --</option>');
+                if (response?.data?.length) {
+                    response.data.forEach(item => $dept.append(`<option value="${item.id}">${item.deptName}</option>`));
+                }
+            });
+
+            $.ajax({
+                url: `/api/Permission/GetPermisonByMajorId?majorId=${majorId}`,
+                method: "GET",
+                headers: { "Authorization": "Bearer " + resUser.token }
+            }).done(function (response) {
+                 $per.prop('disabled', false).empty().append('<option value="">-- Loại thao tác --</option>');
+                if (response?.data?.length) {
+                    response.data.forEach(item => $per.append(`<option value="${item.id}">${item.permissionName}</option>`));
+                }
+            });
+        });
+    });
+
+    function updateThuTuDuyet() {
+        $('#tbody_tao_moi tr').each(function (index) {
+            $(this).find('td:eq(6)').text(index + 1);
+        });
+        sttDuyet = $('#tbody_tao_moi tr').length + 1;
+    }
+
+    function deleteCaiDat(idMain) {
+        getJwtToken().then(resUser => {
+            $.ajax({
+                url: "/api/CaiDatSoLuotDuyet/" + idMain,
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(res => {
+                if (res?.success === true) {
+                    showToastSuccess("Xóa thành công");
+                    loadData();
+                } else {
+                    showToastError(res?.message || "Xóa thất bại");
+                }
+            }).fail(() => {
+                showToastError("Lỗi kết nối khi xóa");
+            });
+        });
+    }
+
+    function showHuongDanNghiepVu() {
+         const headerHtml =
+             `<div><div class="card-header">
+                 <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                 <form id="SearchInfo">
+                     <select id="ChiNhanhInfo" class="form-control">
+                         <option value="">-- Chọn chi nhánh --</option>
+                     </select>
+                 </form>
+                 <div class="btn-actions-pane-right">
+                     <div role="group" class="btn-group-sm nav btn-group">
+                         <a data-toggle="tab" href="#tab-hdsd" class="btn-shadow active btn btn-primary">Hướng dẫn sử dụng</a>
+                         <a data-toggle="tab" href="#tab-ttd" class="btn-shadow  btn btn-primary">Thứ tự duyệt</a>
+                     </div>
+                 </div>
+             </div>`;
+
+         const tabsHtml = `
+             <div class="card-body">
+                 <div class="tab-content">
+                     <div class="tab-pane tabs-animation fade active show" id="tab-hdsd" role="tabpanel">
+                         <div class="p-3">Nội dung hướng dẫn sử dụng...</div>
+                     </div>
+                     <div class="tab-pane tabs-animation fade" id="tab-ttd" role="tabpanel">
+                         <div class="row">
+                             <div class="col-md-12">
+                                 <div>
+                                     <div class="mb-3">
+                                         <div role="group" class="btn-group-sm nav btn-group">
+                                             <a data-toggle="tab" href="#tab-them" class="btn-pill pl-3 btn btn-warning active show">Thêm</a>
+                                             <a data-toggle="tab" href="#tab-sua" class="btn btn-warning show">Sửa</a>
+                                             <a data-toggle="tab" href="#tab-xoa" class="btn-pill pr-3 btn btn-warning show">Xóa</a>
+                                         </div>
+                                     </div>
+                                     <div class="tab-content">
+                                         <div class="tab-pane show active" id="tab-them" role="tabpanel">
+                                             <div class="row">
+                                                 <div class="col-md-4">
+                                                     <ul class="list-group" id="ul-them"></ul>
+                                                 </div>
+                                                 <div class="col-md-8">
+                                                     <div class="card-body" id="content-them">Chọn phòng ban để xem chi tiết</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="tab-pane show" id="tab-sua" role="tabpanel">
+                                             <div class="row">
+                                                 <div class="col-md-4">
+                                                     <ul class="list-group" id="ul-sua"></ul>
+                                                 </div>
+                                                 <div class="col-md-8">
+                                                     <div class="card-body" id="content-sua">Chọn phòng ban để xem chi tiết</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="tab-pane show" id="tab-xoa" role="tabpanel">
+                                             <div class="row">
+                                                 <div class="col-md-4">
+                                                     <ul class="list-group" id="ul-xoa"></ul>
+                                                 </div>
+                                                 <div class="col-md-8">
+                                                     <div class="card-body" id="content-xoa">Chọn phòng ban để xem chi tiết</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         `;
+
+         const bodyHtml = headerHtml + tabsHtml;
+         const footerHtml = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>`;
+
+         showGlobalModal("Thông tin nghiệp vụ", bodyHtml, footerHtml);
+
+         // Lấy groupId và token, sau đó gọi API lấy danh sách chi nhánh
+         getJwtToken().then(function (resUser) {
+             const groupId = resUser.userInfor.groupId;
+             $.ajax({
+                 url: `/api/caidatsoluotduyet/GetChiNhanhsForCompanyId?groupId=${groupId}`,
+                 method: "GET",
+                 headers: {
+                     "Authorization": "Bearer " + resUser.token
+                 }
+             }).done(function (res) {
+                 const $ddl = $('#ChiNhanhInfo');
+                 $ddl.empty().append('<option value="">-- Chọn chi nhánh --</option>');
+                 if (res.success && Array.isArray(res.data)) {
+                     res.data.forEach(function (item) {
+                         $ddl.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`);
+                     });
+                 }
+             }).fail(function (err) {
+                 $('#ChiNhanhInfo').empty().append('<option value="">Lỗi tải chi nhánh</option>');
+             });
+
+                 // Sau khi gọi API ListDept thành công
+             $.ajax({
+                 url: `/api/caidatphongbanduyet/ListDept?groupId=${groupId}`,
+                 method: "GET",
+                 headers: {
+                     "Authorization": "Bearer " + resUser.token
+                 }
+             }).done(function (res) {
+                 let htmlUl = "";
+                 if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                     var stt =1 ;
+                     res.data.forEach(function (item, idx) {
+                         htmlUl += `<li class="list-group-item" data-idx="${idx}" style="cursor:pointer;">
+                             <b>${stt +"."+item.deptName}</b><br/>
+                             <span>Trạng thái: ${item.isActive ? "Hoạt động" : "Ngừng"}</span>
+                         </li>`;
+                         stt++;
+                     });
+                 } else {
+                     htmlUl = `<li class="list-group-item text-muted">Không có dữ liệu phòng ban.</li>`;
+                 }
+                 // Render cho cả 3 tab
+                 $('#ul-them').html(htmlUl);
+                 $('#ul-sua').html(htmlUl);
+                 $('#ul-xoa').html(htmlUl);
+
+                 function bindDeptClick(tab, data, groupId) {
+                     // Map tab to permissionId
+                     const permissionMap = {
+                         'them': 'cb02028d-04c5-45e7-a1dd-30627f34bef6',
+                         'sua': 'cb02028d-04c5-45e7-a1dd-30627f34bef6',
+                         'xoa': 'cb02028d-04c5-45e7-a1dd-30627f34bef6'
+                     };
+                     const permissionId = permissionMap[tab];
+
+                     $(`#ul-${tab}`).off('click').on('click', 'li', function () {
+                         const idx = $(this).data('idx');
+                         const dept = data[idx];
+                         let content = '';
+
+                         if (dept) {
+                             // Call API with correct permissionId
+                             $.ajax({
+                                   url: `/api/caidatsoluotduyet/ListStepSetting?groupId=${groupId}&majorId=cb02028d-04c5-45e7-a1dd-30627f34bef6&departmentId=${dept.id || ''}&permissionId=${permissionId}`,
+                                 method: "GET",
+                                 headers: {
+                                      "Authorization": "Bearer " + resUser.token
+                                  }
+                             }).done(function (res) {
+                                 if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                                     let stepsHtml = `<h5>${dept.deptName}</h5>`;
+                                     stepsHtml += `<ul class="list-group mb-2">`;
+                                     res.data.forEach((step, i) => {
+                                         stepsHtml += `<li class="list-group-item">
+                                             <b>Bước ${i + 1}:</b> ${step.content || ''}
+                                             <span class="badge badge-info ml-2">${step.isStatus || ''}</span>
+                                         </li>`;
+                                     });
+                                     stepsHtml += `</ul>`;
+                                     content = stepsHtml;
+                                 } else {
+                                     content = `<div class="text-muted">Không có dữ liệu bước duyệt.</div>`;
+                                 }
+                                 $(`#content-${tab}`).html(content);
+                             }).fail(function (err) {
+                                 $(`#content-${tab}`).html('<div class="text-danger">Lỗi khi tải dữ liệu bước duyệt.</div>');
+                             });
+                         } else {
+                             $(`#content-${tab}`).html("Không có dữ liệu chi tiết.");
+                         }
+                         $(`#ul-${tab} li`).removeClass('active');
+                         $(this).addClass('active');
+                     });
+                 }
+                 bindDeptClick('them', res.data, groupId);
+                 bindDeptClick('sua', res.data, groupId);
+                 bindDeptClick('xoa', res.data, groupId);
+             }).fail(function (err) {
+                 $('#ul-them, #ul-sua, #ul-xoa').html('<li class="list-group-item text-danger">Lỗi khi tải dữ liệu phòng ban.</li>');
+                 $('#content-them, #content-sua, #content-xoa').html('');
+             });
+         });
+
+         // Khởi tạo select2 nếu cần
+         if (window.$ && $.fn.select2) {
+             $('#ChiNhanhInfo').select2();
+         }
+         $('#ChiNhanhInfo').off('change').on('change', function () {
+             if (typeof onSelectChange === 'function') {
+                 onSelectChange($(this).val());
+             }
+         });
+     }
+   
+</script>
+
+
+

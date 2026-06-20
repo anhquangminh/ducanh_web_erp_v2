@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewData["Title"] - Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <link rel="stylesheet" href="~/assets/css/base.min.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow">
+        @RenderBody()
+    </div>
+
+    <script src="@Url.Content("~/js/jquery-3.3.1.min.js")"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="@Url.Content("~/lib/metismenu.js")"></script>
+    <script src="../assets/js/scripts-init/app.js"></script>
+    <script src="../assets/js/scripts-init/demo.js"></script>
+
+    <!--Form Validation-->
+    <script src="../assets/js/vendors/form-components/form-validation.js"></script>
+    <script src="../assets/js/scripts-init/form-components/form-validation.js"></script>
+
+    <!--Form Wizard-->
+    <script src="../assets/js/vendors/form-components/form-wizard.js"></script>
+    <script src="../assets/js/scripts-init/form-components/form-wizard.js"></script>
+
+    <!--Input Mask-->
+    <script src="../assets/js/vendors/form-components/input-mask.js"></script>
+    <script src="../assets/js/scripts-init/form-components/input-mask.js"></script>
+
+    <!--RangeSlider-->
+    <script src="../assets/js/vendors/form-components/wnumb.js"></script>
+    <script src="../assets/js/vendors/form-components/range-slider.js"></script>
+    <script src="../assets/js/scripts-init/form-components/range-slider.js"></script>
+
+    <!--Textarea Autosize-->
+    <script src="../assets/js/vendors/form-components/textarea-autosize.js"></script>
+    <script src="../assets/js/scripts-init/form-components/textarea-autosize.js"></script>
+
+    <!--Toggle Switch -->
+    <script src="../assets/js/vendors/form-components/toggle-switch.js"></script>
+
+
+    <!--COMPONENTS-->
+    <!--BlockUI -->
+    <script src="../assets/js/vendors/blockui.js"></script>
+    <script src="../assets/js/scripts-init/blockui.js"></script>
+
+    <!--Calendar -->
+    <script src="../assets/js/vendors/calendar.js"></script>
+    <script src="../assets/js/scripts-init/calendar.js"></script>
+
+    <!--Slick Carousel -->
+    <script src="../assets/js/vendors/carousel-slider.js"></script>
+    <script src="../assets/js/scripts-init/carousel-slider.js"></script>
+
+    <!--Circle Progress -->
+    <script src="../assets/js/vendors/circle-progress.js"></script>
+    <script src="../assets/js/scripts-init/circle-progress.js"></script>
+
+    <!--CountUp -->
+    <script src="../assets/js/vendors/count-up.js"></script>
+    <script src="../assets/js/scripts-init/count-up.js"></script>
+
+    <!--Cropper -->
+    <script src="../assets/js/vendors/cropper.js"></script>
+    <script src="../assets/js/vendors/jquery-cropper.js"></script>
+    <script src="../assets/js/scripts-init/image-crop.js"></script>
+
+    <script src="~/assets/js/scripts-init/app.js"></script>
+    <script src="~/assets/js/scripts-init/demo.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

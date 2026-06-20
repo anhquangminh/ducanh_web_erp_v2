@@ -1,0 +1,2774 @@
+﻿<div class="tab-content">
+    <div class="card mt-3 w-100 d-flex">
+        <div class="card-header">
+            <h3 class="m-0 mr-2">BẢNG KHAI BÁO THÔNG TIN NƯỚC SẠCH DỌC </h3>
+            <span style="cursor:pointer;" onclick="showHuongDanNghiepVu()" title="Hướng dẫn sử dụng">
+                <i class="bi bi-question-circle-fill text-info" style="font-size: 1.5em;"></i>
+            </span>
+        </div>
+        <div class="card-body">
+            <div>
+                <button data-permission="Tao" class="mb-2 mr-2 btn-icon btn btn-primary" onclick="showModalTaoMoi()">
+                    <i class="fas fa-plus btn-icon-wrapper"></i>Tạo mới
+                </button>
+            </div>
+            <div role="group" class="mb-2 btn-group-sm btn-group btn-group-toggle" data-toggle="buttons">
+                <button type="button" class="btn btn-outline-focus" onclick="copyTable('table_data')">Copy</button>
+                <button type="button" class="btn btn-outline-focus" onclick="exportExcel()">Excel</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="table_data">
+                    <thead>
+                        <tr>
+                            <td colspan="3" rowspan="3" class="text-center"></td>
+                            <td colspan="4" rowspan="3" class="text-center">Thông tin tuyến đường</td>
+                            <td colspan="15" rowspan="2" class="text-center">Thông tin đường ống</td>
+                            <td colspan="18" rowspan="2" class="text-center">Thông tin cao độ, kết cấu thượng lưu (m)</td>
+                            <td colspan="17" rowspan="2" class="text-center">Thông tin cao độ, kết cấu hạ lưu (m)</td>
+                            <td colspan="9" rowspan="2" class="text-center">Thông tin cao độ đắp trung bình (m)</td>
+                            <td colspan="5" rowspan="2" class="text-center">Thông tin chiều rộng đáy đào (m)</td>
+                            <td colspan="3" rowspan="3" class="text-center">Thông tin mái đào</td>
+                            <td colspan="5" rowspan="3" class="text-center">Thông tin KL đào đất biện pháp</td>
+                            <td colspan="26" class="text-center">KL đắp trả</td>
+                            <td colspan="4" rowspan="3" class="text-center">Tọa độ</td>
+                        </tr>
+                        <tr>
+                            <td colspan="13" class="text-center">KL đắp cát</td>
+                            <td colspan="9" class="text-center">KL đắp đất</td>
+                            <td colspan="4" rowspan="2" class="text-center">Thông tin đất thừa</td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" class="text-center">Thông tin ống nhựa</td>
+                            <td colspan="7" class="text-center">Thông tin khối lượng ống thép</td>
+                            <td colspan="6" class="text-center">Thông tin chung</td>
+                            <td colspan="7" class="text-center">Thông tin đắp cát</td>
+                            <td colspan="3" class="text-center">Thông tin đắp đất</td>
+                            <td colspan="2" class="text-center">Tổng chiều dầy (m)</td>
+                            <td colspan="5" class="text-center">Thông tin chung</td>
+                            <td colspan="7" class="text-center">Thông tin đắp cát</td>
+                            <td colspan="3" class="text-center">Thông tin đắp đất</td>
+                            <td colspan="2" class="text-center">Tổng chiều dầy (m)</td>
+                            <td colspan="3" class="text-center">Đệm cát</td>
+                            <td colspan="3" class="text-center">Đắp cát</td>
+                            <td colspan="3" class="text-center">Đắp đất</td>
+                            <td colspan="3" class="text-center">Thông tin đáy đào nhỏ</td>
+                            <td colspan="2" class="text-center">Thông tin đáy đào lớn</td>
+
+                            <td colspan="8" class="text-center">KL đắp cát trước chiếm chỗ</td>
+                            <td colspan="5" class="text-center">KL ống chiếm chỗ</td>
+
+                            <td colspan="4" class="text-center">KL đắp đất trước chiếm chỗ</td>
+                            <td colspan="5" class="text-center">KL chiếm chỗ</td>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Trạng thái</th>
+                            <th>Tên chi nhánh</th>
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Đến lý trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Đường kính ngoài (m)</th>
+                            <th>C.Dầy ống (m)</th>
+                            <th>Chiều dài (m)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Đường kính ngoài (m)</th>
+                            <th>C.Dầy ống (m)</th>
+                            <th>Chiều dài (m)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Hình thức đắp trả</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào </th>
+                            <th>Chiều sâu đào</th>
+                            <th>Dòng chảy</th>
+                            <th>Đỉnh đường ống</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Dầy đệm cát</th>
+                            <th>Đỉnh đệm cát</th>
+                            <th>Đáy đắp cát</th>
+                            <th>C.Dầy đắp cát</th>
+                            <th>Đỉnh đắp cát</th>
+                            <th>Tổng chiều dầy đệm + đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>Đỉnh đắp đất</th>
+                            <th>Đắp đất + cát</th>
+                            <th>Chênh đắp so với đào</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào </th>
+                            <th>Chiều sâu đào</th>
+                            <th>Dòng chảy</th>
+                            <th>Đỉnh đường ống</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Dầy đệm cát</th>
+                            <th>Đỉnh đệm cát</th>
+                            <th>Đáy đắp cát</th>
+                            <th>C.Dầy đắp cát</th>
+                            <th>Đỉnh đắp cát</th>
+                            <th>Tổng chiều dầy đệm + đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>Đỉnh đắp đất</th>
+                            <th>Đắp đất + cát</th>
+                            <th>Chênh đắp so với đào</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Độ đỉnh đệm cát</th>
+                            <th>Chiều dầy đệm cát</th>
+                            <th>C.Độ đáy đắp cát</th>
+                            <th>C.độ đỉnh đắp cát</th>
+                            <th>Chiều dầy đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>C.Độ đỉnh đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>C.Rộng đáy nhỏ H.Lưu</th>
+                            <th>C.Rộng đáy nhỏ T.Lưu</th>
+                            <th>C.Rộng đáy nhỏ T.Bình</th>
+                            <th>Chiều sâu đào trung bình</th>
+                            <th>C.Rộng đáy lớn trung bình</th>
+                            <th>Tỷ lệ mở mái</th>
+                            <th>Số mái trái</th>
+                            <th>Số mái phải</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>Diện tích (m2)</th>
+                            <th>KL đào (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>C.Rộng đáy nhỏ đệm cát (m)</th>
+                            <th>C.Rộng đáy lớn đệm cát (m)</th>
+                            <th>Diện tích đắp cát (m2)</th>
+                            <th>KL đệm cát (m3)</th>
+                            <th>C.Rộng đáy nhỏ đắp cát (m)</th>
+                            <th>C.Rộng đáy lớn đắp cát (m)</th>
+                            <th>Diện tích đắp cát (m2)</th>
+                            <th>KL đắp cát (m3)</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL ống C.Chỗ (m3)</th>
+                            <th>KL đắp cát sau C.Chỗ (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>C.Rộng đáy nhỏ đắp đất (m)</th>
+                            <th>C.Rộng đáy lớn đắp đất (m)</th>
+                            <th>Diện tích đắp đất (m2)</th>
+                            <th>KL đắp đất (m3)</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL ống C.Chỗ (m3)</th>
+                            <th>KL đắp đất sau C.Chỗ (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL đất thừa (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>Trạng thái</th>
+                            <th>Tên chi nhánh</th>
+                            <th>Tuyến đường</th>
+                            <th>Từ lý trình</th>
+                            <th>Đến lý trình</th>
+                            <th>Hạng mục công việc</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Đường kính ngoài (m)</th>
+                            <th>C.Dầy ống (m)</th>
+                            <th>Chiều dài (m)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Loại cấu kiện</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại khối lượng</th>
+                            <th>Đường kính ngoài (m)</th>
+                            <th>C.Dầy ống (m)</th>
+                            <th>Chiều dài (m)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Hình thức đắp trả</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào </th>
+                            <th>Chiều sâu đào</th>
+                            <th>Dòng chảy</th>
+                            <th>Đỉnh đường ống</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Dầy đệm cát</th>
+                            <th>Đỉnh đệm cát</th>
+                            <th>Đáy đắp cát</th>
+                            <th>C.Dầy đắp cát</th>
+                            <th>Đỉnh đắp cát</th>
+                            <th>Tổng chiều dầy đệm + đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>Đỉnh đắp đất</th>
+                            <th>Đắp đất + cát</th>
+                            <th>Chênh đắp so với đào</th>
+                            <th>H.Trạng trước khi đào</th>
+                            <th>Đáy đào </th>
+                            <th>Chiều sâu đào</th>
+                            <th>Dòng chảy</th>
+                            <th>Đỉnh đường ống</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Dầy đệm cát</th>
+                            <th>Đỉnh đệm cát</th>
+                            <th>Đáy đắp cát</th>
+                            <th>C.Dầy đắp cát</th>
+                            <th>Đỉnh đắp cát</th>
+                            <th>Tổng chiều dầy đệm + đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>Đỉnh đắp đất</th>
+                            <th>Đắp đất + cát</th>
+                            <th>Chênh đắp so với đào</th>
+                            <th>C.Độ đáy đệm cát</th>
+                            <th>C.Độ đỉnh đệm cát</th>
+                            <th>Chiều dầy đệm cát</th>
+                            <th>C.Độ đáy đắp cát</th>
+                            <th>C.độ đỉnh đắp cát</th>
+                            <th>Chiều dầy đắp cát</th>
+                            <th>C.Độ đáy đắp đất</th>
+                            <th>C.Độ đỉnh đắp đất</th>
+                            <th>Chiều dầy đắp đất</th>
+                            <th>C.Rộng đáy nhỏ H.Lưu</th>
+                            <th>C.Rộng đáy nhỏ T.Lưu</th>
+                            <th>C.Rộng đáy nhỏ T.Bình</th>
+                            <th>Chiều sâu đào trung bình</th>
+                            <th>C.Rộng đáy lớn trung bình</th>
+                            <th>Tỷ lệ mở mái</th>
+                            <th>Số mái trái</th>
+                            <th>Số mái phải</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>Diện tích (m2)</th>
+                            <th>KL đào (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>C.Rộng đáy nhỏ đệm cát (m)</th>
+                            <th>C.Rộng đáy lớn đệm cát (m)</th>
+                            <th>Diện tích đắp cát (m2)</th>
+                            <th>KL đệm cát (m3)</th>
+                            <th>C.Rộng đáy nhỏ đắp cát (m)</th>
+                            <th>C.Rộng đáy lớn đắp cát (m)</th>
+                            <th>Diện tích đắp cát (m2)</th>
+                            <th>KL đắp cát (m3)</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL ống C.Chỗ (m3)</th>
+                            <th>KL đắp cát sau C.Chỗ (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>C.Rộng đáy nhỏ đắp đất (m)</th>
+                            <th>C.Rộng đáy lớn đắp đất (m)</th>
+                            <th>Diện tích đắp đất (m2)</th>
+                            <th>KL đắp đất (m3)</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL ống C.Chỗ (m3)</th>
+                            <th>KL đắp đất sau C.Chỗ (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>Hạng mục KL</th>
+                            <th>Loại KL</th>
+                            <th>KL đất thừa (m3)</th>
+                            <th>Trạng thái thi công</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    async function exportExcel(){
+        await exportExcelCustom("table_data", [
+            { text: "CÔNG TY CỔ PHẦN XÂY DỰNG ĐỨC ANH", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "KHU CÔNG NGHIỆP CẨM KHÊ", cols: 5, align: "left", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+            { text: "BẢNG KHAI BÁO THÔNG TIN NƯỚC SẠCH DỌC", align: "center", fontSize: 12, bold: true },
+            { text: "", cols: 10 },
+        ], "1. TT chung N.Sạch dọc", "1. TT chung N.Sạch dọc.xlsx",[1,2]);
+    }
+
+    $(function () {
+        loadData();
+    });
+
+    function loadData() {
+        showBlockLoading('.table-responsive');
+        getJwtToken().then(async function (resUser) {
+            await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetByVM?groupId=${resUser.userInfor.groupId}`,
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + resUser.token
+                },
+            }).done(function (res) {
+                let dataSet = [];
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    dataSet = res.data.map((item, idx) => ({
+                        stt: idx + 1,
+                        id: item.id,
+                        tenChiNhanh: item.tenChiNhanh ||'',
+                        id_TuyenDuong: item.id_TuyenDuong || '',
+                        tuyenDuong: item.tuyenDuong || '',
+                        id_TuLyTrinh: item.id_TuLyTrinh || '',
+                        tuLyTrinh: item.tuLyTrinh || '',
+                        id_DenLyTrinh: item.id_DenLyTrinh || '',
+                        denLyTrinh: item.denLyTrinh || '',
+                        hangMucCongViec: item.hangMucCongViec || '',
+                        loaiCauKien: item.loaiCauKien || '',
+                        hangMucKhoiLuong: item.hangMucKhoiLuong || '',
+                        loaiKhoiLuong: item.loaiKhoiLuong || '',
+                        duongKinhNgoaiOngNhua: item.duongKinhNgoaiOngNhua || '',
+                        cDayOngOngNhua: item.cDayOngOngNhua || '',
+                        chieuDaiOngNhua: item.chieuDaiOngNhua || '',
+                        trangThaiThiCongOngNhua: item.trangThaiThiCongOngNhua || '',
+                        loaiCauKienOngThep: item.loaiCauKienOngThep || '',
+                        hangMucKhoiLuongOngThep: item.hangMucKhoiLuongOngThep || '',
+                        loaiKhoiLuongOngThep: item.loaiKhoiLuongOngThep || '',
+                        duongKinhNgoaiMOngThep: item.duongKinhNgoaiMOngThep || '',
+                        cDayOngMOngThep: item.cDayOngMOngThep || '',
+                        chieuDaiMOngThep: item.chieuDaiMOngThep || '',
+                        trangThaiThiCongOngThep: item.trangThaiThiCongOngThep || '',
+                        hinhThucDapTra: item.hinhThucDapTra || '',
+                        hTrangTruocKhiDaoThuongLuu: item.hTrangTruocKhiDaoThuongLuu || '',
+                        dayDaoThuongLuu: item.dayDaoThuongLuu || '',
+                        chieuSauDaoThuongLuu: item.chieuSauDaoThuongLuu || '',
+                        dongChayThuongLuu: item.dongChayThuongLuu || '',
+                        dinhDuongOngThuongLuu: item.dinhDuongOngThuongLuu || '',
+                        cDoDayDemCatThuongLuu: item.cDoDayDemCatThuongLuu || '',
+                        cDayDemCatThuongLuu: item.cDayDemCatThuongLuu || '',
+                        dinhDemCatThuongLuu: item.dinhDemCatThuongLuu || '',
+                        dayDapCatThuongLuu: item.dayDapCatThuongLuu || '',
+                        cDayDapCatThuongLuu: item.cDayDapCatThuongLuu || '',
+                        dinhDapCatThuongLuu: item.dinhDapCatThuongLuu || '',
+                        tongChieuDayDemDapCatThuongLuu: item.tongChieuDayDemDapCatThuongLuu || '',
+                        cDoDayDapDatThuongLuu: item.cDoDayDapDatThuongLuu || '',
+                        chieuDayDapDatThuongLuu: item.chieuDayDapDatThuongLuu || '',
+                        dinhDapDatThuongLuu: item.dinhDapDatThuongLuu || '',
+                        dapDatCatThuongLuu: item.dapDatCatThuongLuu || '',
+                        chenhDapSoVoiDaoThuongLuu: item.chenhDapSoVoiDaoThuongLuu || '',
+                        hTrangTruocKhiDaoHaLuu: item.hTrangTruocKhiDaoHaLuu || '',
+                        dayDaoHaLuu: item.dayDaoHaLuu || '',
+                        chieuSauDaoHaLuu: item.chieuSauDaoHaLuu || '',
+                        dongChayHaLuu: item.dongChayHaLuu || '',
+                        dinhDuongOngHaLuu: item.dinhDuongOngHaLuu || '',
+                        cDoDayDemCatHaLuu: item.cDoDayDemCatHaLuu || '',
+                        cDayDemCatHaLuu: item.cDayDemCatHaLuu || '',
+                        dinhDemCatHaLuu: item.dinhDemCatHaLuu || '',
+                        dayDapCatHaLuu: item.dayDapCatHaLuu || '',
+                        cDayDapCatHaLuu: item.cDayDapCatHaLuu || '',
+                        dinhDapCatHaLuu: item.dinhDapCatHaLuu || '',
+                        tongChieuDayDemDapCatHaLuu: item.tongChieuDayDemDapCatHaLuu || '',
+                        cDoDayDapDatHaLuu: item.cDoDayDapDatHaLuu || '',
+                        chieuDayDapDatHaLuu: item.chieuDayDapDatHaLuu || '',
+                        dinhDapDatHaLuu: item.dinhDapDatHaLuu || '',
+                        dapDatCatHaLuu: item.dapDatCatHaLuu || '',
+                        chenhDapSoVoiDaoHaLuu: item.chenhDapSoVoiDaoHaLuu || '',
+                        cDoDayDemCat: item.cDoDayDemCat || '',
+                        cDoDinhDemCat: item.cDoDinhDemCat || '',
+                        chieuDayDemCat: item.chieuDayDemCat || '',
+                        cDoDayDapCat: item.cDoDayDapCat || '',
+                        cDoDinhDapCat: item.cDoDinhDapCat || '',
+                        chieuDayDapCat: item.chieuDayDapCat || '',
+                        cDoDayDapDat: item.cDoDayDapDat || '',
+                        cDoDinhDapDat: item.cDoDinhDapDat || '',
+                        chieuDayDapDat: item.chieuDayDapDat || '',
+                        cRongDayNhoHLuu: item.cRongDayNhoHLuu || '',
+                        cRongDayNhoTLuu: item.cRongDayNhoTLuu || '',
+                        cRongDayNhoTBinh: item.cRongDayNhoTBinh || '',
+                        chieuSauDaoTrungBinh: item.chieuSauDaoTrungBinh || '',
+                        cRongDayLonTrungBinh: item.cRongDayLonTrungBinh || '',
+                        tyLeMoMai: item.tyLeMoMai || '',
+                        soMaiTrai: item.soMaiTrai || '',
+                        soMaiPhai: item.soMaiPhai || '',
+                        hangMucKlDaoDat: item.hangMucKlDaoDat || '',
+                        loaiKlDaoDat: item.loaiKlDaoDat || '',
+                        dienTich: item.dienTich || '',
+                        klDao: item.klDao || '',
+                        trangThaiThiCongDaoDat: item.trangThaiThiCongDaoDat || '',
+                        cRongDayNhoDemCat: item.cRongDayNhoDemCat || '',
+                        cRongDayLonDemCat: item.cRongDayLonDemCat || '',
+                        dienTichDapCat1: item.dienTichDapCat1 || '',
+                        klDemCat: item.klDemCat || '',
+                        cRongDayNhoDapCat: item.cRongDayNhoDapCat || '',
+                        cRongDayLonDapCat: item.cRongDayLonDapCat || '',
+                        dienTichDapCat2: item.dienTichDapCat2 || '',
+                        klDapCat: item.klDapCat || '',
+                        hangMucKlDapCat: item.hangMucKlDapCat || '',
+                        loaiKlDapCat: item.loaiKlDapCat || '',
+                        kLDapCat_KlOngCCho: item.kLDapCat_KlOngCCho || '',
+                        klDapCatSauCCho: item.klDapCatSauCCho || '',
+                        trangThaiThiCongDapCat: item.trangThaiThiCongDapCat || '',
+                        cRongDayNhoDapDat: item.cRongDayNhoDapDat || '',
+                        cRongDayLonDapDat: item.cRongDayLonDapDat || '',
+                        dienTichDapDat: item.dienTichDapDat || '',
+                        klDapDat: item.klDapDat || '',
+                        hangMucKlDapDat: item.hangMucKlDapDat || '',
+                        loaiKlDapDat: item.loaiKlDapDat || '',
+                        kLDapDat_KlOngCCho: item.kLDapDat_KlOngCCho || '',
+                        klDapDatSauCCho: item.klDapDatSauCCho || '',
+                        trangThaiThiCongDapDat: item.trangThaiThiCongDapDat || '',
+                        hangMucKlDatThua: item.hangMucKlDatThua || '',
+                        loaiKlDatThua: item.loaiKlDatThua || '',
+                        klDatThua: item.klDatThua || '',
+                        trangThaiThiCongDatThua: item.trangThaiThiCongDatThua || '',
+                        x1: item.x1 || '',
+                        y1: item.y1 || '',
+                        x2: item.x2 || '',
+                        y2: item.y2 || '',
+
+                        isStatus: item.isStatus || '',
+                        isActive: item.isActive || '',
+                    }));
+                }
+
+                const $table = $('#table_data');
+                if ($.fn.DataTable.isDataTable($table)) {
+                    $table.DataTable().clear().destroy();
+                }
+
+                $table.DataTable({
+                    data: dataSet,
+                    columns: [
+                        { data: 'stt', className: 'text-center align-middle', width: '1%' },
+                        {
+                            data: null,
+                            className: 'text-center align-middle',
+                            orderable: false,
+                            width: "1%",
+                            render: function (data, type, row) {
+                                let buttons = `
+                                         <div class="btn-group">
+                                     `;
+                                // Chỉ hiển thị nút duyệt/hủy duyệt khi isActive == 0,1,2 (chờ duyệt)
+                                 if (row.isActive < 3) {
+                                     buttons += `
+                                         <button class="btn btn-sm btn-success btn-approve" title="Duyệt" data-id="${row.id}" onclick="duyet('${row.id}')"><i class="fas fa-check"></i></button>
+                                         <button class="btn btn-sm btn-warning btn-cancel-approve" title="Hủy duyệt" data-id="${row.id}" onclick="huyDuyet('${row.id}')"><i class="fas fa-times"></i></button>
+                                     `;
+                                 }else if (row.isActive = 3) {
+                                      buttons += `
+                                      <button class="btn btn-sm btn-danger btn-delete" title="Xóa" data-id="${row.id}" onclick=deleteCaiDat("${row.id}")><i class="fas fa-trash"></i></button>`;
+                                 }
+                                 buttons += `
+                                     <button class="btn btn-sm btn-primary btn-edit" title="Chỉnh sửa" data-id="${row.id}" onclick=editCaiDat("${row.id}")><i class="fas fa-edit"></i></button>
+                                     <button class="btn btn-sm btn-danger btn-delete" title="Chi tiết" data-id="${row.id}" onclick=chiTiet("${row.id}")><i class="fas fa-eye"></i></button>
+
+                                 </div>
+                                 `;
+                                return buttons;
+                            }
+                        },
+                        { data: 'isStatus', className: 'align-middle' },
+                        { data: 'tenChiNhanh', className: 'align-middle' },
+                        { data: 'tuyenDuong', className: 'align-middle' },
+                        { data: 'tuLyTrinh', className: 'align-middle' },
+                        { data: 'denLyTrinh', className: 'align-middle' },
+                        { data: 'hangMucCongViec', className: 'align-middle' },
+                        { data: 'loaiCauKien', className: 'align-middle' },
+                        { data: 'hangMucKhoiLuong', className: 'align-middle' },
+                        { data: 'loaiKhoiLuong', className: 'align-middle' },
+                        { data: 'duongKinhNgoaiOngNhua', className: 'align-middle' },
+                        { data: 'cDayOngOngNhua', className: 'align-middle' },
+                        { data: 'chieuDaiOngNhua', className: 'align-middle' },
+                        { data: 'trangThaiThiCongOngNhua', className: 'align-middle' },
+                        { data: 'loaiCauKienOngThep', className: 'align-middle' },
+                        { data: 'hangMucKhoiLuongOngThep', className: 'align-middle' },
+                        { data: 'loaiKhoiLuongOngThep', className: 'align-middle' },
+                        { data: 'duongKinhNgoaiMOngThep', className: 'align-middle' },
+                        { data: 'cDayOngMOngThep', className: 'align-middle' },
+                        { data: 'chieuDaiMOngThep', className: 'align-middle' },
+                        { data: 'trangThaiThiCongOngThep', className: 'align-middle' },
+                        { data: 'hinhThucDapTra', className: 'align-middle' },
+                        { data: 'hTrangTruocKhiDaoThuongLuu', className: 'align-middle' },
+                        { data: 'dayDaoThuongLuu', className: 'align-middle' },
+                        { data: 'chieuSauDaoThuongLuu', className: 'align-middle' },
+                        { data: 'dongChayThuongLuu', className: 'align-middle' },
+                        { data: 'dinhDuongOngThuongLuu', className: 'align-middle' },
+                        { data: 'cDoDayDemCatThuongLuu', className: 'align-middle' },
+                        { data: 'cDayDemCatThuongLuu', className: 'align-middle' },
+                        { data: 'dinhDemCatThuongLuu', className: 'align-middle' },
+                        { data: 'dayDapCatThuongLuu', className: 'align-middle' },
+                        { data: 'cDayDapCatThuongLuu', className: 'align-middle' },
+                        { data: 'dinhDapCatThuongLuu', className: 'align-middle' },
+                        { data: 'tongChieuDayDemDapCatThuongLuu', className: 'align-middle' },
+                        { data: 'cDoDayDapDatThuongLuu', className: 'align-middle' },
+                        { data: 'chieuDayDapDatThuongLuu', className: 'align-middle' },
+                        { data: 'dinhDapDatThuongLuu', className: 'align-middle' },
+                        { data: 'dapDatCatThuongLuu', className: 'align-middle' },
+                        { data: 'chenhDapSoVoiDaoThuongLuu', className: 'align-middle' },
+                        { data: 'hTrangTruocKhiDaoHaLuu', className: 'align-middle' },
+                        { data: 'dayDaoHaLuu', className: 'align-middle' },
+                        { data: 'chieuSauDaoHaLuu', className: 'align-middle' },
+                        { data: 'dongChayHaLuu', className: 'align-middle' },
+                        { data: 'dinhDuongOngHaLuu', className: 'align-middle' },
+                        { data: 'cDoDayDemCatHaLuu', className: 'align-middle' },
+                        { data: 'cDayDemCatHaLuu', className: 'align-middle' },
+                        { data: 'dinhDemCatHaLuu', className: 'align-middle' },
+                        { data: 'dayDapCatHaLuu', className: 'align-middle' },
+                        { data: 'cDayDapCatHaLuu', className: 'align-middle' },
+                        { data: 'dinhDapCatHaLuu', className: 'align-middle' },
+                        { data: 'tongChieuDayDemDapCatHaLuu', className: 'align-middle' },
+                        { data: 'cDoDayDapDatHaLuu', className: 'align-middle' },
+                        { data: 'chieuDayDapDatHaLuu', className: 'align-middle' },
+                        { data: 'dinhDapDatHaLuu', className: 'align-middle' },
+                        { data: 'dapDatCatHaLuu', className: 'align-middle' },
+                        { data: 'chenhDapSoVoiDaoHaLuu', className: 'align-middle' },
+                        { data: 'cDoDayDemCat', className: 'align-middle' },
+                        { data: 'cDoDinhDemCat', className: 'align-middle' },
+                        { data: 'chieuDayDemCat', className: 'align-middle' },
+                        { data: 'cDoDayDapCat', className: 'align-middle' },
+                        { data: 'cDoDinhDapCat', className: 'align-middle' },
+                        { data: 'chieuDayDapCat', className: 'align-middle' },
+                        { data: 'cDoDayDapDat', className: 'align-middle' },
+                        { data: 'cDoDinhDapDat', className: 'align-middle' },
+                        { data: 'chieuDayDapDat', className: 'align-middle' },
+                        { data: 'cRongDayNhoHLuu', className: 'align-middle' },
+                        { data: 'cRongDayNhoTLuu', className: 'align-middle' },
+                        { data: 'cRongDayNhoTBinh', className: 'align-middle' },
+                        { data: 'chieuSauDaoTrungBinh', className: 'align-middle' },
+                        { data: 'cRongDayLonTrungBinh', className: 'align-middle' },
+                        { data: 'tyLeMoMai', className: 'align-middle' },
+                        { data: 'soMaiTrai', className: 'align-middle' },
+                        { data: 'soMaiPhai', className: 'align-middle' },
+                        { data: 'hangMucKlDaoDat', className: 'align-middle' },
+                        { data: 'loaiKlDaoDat', className: 'align-middle' },
+                        { data: 'dienTich', className: 'align-middle' },
+                        { data: 'klDao', className: 'align-middle' },
+                        { data: 'trangThaiThiCongDaoDat', className: 'align-middle' },
+                        { data: 'cRongDayNhoDemCat', className: 'align-middle' },
+                        { data: 'cRongDayLonDemCat', className: 'align-middle' },
+                        { data: 'dienTichDapCat1', className: 'align-middle' },
+                        { data: 'klDemCat', className: 'align-middle' },
+                        { data: 'cRongDayNhoDapCat', className: 'align-middle' },
+                        { data: 'cRongDayLonDapCat', className: 'align-middle' },
+                        { data: 'dienTichDapCat2', className: 'align-middle' },
+                        { data: 'klDapCat', className: 'align-middle' },
+                        { data: 'hangMucKlDapCat', className: 'align-middle' },
+                        { data: 'loaiKlDapCat', className: 'align-middle' },
+                        { data: 'kLDapCat_KlOngCCho', className: 'align-middle' },
+                        { data: 'klDapCatSauCCho', className: 'align-middle' },
+                        { data: 'trangThaiThiCongDapCat', className: 'align-middle' },
+                        { data: 'cRongDayNhoDapDat', className: 'align-middle' },
+                        { data: 'cRongDayLonDapDat', className: 'align-middle' },
+                        { data: 'dienTichDapDat', className: 'align-middle' },
+                        { data: 'klDapDat', className: 'align-middle' },
+                        { data: 'hangMucKlDapDat', className: 'align-middle' },
+                        { data: 'loaiKlDapDat', className: 'align-middle' },
+                        { data: 'kLDapDat_KlOngCCho', className: 'align-middle' },
+                        { data: 'klDapDatSauCCho', className: 'align-middle' },
+                        { data: 'trangThaiThiCongDapDat', className: 'align-middle' },
+                        { data: 'hangMucKlDatThua', className: 'align-middle' },
+                        { data: 'loaiKlDatThua', className: 'align-middle' },
+                        { data: 'klDatThua', className: 'align-middle' },
+                        { data: 'trangThaiThiCongDatThua', className: 'align-middle' },
+                        { data: 'x1', className: 'align-middle' },
+                        { data: 'y1', className: 'align-middle' },
+                        { data: 'x2', className: 'align-middle' },
+                        { data: 'y2', className: 'align-middle' },
+
+                    ],
+                     autoWidth: false,
+                    scrollX: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 10,
+                    info: true,
+                    language: {
+                        lengthMenu: "Hiển thị _MENU_ bản ghi mỗi trang",
+                        zeroRecords: "Không tìm thấy dữ liệu",
+                        info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                        infoEmpty: "Không có bản ghi nào",
+                        infoFiltered: "(lọc từ _MAX_ bản ghi)",
+                        search: "Tìm kiếm:",
+                        paginate: {
+                            first: "Đầu",
+                            last: "Cuối",
+                            next: "Sau",
+                            previous: "Trước"
+                        }
+                    },
+                    initComplete: function () {
+                        this.api().columns().every(function (colIdx) {
+                            var column = this;
+                            var $footer = $(column.footer()).empty();
+                            if (colIdx === 0 || colIdx === 1) {
+                                $footer.append('<p></p>');
+                            }else{
+                                var select = $('<select><option value=""></option></select>')
+                                .appendTo($footer)
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                column.data().unique().sort().each(function (d) {
+                                    select.append('<option value="' + d + '">' + d + '</option>');
+                                });
+                            }
+
+                        });
+                    }
+
+                });
+            }).fail(function (xhr) {
+                var colCount = $('#table_data thead th').length;
+                $('#table_data tbody').html('<tr><td colspan="' + colCount + '" class="text-left text-danger">Lỗi khi tải dữ liệu.</td></tr>');
+            }).always(function () {
+                hideBlockLoading('.table-responsive');
+            });
+        });
+    }
+
+    async function showModalTaoMoi(isEdit = false, data = null) {
+        const modalTitle = isEdit ? "Cập nhật " : "Thêm mới ";
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        const groupId = resUser.userInfor.groupId;
+        const userName = resUser.userInfor.userName;
+
+        // Dropdowns mapping
+        const dropdownApis = [
+            { url: "/api/DMTuyenDuong/GetAll", id: ["id_TuyenDuong"], text: "Tuyến đường" },
+            { url: "/api/DMLyTrinh/GetAll", id: ["id_TuLyTrinh","id_DenLyTrinh"], text: "Lý trình" },
+            { url: "/api/DMHangMucCongViec/GetAll", id: ["id_HangMucCongViec"], text: "Hạng mục công việc" },
+            { url: "/api/DMLoaiCauKien/GetAll", id: ["id_LoaiCauKien"], text: "Loại cấu kiện" },
+            { url: "/api/DMHangMucKhoiLuong/GetAll", id: ["id_HangMucKhoiLuong", "id_HangMucKhoiLuongOngThep"], text: "Hạng mục khối lượng" },
+            { url: "/api/DMLoaiKhoiLuong/GetAll", id: ["id_LoaiKhoiLuong", "id_LoaiKhoiLuongOngThep"], text: "Loại khối lượng" },
+            { url: "/api/DMTrangThaiThiCong/GetAll", id: ["id_TrangThaiThiCongOngNhua", "id_TrangThaiThiCongOngThep", "id_TrangThaiThiCongDaoDat", "id_TrangThaiThiCongDapCat", "id_TrangThaiThiCongDapDat", "id_TrangThaiThiCongDatThua"], text: "Trạng thái thi công" },
+            { url: "/api/DMLoaiCauKien/GetAll", id: ["id_LoaiCauKienOngThep"], text: "Loại cấu kiện" },
+            { url: "/api/DMHinhThucDapTra/GetAll", id: ["id_HinhThucDapTra"], text: "Hình thức đắp trả" },
+        ];
+
+        const dropdowns = {};
+        for (const item of dropdownApis) {
+            let options = `<option value="">-- Chọn ${item.text} --</option>`;
+            let resData = [];
+
+            try {
+                const res = await $.ajax({
+                    url: `${item.url}?groupId=${groupId}`,
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                if (res.success && Array.isArray(res.data)) {
+                    resData = res.data;
+                }
+            } catch {
+                options += '<option>Lỗi tải dữ liệu</option>';
+            }
+
+            for (const idKey of item.id) {
+                let selectOptions = options;
+
+                resData.forEach(x => {
+                    const selected = data && data[idKey] === x.id ? 'selected' : '';
+                    selectOptions += `<option value="${x.id}" ${selected}>${x.tenDanhMuc}</option>`;
+                });
+
+                dropdowns[idKey] = selectOptions;
+            }
+        }
+
+        try {
+            let selectChiNhanh = '<option value="">-- Chọn công trình --</option>';
+            const res = await $.ajax({
+                 url: "/api/ChiNhanh/GetByVM?groupId=" +groupId,
+                 method: "POST",
+                 headers: {
+                     "Content-Type": "application/json",
+                     "Authorization": "Bearer " + resUser.token
+                 },
+                 data: JSON.stringify({
+                     Id : "",
+                     ParentId : "",
+                     TenChiNhanh : "",
+                     CompanyType : "",
+                     Phone : "",
+                     Email : "",
+                     Address : "",
+                     GroupId : "",
+                     Ordinarily : 0,
+                     CreateAt : null,
+                     CreateBy : "",
+                     IsActive : 0,
+                     ApprovalUserId : "",
+                     DateApproval : null,
+                     ApprovalDept : "",
+                     DepartmentId : "",
+                     DepartmentOrder : 0,
+                     ApprovalOrder : 0,
+                     ApprovalId : "",
+                     LastApprovalId : "",
+                     IsStatus : ""
+                 })
+             });
+
+            if (res && res.success && Array.isArray(res.data)) {
+                res.data.forEach(x => {
+                    const selected = (data && data["id_ChiNhanh"] === x.id) ? 'selected' : '';
+                    selectChiNhanh += `<option value="${x.id}" ${selected}>${x.tenChiNhanh || ''}</option>`;
+                });
+            } else {
+                selectChiNhanh += '<option>Lỗi tải dữ liệu</option>';
+            }
+            dropdowns["id_ChiNhanh"] = selectChiNhanh;
+        } catch (err) {
+            let selectChiNhanh = '<option>Lỗi tải dữ liệu</option>';
+            dropdowns["id_ChiNhanh"] = selectChiNhanh;
+        }
+
+
+        const bodyHtml = `
+                  <form id="form_caidat">
+                    <div class="form-row">
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin tuyến đường</span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Tên công trình<span class="text-danger">*</span></label>
+                                    <select id="id_ChiNhanh" class="form-control">${dropdowns.id_ChiNhanh}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Tuyến đường<span class="text-danger">*</span></label>
+                                    <select id="id_TuyenDuong" class="form-control">${dropdowns.id_TuyenDuong}</select>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Từ lý trình<span class="text-danger">*</span></label>
+                                    <select id="id_TuLyTrinh" class="form-control">${dropdowns.id_TuLyTrinh}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đến lý trình<span class="text-danger">*</span></label>
+                                     <select id="id_DenLyTrinh" class="form-control">${dropdowns.id_DenLyTrinh}</select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin đường ống</span>
+                            <p class="text-bold">Thông tin ống nhựa</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục công việc<span class="text-danger">*</span></label>
+                                    <select id="id_HangMucCongViec" class="form-control">${dropdowns.id_HangMucCongViec}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại cấu kiện <span class="text-danger">*</span></label>
+                                    <select id="id_LoaiCauKien" class="form-control">${dropdowns.id_LoaiCauKien}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL<span class="text-danger">*</span></label>
+                                    <select id="id_HangMucKhoiLuong" class="form-control">${dropdowns.id_HangMucKhoiLuong}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại khối lượng <span class="text-danger">*</span></label>
+                                    <select id="id_LoaiKhoiLuong" class="form-control">${dropdowns.id_LoaiKhoiLuong}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đường kính ngoài (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="duongKinhNgoaiOngNhua" value="${data?.duongKinhNgoaiOngNhua || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy ống (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDayOngOngNhua" value="${data?.cDayOngOngNhua || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dài (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDaiOngNhua" value="${data?.chieuDaiOngNhua || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Trạng thái thi công<span class="text-danger">*</span></label>
+                                    <select id="id_TrangThaiThiCongOngNhua" class="form-control">${dropdowns.id_TrangThaiThiCongOngNhua}</select>
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin khối lượng ống thép</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Loại cấu kiện</label>
+                                    <select id="id_LoaiCauKienOngThep" class="form-control">${dropdowns.id_LoaiCauKienOngThep}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL</label>
+                                    <select id="id_HangMucKhoiLuongOngThep" class="form-control">${dropdowns.id_HangMucKhoiLuongOngThep}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại khối lượng</label>
+                                    <select id="id_LoaiKhoiLuongOngThep" class="form-control">${dropdowns.id_LoaiKhoiLuongOngThep}</select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label>Đường kính ngoài (m)</label>
+                                    <input type="text" id="duongKinhNgoaiMOngThep" value="${data?.duongKinhNgoaiMOngThep || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy ống (m)</label>
+                                    <input type="text" id="cDayOngMOngThep" value="${data?.cDayOngMOngThep || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dài (m)</label>
+                                    <input type="text" id="chieuDaiMOngThep" value="${data?.chieuDaiMOngThep || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại khối lượng</label>
+                                    <select id="id_TrangThaiThiCongOngThep" class="form-control">${dropdowns.id_TrangThaiThiCongOngThep}</select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin cao độ, kết cấu thượng lưu (m)</span>
+                            <p class="text-bold">Thông tin chung</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hình thức đắp trả<span class="text-danger">*</span></label>
+                                    <select id="id_HinhThucDapTra" class="form-control">${dropdowns.id_HinhThucDapTra}</select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>H.Trạng trước khi đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="hTrangTruocKhiDaoThuongLuu" value="${data?.hTrangTruocKhiDaoThuongLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đáy đào <span class="text-danger">*</span></label>
+                                    <input type="number" id="dayDaoThuongLuu" value="${data?.dayDaoThuongLuu || 0}" class="form-control" readonly />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều sâu đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuSauDaoThuongLuu" value="${data?.chieuSauDaoThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Dòng chảy<span class="text-danger">*</span></label>
+                                    <input type="number" id="dongChayThuongLuu" value="${data?.dongChayThuongLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đường ống<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDuongOngThuongLuu" value="${data?.dinhDuongOngThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đắp cát</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDemCatThuongLuu" value="${data?.cDoDayDemCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy đệm cát <span class="text-danger">*</span></label>
+                                    <input type="number" id="cDayDemCatThuongLuu" value="${data?.cDayDemCatThuongLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDemCatThuongLuu" value="${data?.dinhDemCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đáy đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dayDapCatThuongLuu" value="${data?.dayDapCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy đắp cát <span class="text-danger">*</span></label>
+                                    <input type="number" id="cDayDapCatThuongLuu" value="${data?.cDayDapCatThuongLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDapCatThuongLuu" value="${data?.dinhDapCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Tổng chiều dầy đệm + đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" readonly id="tongChieuDayDemDapCatThuongLuu" value="${data?.tongChieuDayDemDapCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đắp đất</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDapDatThuongLuu" value="${data?.cDoDayDapDatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dầy đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDayDapDatThuongLuu" value="${data?.chieuDayDapDatThuongLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDapDatThuongLuu" value="${data?.dinhDapDatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Tổng chiều dầy (m)</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Đắp đất + cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dapDatCatThuongLuu" value="${data?.dapDatCatThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chênh đắp so với đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="chenhDapSoVoiDaoThuongLuu" value="${data?.chenhDapSoVoiDaoThuongLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin cao độ, kết cấu hạ lưu (m)</span>
+                            <p class="text-bold">Thông tin chung</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>H.Trạng trước khi đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="hTrangTruocKhiDaoHaLuu" value="${data?.hTrangTruocKhiDaoHaLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đáy đào <span class="text-danger">*</span></label>
+                                    <input type="number" id="dayDaoHaLuu" value="${data?.dayDaoHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều sâu đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuSauDaoHaLuu" value="${data?.chieuSauDaoHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Dòng chảy<span class="text-danger">*</span></label>
+                                    <input type="number" id="dongChayHaLuu" value="${data?.dongChayHaLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đường ống<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDuongOngHaLuu" value="${data?.dinhDuongOngHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đắp cát</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDemCatHaLuu" value="${data?.cDoDayDemCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy đệm cát <span class="text-danger">*</span></label>
+                                    <input type="number" id="cDayDemCatHaLuu" value="${data?.cDayDemCatHaLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDemCatHaLuu" value="${data?.dinhDemCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đáy đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dayDapCatHaLuu" value="${data?.dayDapCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Dầy đắp cát <span class="text-danger">*</span></label>
+                                    <input type="number" id="cDayDapCatHaLuu" value="${data?.cDayDapCatHaLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDapCatHaLuu" value="${data?.dinhDapCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Tổng chiều dầy đệm + đắp cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="tongChieuDayDemDapCatHaLuu" value="${data?.tongChieuDayDemDapCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đắp đất</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDapDatHaLuu" value="${data?.cDoDayDapDatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dầy đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDayDapDatHaLuu" value="${data?.chieuDayDapDatHaLuu || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Đỉnh đắp đất<span class="text-danger">*</span></label>
+                                    <input type="number" id="dinhDapDatHaLuu" value="${data?.dinhDapDatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Tổng chiều dầy (m)</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Đắp đất + cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="dapDatCatHaLuu" value="${data?.dapDatCatHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chênh đắp so với đào<span class="text-danger">*</span></label>
+                                    <input type="number" id="chenhDapSoVoiDaoHaLuu" value="${data?.chenhDapSoVoiDaoHaLuu || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin cao độ đắp trung bình (m)</span>
+                            <p class="text-bold">Đệm cát</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDemCat" value="${data?.cDoDayDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đỉnh đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDinhDemCat" value="${data?.cDoDinhDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dầy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDayDemCat" value="${data?.chieuDayDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Đắp cát</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDapCat" value="${data?.cDoDayDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đỉnh đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDinhDapCat" value="${data?.cDoDinhDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dầy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDayDapCat" value="${data?.chieuDayDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Đắp đất</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đáy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDayDapDat" value="${data?.cDoDayDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Độ đỉnh đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="cDoDinhDapDat" value="${data?.cDoDinhDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Chiều dầy đệm cát<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuDayDapDat" value="${data?.chieuDayDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin chiều rộng đáy đào (m)</span>
+                            <p class="text-bold">Thông tin đáy đào nhỏ</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ H.Lưu<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoHLuu" value="${data?.cRongDayNhoHLuu || 0}" class="form-control" step="any"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ T.Lưu<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoTLuu" value="${data?.cRongDayNhoTLuu || 0}" class="form-control" step="any"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ T.Bình<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoTBinh" value="${data?.cRongDayNhoTBinh || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đáy đào lớn</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Chiều sâu đào trung bình<span class="text-danger">*</span></label>
+                                    <input type="number" id="chieuSauDaoTrungBinh" value="${data?.chieuSauDaoTrungBinh || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy lớn trung bình<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayLonTrungBinh" value="${data?.cRongDayLonTrungBinh || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin mái đào</span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Tỷ lệ mở mái<span class="text-danger">*</span></label>
+                                    <input type="number" id="tyLeMoMai" value="${data?.tyLeMoMai || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Số mái trái<span class="text-danger">*</span></label>
+                                    <input type="number" id="soMaiTrai" value="${data?.soMaiTrai || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Số mái phải<span class="text-danger">*</span></label>
+                                    <input type="number" id="soMaiPhai" value="${data?.soMaiPhai || 0}" class="form-control" step="any" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Thông tin KL đào đất biện pháp</span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="hangMucKlDaoDat" value="${data?.hangMucKlDaoDat || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="loaiKlDaoDat" value="${data?.loaiKlDaoDat || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Diện tích (m2)<span class="text-danger">*</span></label>
+                                    <input type="number" id="dienTich" value="${data?.dienTich || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đào (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDao" value="${data?.klDao || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Trạng thái thi công<span class="text-danger">*</span></label>
+                                    <select id="id_TrangThaiThiCongDaoDat" class="form-control">${dropdowns.id_TrangThaiThiCongDaoDat}</select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">KL đắp trả</span>
+                            <h6 class="text-bold">KL đắp cát</h6>
+                            <p class="text-bold">KL đắp cát trước chiếm chỗ</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ đệm cát (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoDemCat" value="${data?.cRongDayNhoDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy lớn đệm cát (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayLonDemCat" value="${data?.cRongDayLonDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Diện tích đắp cát (m2)<span class="text-danger">*</span></label>
+                                    <input type="number" id="dienTichDapCat1" value="${data?.dienTichDapCat1 || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đệm cát (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDemCat" value="${data?.klDemCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ đắp cát (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoDapCat" value="${data?.cRongDayNhoDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy lớn đắp cát (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayLonDapCat" value="${data?.cRongDayLonDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Diện tích đắp cát (m2)<span class="text-danger">*</span></label>
+                                    <input type="number" id="dienTichDapCat2" value="${data?.dienTichDapCat2 || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đắp cát (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDapCat" value="${data?.klDapCat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">KL ống chiếm chỗ</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="hangMucKlDapCat" value="${data?.hangMucKlDapCat || ''}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="loaiKlDapCat" value="${data?.loaiKlDapCat || ''}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL ống C.Chỗ (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="kLDapCat_KlOngCCho" value="${data?.kLDapCat_KlOngCCho || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đắp cát sau C.Chỗ (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDapCatSauCCho" value="${data?.klDapCatSauCCho || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Trạng thái thi công<span class="text-danger">*</span></label>
+                                    <select id="id_TrangThaiThiCongDapCat" class="form-control">${dropdowns.id_TrangThaiThiCongDapCat}</select>
+                                </div>
+                            </div>
+                            <h6 class="text-bold">KL đắp đất</h6>
+                            <p class="text-bold">KL đắp đất trước chiếm chỗ</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy nhỏ đắp đất (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayNhoDapDat" value="${data?.cRongDayNhoDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>C.Rộng đáy lớn đắp đất (m)<span class="text-danger">*</span></label>
+                                    <input type="number" id="cRongDayLonDapDat" value="${data?.cRongDayLonDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Diện tích đắp đất (m2)<span class="text-danger">*</span></label>
+                                    <input type="number" id="dienTichDapDat" value="${data?.dienTichDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đắp đất (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDapDat" value="${data?.klDapDat || 0}" class="form-control" readonly step="any" />
+                                </div>
+                            </div>
+                            <p class="text-bold">KL ống chiếm chỗ</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="hangMucKlDapDat" value="${data?.hangMucKlDapDat || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="loaiKlDapDat" value="${data?.loaiKlDapDat || ''}" class="form-control"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL ống C.Chỗ (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="kLDapDat_KlOngCCho" value="${data?.kLDapDat_KlOngCCho || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đắp cát sau C.Chỗ (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDapDatSauCCho" value="${data?.klDapDatSauCCho || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Trạng thái thi công<span class="text-danger">*</span></label>
+                                     <select id="id_TrangThaiThiCongDapDat" class="form-control">${dropdowns.id_TrangThaiThiCongDapDat}</select>
+                                </div>
+                            </div>
+                            <p class="text-bold">Thông tin đất thừa</p>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Hạng mục KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="hangMucKlDatThua" value="${data?.hangMucKlDatThua || ''}" class="form-control" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Loại KL<span class="text-danger">*</span></label>
+                                    <input type="text" id="loaiKlDatThua" value="${data?.loaiKlDatThua || ''}" class="form-control"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>KL đất thừa (m3)<span class="text-danger">*</span></label>
+                                    <input type="number" id="klDatThua" value="${data?.klDatThua || 0}" class="form-control" readonly step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Trạng thái thi công<span class="text-danger">*</span></label>
+                                    <select id="id_TrangThaiThiCongDatThua" class="form-control">${dropdowns.id_TrangThaiThiCongDatThua}</select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 card-custom shadow-sm p-3 my-3">
+                            <span class="card-title-custom">Tọa độ</span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>X<span class="text-danger">*</span></label>
+                                    <input type="number" id="x1" value="${data?.x1 || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Y<span class="text-danger">*</span></label>
+                                    <input type="number" id="y1" value="${data?.y1 || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>X<span class="text-danger">*</span></label>
+                                    <input type="number" id="x2" value="${data?.x2 || 0}" class="form-control" step="any" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Y<span class="text-danger">*</span></label>
+                                    <input type="number" id="y2" value="${data?.y2 || 0}" class="form-control" step="any" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="error_msg" class="text-danger font-weight-bold mb-2"></div>
+            `;
+
+        const footerHtml = `
+                <button type="button" class="btn btn-primary" id="btnLuuCaiDat">${isEdit ? "Cập nhật" : "Lưu"}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            `;
+
+        showGlobalModal(modalTitle, bodyHtml, footerHtml);
+        $('#btnLuuCaiDat').data("isedit", isEdit).data("id", data?.id || "");
+
+        $('#btnLuuCaiDat').off('click').on('click', async function () {
+            const id = $(this).data("id");
+            const isEdit = $(this).data("isedit");
+
+
+            if (!validateForm())
+                return;
+
+            const dataSend = {
+                Id: id,
+                id_ChiNhanh : $('#id_ChiNhanh').val(),
+                id_TuyenDuong: $('#id_TuyenDuong').val(),
+                id_TuLyTrinh: $('#id_TuLyTrinh').val(),
+                id_DenLyTrinh: $('#id_DenLyTrinh').val(),
+                id_HangMucCongViec: $('#id_HangMucCongViec').val(),
+                id_LoaiCauKien: $('#id_LoaiCauKien').val(),
+                id_HangMucKhoiLuong: $('#id_HangMucKhoiLuong').val(),
+                id_LoaiKhoiLuong: $('#id_LoaiKhoiLuong').val(),
+                duongKinhNgoaiOngNhua: parseFloat($('#duongKinhNgoaiOngNhua').val()) || 0,
+                cDayOngOngNhua: parseFloat($('#cDayOngOngNhua').val()) || 0,
+                chieuDaiOngNhua: parseFloat($('#chieuDaiOngNhua').val()) || 0,
+                id_TrangThaiThiCongOngNhua: $('#id_TrangThaiThiCongOngNhua').val(),
+                id_LoaiCauKienOngThep: $('#id_LoaiCauKienOngThep').val(),
+                id_LoaiKhoiLuongOngThep: $('#id_LoaiKhoiLuongOngThep').val(),
+                duongKinhNgoaiMOngThep: $('#duongKinhNgoaiMOngThep').val(),
+                cDayOngMOngThep: $('#cDayOngMOngThep').val(),
+                chieuDaiMOngThep: $('#chieuDaiMOngThep').val(),
+                id_TrangThaiThiCongOngThep: $('#id_TrangThaiThiCongOngThep').val(),
+                id_HinhThucDapTra: $('#id_HinhThucDapTra').val(),
+                hTrangTruocKhiDaoThuongLuu: parseFloat($('#hTrangTruocKhiDaoThuongLuu').val()) || 0,
+                dayDaoThuongLuu: parseFloat($('#dayDaoThuongLuu').val()) || 0,
+                chieuSauDaoThuongLuu: parseFloat($('#chieuSauDaoThuongLuu').val()) || 0,
+                dongChayThuongLuu: parseFloat($('#dongChayThuongLuu').val()) || 0,
+                dinhDuongOngThuongLuu: parseFloat($('#dinhDuongOngThuongLuu').val()) || 0,
+                cDoDayDemCatThuongLuu: parseFloat($('#cDoDayDemCatThuongLuu').val()) || 0,
+                cDayDemCatThuongLuu: parseFloat($('#cDayDemCatThuongLuu').val()) || 0,
+                dinhDemCatThuongLuu: parseFloat($('#dinhDemCatThuongLuu').val()) || 0,
+                dayDapCatThuongLuu: parseFloat($('#dayDapCatThuongLuu').val()) || 0,
+                cDayDapCatThuongLuu: parseFloat($('#cDayDapCatThuongLuu').val()) || 0,
+                dinhDapCatThuongLuu: parseFloat($('#dinhDapCatThuongLuu').val()) || 0,
+                tongChieuDayDemDapCatThuongLuu: parseFloat($('#tongChieuDayDemDapCatThuongLuu').val()) || 0,
+                cDoDayDapDatThuongLuu: parseFloat($('#cDoDayDapDatThuongLuu').val()) || 0,
+                chieuDayDapDatThuongLuu: parseFloat($('#chieuDayDapDatThuongLuu').val()) || 0,
+                dinhDapDatThuongLuu: parseFloat($('#dinhDapDatThuongLuu').val()) || 0,
+                dapDatCatThuongLuu: parseFloat($('#dapDatCatThuongLuu').val()) || 0,
+                chenhDapSoVoiDaoThuongLuu: parseFloat($('#chenhDapSoVoiDaoThuongLuu').val()) || 0,
+                hTrangTruocKhiDaoHaLuu: parseFloat($('#hTrangTruocKhiDaoHaLuu').val()) || 0,
+                dayDaoHaLuu: parseFloat($('#dayDaoHaLuu').val()) || 0,
+                chieuSauDaoHaLuu: parseFloat($('#chieuSauDaoHaLuu').val()) || 0,
+                dongChayHaLuu: parseFloat($('#dongChayHaLuu').val()) || 0,
+                dinhDuongOngHaLuu: parseFloat($('#dinhDuongOngHaLuu').val()) || 0,
+                cDoDayDemCatHaLuu: parseFloat($('#cDoDayDemCatHaLuu').val()) || 0,
+                cDayDemCatHaLuu: parseFloat($('#cDayDemCatHaLuu').val()) || 0,
+                dinhDemCatHaLuu: parseFloat($('#dinhDemCatHaLuu').val()) || 0,
+                dayDapCatHaLuu: parseFloat($('#dayDapCatHaLuu').val()) || 0,
+                cDayDapCatHaLuu: parseFloat($('#cDayDapCatHaLuu').val()) || 0,
+                dinhDapCatHaLuu: parseFloat($('#dinhDapCatHaLuu').val()) || 0,
+                tongChieuDayDemDapCatHaLuu: parseFloat($('#tongChieuDayDemDapCatHaLuu').val()) || 0,
+                cDoDayDapDatHaLuu: parseFloat($('#cDoDayDapDatHaLuu').val()) || 0,
+                chieuDayDapDatHaLuu: parseFloat($('#chieuDayDapDatHaLuu').val()) || 0,
+                dinhDapDatHaLuu: parseFloat($('#dinhDapDatHaLuu').val()) || 0,
+                dapDatCatHaLuu: parseFloat($('#dapDatCatHaLuu').val()) || 0,
+                chenhDapSoVoiDaoHaLuu: parseFloat($('#chenhDapSoVoiDaoHaLuu').val()) || 0,
+                cDoDayDemCat: parseFloat($('#cDoDayDemCat').val()) || 0,
+                cDoDinhDemCat: parseFloat($('#cDoDinhDemCat').val()) || 0,
+                chieuDayDemCat: parseFloat($('#chieuDayDemCat').val()) || 0,
+                cDoDayDapCat: parseFloat($('#cDoDayDapCat').val()) || 0,
+                cDoDinhDapCat: parseFloat($('#cDoDinhDapCat').val()) || 0,
+                chieuDayDapCat: parseFloat($('#chieuDayDapCat').val()) || 0,
+                cDoDayDapDat: parseFloat($('#cDoDayDapDat').val()) || 0,
+                cDoDinhDapDat: parseFloat($('#cDoDinhDapDat').val()) || 0,
+                chieuDayDapDat: parseFloat($('#chieuDayDapDat').val()) || 0,
+                cRongDayNhoHLuu: parseFloat($('#cRongDayNhoHLuu').val()) || 0,
+                cRongDayNhoTLuu: parseFloat($('#cRongDayNhoTLuu').val()) || 0,
+                cRongDayNhoTBinh: parseFloat($('#cRongDayNhoTBinh').val()) || 0,
+                chieuSauDaoTrungBinh: parseFloat($('#chieuSauDaoTrungBinh').val()) || 0,
+                cRongDayLonTrungBinh: parseFloat($('#cRongDayLonTrungBinh').val()) || 0,
+                tyLeMoMai: parseFloat($('#tyLeMoMai').val()) || 0,
+                soMaiTrai: parseFloat($('#soMaiTrai').val()) || 0,
+                soMaiPhai: parseFloat($('#soMaiPhai').val()) || 0,
+                hangMucKlDaoDat: $('#hangMucKlDaoDat').val(),
+                loaiKlDaoDat: $('#loaiKlDaoDat').val(),
+                dienTich: parseFloat($('#dienTich').val()) || 0,
+                klDao: parseFloat($('#klDao').val()) || 0,
+                id_TrangThaiThiCongDaoDat: $('#id_TrangThaiThiCongDaoDat').val(),
+                cRongDayNhoDemCat: parseFloat($('#cRongDayNhoDemCat').val()) || 0,
+                cRongDayLonDemCat: parseFloat($('#cRongDayLonDemCat').val()) || 0,
+                dienTichDapCat1: parseFloat($('#dienTichDapCat1').val()) || 0,
+                klDemCat: parseFloat($('#klDemCat').val()) || 0,
+                cRongDayNhoDapCat: parseFloat($('#cRongDayNhoDapCat').val()) || 0,
+                cRongDayLonDapCat: parseFloat($('#cRongDayLonDapCat').val()) || 0,
+                dienTichDapCat2: parseFloat($('#dienTichDapCat2').val()) || 0,
+                klDapCat: parseFloat($('#klDapCat').val()) || 0,
+                hangMucKlDapCat: $('#hangMucKlDapCat').val(),
+                loaiKlDapCat: $('#loaiKlDapCat').val(),
+                kLDapCat_KlOngCCho: parseFloat($('#kLDapCat_KlOngCCho').val()) || 0,
+                klDapCatSauCCho: parseFloat($('#klDapCatSauCCho').val()) || 0,
+                id_TrangThaiThiCongDapCat: $('#id_TrangThaiThiCongDapCat').val(),
+                cRongDayNhoDapDat: parseFloat($('#cRongDayNhoDapDat').val()) || 0,
+                cRongDayLonDapDat: parseFloat($('#cRongDayLonDapDat').val()) || 0,
+                dienTichDapDat: parseFloat($('#dienTichDapDat').val()) || 0,
+                klDapDat: parseFloat($('#klDapDat').val()) || 0,
+                hangMucKlDapDat: $('#hangMucKlDapDat').val(),
+                loaiKlDapDat: $('#loaiKlDapDat').val(),
+                kLDapDat_KlOngCCho: parseFloat($('#kLDapDat_KlOngCCho').val()) || 0,
+                klDapDatSauCCho: parseFloat($('#klDapDatSauCCho').val()) || 0,
+                id_TrangThaiThiCongDapDat: $('#id_TrangThaiThiCongDapDat').val(),
+                hangMucKlDatThua: $('#hangMucKlDatThua').val(),
+                loaiKlDatThua: $('#loaiKlDatThua').val(),
+                klDatThua: parseFloat($('#klDatThua').val()) || 0,
+                id_TrangThaiThiCongDatThua: $('#id_TrangThaiThiCongDatThua').val(),
+                x1: parseFloat($('#x1').val()) || 0,
+                y1: parseFloat($('#y1').val()) || 0,
+                x2: parseFloat($('#x2').val()) || 0,
+                y2: parseFloat($('#y2').val()) || 0,
+
+                GroupId: groupId,
+                Ordinarily: 0,
+                CreateAt: new Date().toISOString(),
+                CreateBy: userName,
+                IsActive: isEdit && data ? data.isActive : 0,
+                ApprovalUserId: "",
+                DateApproval: null,
+                ApprovalDept: "",
+                DepartmentId: "",
+                DepartmentOrder: 0,
+                ApprovalOrder: 0,
+                ApprovalId: "",
+                LastApprovalId: "",
+                IsStatus: ""
+            };
+
+            try {
+                const res = await $.ajax({
+                    url: `/api/PKKLOngNhua1TtChungNSachDoc/Create?isEdit=${isEdit}`,
+                    method: "POST",
+                    contentType: "application/json",
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: JSON.stringify(dataSend)
+                });
+                if (res.success) {
+                    showToastSuccess(isEdit ? "Cập nhật thành công!" : "Lưu thành công!");
+                    $('#globalModal').modal('hide');
+                    loadData();
+                } else {
+                    $('#error_msg').text(res.message || "Có lỗi xảy ra khi lưu.");
+                    showToastError(res.message || "Có lỗi xảy ra khi lưu.");
+                }
+            } catch (err) {
+                $('#error_msg').text("Lỗi hệ thống khi lưu dữ liệu.");
+            }
+        });
+        setTimeout(function () {
+            $('#globalModal select').select2({
+                width: '100%',
+                theme: 'bootstrap4',
+                dropdownParent: $('#globalModal')
+            });
+        }, 100);
+    }
+    // Validate form
+    function validateForm() {
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        let isValid = true;
+        let firstInvalid = null;
+        const requiredFields = [
+            { selector: '#id_ChiNhanh', message: 'Vui lòng chọn tên công trình.' },
+            { selector: '#id_TuyenDuong', message: 'Vui lòng nhập tuyến đường.' },
+            { selector: '#id_TuLyTrinh', message: 'Vui lòng nhập Từ lý trình.' },
+            { selector: '#id_DenLyTrinh', message: 'Vui lòng nhập Đến lý trình.' },
+            { selector: '#id_HangMucCongViec', message: 'Vui lòng chọn hạng mục công việc.' },
+            { selector: '#id_LoaiCauKien', message: 'Vui lòng chọncấu kiện.' },
+            { selector: '#id_HangMucKhoiLuong', message: 'Vui lòng chọn Hạng mục KL.' },
+            { selector: '#id_LoaiKhoiLuong', message: 'Vui lòng chọnkhối lượng.' },
+            { selector: '#id_TrangThaiThiCongOngNhua', message: 'Vui lòng chọn trạng thái thi công.' },
+            { selector: '#id_HinhThucDapTra', message: 'Vui lòng chọn Hình thức đắp trả' },
+            { selector: '#hangMucKlDaoDat', message: 'Vui lòng nhập Hạng mục KL.' },
+            { selector: '#loaiKlDaoDat', message: 'Vui lòng nhập Loại KL.' },
+            { selector: '#id_TrangThaiThiCongDaoDat', message: 'Vui lòng chọn Trạng thái thi công.' },
+            { selector: '#hangMucKlDapCat', message: 'Vui lòng nhập Hạng mục KL.' },
+            { selector: '#loaiKlDapCat', message: 'Vui lòng nhập Loại KL.' },
+            { selector: '#id_TrangThaiThiCongDapCat', message: 'Vui lòng chọn Trạng thái thi công.' },
+            { selector: '#hangMucKlDapDat', message: 'Vui lòng nhập Hạng mục KL.' },
+            { selector: '#loaiKlDapDat', message: 'Vui lòng nhập Loại KL.' },
+            { selector: '#id_TrangThaiThiCongDapDat', message: 'Vui lòng chọn Trạng thái thi công.' },
+            { selector: '#hangMucKlDatThua', message: 'Vui lòng nhập Hạng mục KL.' },
+            { selector: '#loaiKlDatThua', message: 'Vui lòng nhập Loại KL.' },
+            { selector: '#id_TrangThaiThiCongDatThua', message: 'Vui lòng chọn Trạng thái thi công.' },
+            { selector: '#x1', message: 'Vui lòng nhập tọa độ x.' },
+            { selector: '#x2', message: 'Vui lòng nhập tọa độ x.' },
+            { selector: '#y1', message: 'Vui lòng nhập tọa độ y.' },
+            { selector: '#y2', message: 'Vui lòng nhập tọa độ y.' },
+        ];
+        requiredFields.forEach(f => {
+            const $input = $(f.selector);
+            if (!$(f.selector).val() || !$(f.selector).val().trim()) {
+                showError(f.selector, f.message);
+                if (!firstInvalid) firstInvalid = $input[0];
+                isValid = false;
+            }
+        });
+
+        if (!isValid && firstInvalid) {
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            const $el = $(firstInvalid);
+            if ($el.hasClass("select2-hidden-accessible")) {
+                $el.next('.select2-container').find('.select2-selection').focus();
+            } else {
+                $el.focus();
+            }
+        }
+
+        return isValid;
+    }
+
+    // Hiển thị lỗi
+    function showError(selector, message) {
+        const $input = $(selector);
+        $input.addClass('is-invalid');
+        if ($input.next('.invalid-feedback').length === 0) {
+            $input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+    }
+
+    async function chiTiet(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+
+        // Show modal trước
+        showGlobalModal("Lịch sử", `
+            <div class="element-block-example" id="history-modal-body" style="min-height:150px;">
+                <!-- Loading hoặc dữ liệu sẽ hiển thị ở đây -->
+            </div>
+        `, `<button class="btn btn-secondary" data-dismiss="modal">Đóng</button>`);
+        showBlockLoading("#history-modal-body");
+
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetHistory?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            let content = "";
+            if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                content = generateTableHTML(res.data); // Hàm tạo bảng
+            } else {
+                content = `<div class="text-center text-muted">Không có dữ liệu lịch sử.</div>`;
+            }
+
+            $("#history-modal-body").html(content);
+        } catch (err) {
+            $("#history-modal-body").html(`<div class="text-center text-danger">Lỗi khi tải dữ liệu.</div>`);
+        } finally {
+            hideBlockLoading("#history-modal-body");
+        }
+    }
+    function generateTableHTML(data) {
+        return `
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover no-wrap-table mb-0">
+                 <thead>
+                            <tr>
+                                <td colspan="1" rowspan="3" class="text-center"></td>
+                                <td colspan="1" rowspan="4" class="text-center">Tên công trình</td>
+                                <td colspan="3" rowspan="3" class="text-center">Thông tin tuyến đường</td>
+                                <td colspan="15" rowspan="2" class="text-center">Thông tin đường ống</td>
+                                <td colspan="18" rowspan="2" class="text-center">Thông tin cao độ, kết cấu thượng lưu (m)</td>
+                                <td colspan="17" rowspan="2" class="text-center">Thông tin cao độ, kết cấu hạ lưu (m)</td>
+                                <td colspan="9" rowspan="2" class="text-center">Thông tin cao độ đắp trung bình (m)</td>
+                                <td colspan="5" rowspan="2" class="text-center">Thông tin chiều rộng đáy đào (m)</td>
+                                <td colspan="3" rowspan="3" class="text-center">Thông tin mái đào</td>
+                                <td colspan="5" rowspan="3" class="text-center">Thông tin KL đào đất biện pháp</td>
+                                <td colspan="26" class="text-center">KL đắp trả</td>
+                                <td colspan="4" rowspan="3" class="text-center">Tọa độ</td>
+                                <td rowspan="4" class="text-center">Trạng thái</td>
+                                <td rowspan="4" class="text-center">Người thao tác</td>
+                                <td rowspan="4" class="text-center">Thời gian</td>
+                            </tr>
+                            <tr>
+                                <td colspan="13" class="text-center">KL đắp cát</td>
+                                <td colspan="9" class="text-center">KL đắp đất</td>
+                                <td colspan="4" rowspan="2" class="text-center">Thông tin đất thừa</td>
+                            </tr>
+                            <tr>
+                                <td colspan="8" class="text-center">Thông tin ống nhựa</td>
+                                <td colspan="7" class="text-center">Thông tin khối lượng ống thép</td>
+                                <td colspan="6" class="text-center">Thông tin chung</td>
+                                <td colspan="7" class="text-center">Thông tin đắp cát</td>
+                                <td colspan="3" class="text-center">Thông tin đắp đất</td>
+                                <td colspan="2" class="text-center">Tổng chiều dầy (m)</td>
+                                <td colspan="5" class="text-center">Thông tin chung</td>
+                                <td colspan="7" class="text-center">Thông tin đắp cát</td>
+                                <td colspan="3" class="text-center">Thông tin đắp đất</td>
+                                <td colspan="2" class="text-center">Tổng chiều dầy (m)</td>
+                                <td colspan="3" class="text-center">Đệm cát</td>
+                                <td colspan="3" class="text-center">Đắp cát</td>
+                                <td colspan="3" class="text-center">Đắp đất</td>
+                                <td colspan="3" class="text-center">Thông tin đáy đào nhỏ</td>
+                                <td colspan="2" class="text-center">Thông tin đáy đào lớn</td>
+
+                                <td colspan="8" class="text-center">KL đắp cát trước chiếm chỗ</td>
+                                <td colspan="5" class="text-center">KL ống chiếm chỗ</td>
+
+                                <td colspan="4" class="text-center">KL đắp đất trước chiếm chỗ</td>
+                                <td colspan="5" class="text-center">KL chiếm chỗ</td>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Tuyến đường</th>
+                                <th>Từ lý trình</th>
+                                <th>Đến lý trình</th>
+                                <th>Hạng mục công việc</th>
+                                <th>Loại cấu kiện</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại khối lượng</th>
+                                <th>Đường kính ngoài (m)</th>
+                                <th>C.Dầy ống (m)</th>
+                                <th>Chiều dài (m)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>Loại cấu kiện</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại khối lượng</th>
+                                <th>Đường kính ngoài (m)</th>
+                                <th>C.Dầy ống (m)</th>
+                                <th>Chiều dài (m)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>Hình thức đắp trả</th>
+                                <th>H.Trạng trước khi đào</th>
+                                <th>Đáy đào </th>
+                                <th>Chiều sâu đào</th>
+                                <th>Dòng chảy</th>
+                                <th>Đỉnh đường ống</th>
+                                <th>C.Độ đáy đệm cát</th>
+                                <th>C.Dầy đệm cát</th>
+                                <th>Đỉnh đệm cát</th>
+                                <th>Đáy đắp cát</th>
+                                <th>C.Dầy đắp cát</th>
+                                <th>Đỉnh đắp cát</th>
+                                <th>Tổng chiều dầy đệm + đắp cát</th>
+                                <th>C.Độ đáy đắp đất</th>
+                                <th>Chiều dầy đắp đất</th>
+                                <th>Đỉnh đắp đất</th>
+                                <th>Đắp đất + cát</th>
+                                <th>Chênh đắp so với đào</th>
+                                <th>H.Trạng trước khi đào</th>
+                                <th>Đáy đào </th>
+                                <th>Chiều sâu đào</th>
+                                <th>Dòng chảy</th>
+                                <th>Đỉnh đường ống</th>
+                                <th>C.Độ đáy đệm cát</th>
+                                <th>C.Dầy đệm cát</th>
+                                <th>Đỉnh đệm cát</th>
+                                <th>Đáy đắp cát</th>
+                                <th>C.Dầy đắp cát</th>
+                                <th>Đỉnh đắp cát</th>
+                                <th>Tổng chiều dầy đệm + đắp cát</th>
+                                <th>C.Độ đáy đắp đất</th>
+                                <th>Chiều dầy đắp đất</th>
+                                <th>Đỉnh đắp đất</th>
+                                <th>Đắp đất + cát</th>
+                                <th>Chênh đắp so với đào</th>
+                                <th>C.Độ đáy đệm cát</th>
+                                <th>C.Độ đỉnh đệm cát</th>
+                                <th>Chiều dầy đệm cát</th>
+                                <th>C.Độ đáy đắp cát</th>
+                                <th>C.độ đỉnh đắp cát</th>
+                                <th>Chiều dầy đắp cát</th>
+                                <th>C.Độ đáy đắp đất</th>
+                                <th>C.Độ đỉnh đắp đất</th>
+                                <th>Chiều dầy đắp đất</th>
+                                <th>C.Rộng đáy nhỏ H.Lưu</th>
+                                <th>C.Rộng đáy nhỏ T.Lưu</th>
+                                <th>C.Rộng đáy nhỏ T.Bình</th>
+                                <th>Chiều sâu đào trung bình</th>
+                                <th>C.Rộng đáy lớn trung bình</th>
+                                <th>Tỷ lệ mở mái</th>
+                                <th>Số mái trái</th>
+                                <th>Số mái phải</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại KL</th>
+                                <th>Diện tích (m2)</th>
+                                <th>KL đào (m3)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>C.Rộng đáy nhỏ đệm cát (m)</th>
+                                <th>C.Rộng đáy lớn đệm cát (m)</th>
+                                <th>Diện tích đắp cát (m2)</th>
+                                <th>KL đệm cát (m3)</th>
+                                <th>C.Rộng đáy nhỏ đắp cát (m)</th>
+                                <th>C.Rộng đáy lớn đắp cát (m)</th>
+                                <th>Diện tích đắp cát (m2)</th>
+                                <th>KL đắp cát (m3)</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại KL</th>
+                                <th>KL ống C.Chỗ (m3)</th>
+                                <th>KL đắp cát sau C.Chỗ (m3)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>C.Rộng đáy nhỏ đắp đất (m)</th>
+                                <th>C.Rộng đáy lớn đắp đất (m)</th>
+                                <th>Diện tích đắp đất (m2)</th>
+                                <th>KL đắp đất (m3)</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại KL</th>
+                                <th>KL ống C.Chỗ (m3)</th>
+                                <th>KL đắp đất sau C.Chỗ (m3)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>Hạng mục KL</th>
+                                <th>Loại KL</th>
+                                <th>KL đất thừa (m3)</th>
+                                <th>Trạng thái thi công</th>
+                                <th>X</th>
+                                <th>Y</th>
+                                <th>X</th>
+                                <th>Y</th>
+
+                            </tr>
+                </thead>
+                <tbody>
+                    ${data.map((x, i) => `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                                <td>${x.tenChiNhanh|| ""}</td>
+                                <td>${x.tuyenDuong|| ""}</td>
+                                <td>${x.tuLyTrinh|| ""}</td>
+                                <td>${x.denLyTrinh|| ""}</td>
+                                <td>${x.hangMucCongViec|| ""}</td>
+                                <td>${x.loaiCauKien|| ""}</td>
+                                <td>${x.hangMucKhoiLuong|| ""}</td>
+                                <td>${x.loaiKhoiLuong|| ""}</td>
+                                <td>${x.duongKinhNgoaiOngNhua|| ""}</td>
+                                <td>${x.cDayOngOngNhua|| ""}</td>
+                                <td>${x.chieuDaiOngNhua|| ""}</td>
+                                <td>${x.trangThaiThiCongOngNhua|| ""}</td>
+                                <td>${x.loaiCauKienOngThep|| ""}</td>
+                                <td>${x.hangMucKhoiLuongOngThep|| ""}</td>
+                                <td>${x.loaiKhoiLuongOngThep|| ""}</td>
+                                <td>${x.duongKinhNgoaiMOngThep|| ""}</td>
+                                <td>${x.cDayOngMOngThep|| ""}</td>
+                                <td>${x.chieuDaiMOngThep|| ""}</td>
+                                <td>${x.trangThaiThiCongOngThep|| ""}</td>
+                                <td>${x.hinhThucDapTra|| ""}</td>
+                                <td>${x.hTrangTruocKhiDaoThuongLuu|| ""}</td>
+                                <td>${x.dayDaoThuongLuu|| ""}</td>
+                                <td>${x.chieuSauDaoThuongLuu|| ""}</td>
+                                <td>${x.dongChayThuongLuu|| ""}</td>
+                                <td>${x.dinhDuongOngThuongLuu|| ""}</td>
+                                <td>${x.cDoDayDemCatThuongLuu|| ""}</td>
+                                <td>${x.cDayDemCatThuongLuu|| ""}</td>
+                                <td>${x.dinhDemCatThuongLuu|| ""}</td>
+                                <td>${x.dayDapCatThuongLuu|| ""}</td>
+                                <td>${x.cDayDapCatThuongLuu|| ""}</td>
+                                <td>${x.dinhDapCatThuongLuu|| ""}</td>
+                                <td>${x.tongChieuDayDemDapCatThuongLuu|| ""}</td>
+                                <td>${x.cDoDayDapDatThuongLuu|| ""}</td>
+                                <td>${x.chieuDayDapDatThuongLuu|| ""}</td>
+                                <td>${x.dinhDapDatThuongLuu|| ""}</td>
+                                <td>${x.dapDatCatThuongLuu|| ""}</td>
+                                <td>${x.chenhDapSoVoiDaoThuongLuu|| ""}</td>
+                                <td>${x.hTrangTruocKhiDaoHaLuu|| ""}</td>
+                                <td>${x.dayDaoHaLuu|| ""}</td>
+                                <td>${x.chieuSauDaoHaLuu|| ""}</td>
+                                <td>${x.dongChayHaLuu|| ""}</td>
+                                <td>${x.dinhDuongOngHaLuu|| ""}</td>
+                                <td>${x.cDoDayDemCatHaLuu|| ""}</td>
+                                <td>${x.cDayDemCatHaLuu|| ""}</td>
+                                <td>${x.dinhDemCatHaLuu|| ""}</td>
+                                <td>${x.dayDapCatHaLuu|| ""}</td>
+                                <td>${x.cDayDapCatHaLuu|| ""}</td>
+                                <td>${x.dinhDapCatHaLuu|| ""}</td>
+                                <td>${x.tongChieuDayDemDapCatHaLuu|| ""}</td>
+                                <td>${x.cDoDayDapDatHaLuu|| ""}</td>
+                                <td>${x.chieuDayDapDatHaLuu|| ""}</td>
+                                <td>${x.dinhDapDatHaLuu|| ""}</td>
+                                <td>${x.dapDatCatHaLuu|| ""}</td>
+                                <td>${x.chenhDapSoVoiDaoHaLuu|| ""}</td>
+                                <td>${x.cDoDayDemCat|| ""}</td>
+                                <td>${x.cDoDinhDemCat|| ""}</td>
+                                <td>${x.chieuDayDemCat|| ""}</td>
+                                <td>${x.cDoDayDapCat|| ""}</td>
+                                <td>${x.cDoDinhDapCat|| ""}</td>
+                                <td>${x.chieuDayDapCat|| ""}</td>
+                                <td>${x.cDoDayDapDat|| ""}</td>
+                                <td>${x.cDoDinhDapDat|| ""}</td>
+                                <td>${x.chieuDayDapDat|| ""}</td>
+                                <td>${x.cRongDayNhoHLuu|| ""}</td>
+                                <td>${x.cRongDayNhoTLuu|| ""}</td>
+                                <td>${x.cRongDayNhoTBinh|| ""}</td>
+                                <td>${x.chieuSauDaoTrungBinh|| ""}</td>
+                                <td>${x.cRongDayLonTrungBinh|| ""}</td>
+                                <td>${x.tyLeMoMai|| ""}</td>
+                                <td>${x.soMaiTrai|| ""}</td>
+                                <td>${x.soMaiPhai|| ""}</td>
+                                <td>${x.hangMucKlDaoDat|| ""}</td>
+                                <td>${x.loaiKlDaoDat|| ""}</td>
+                                <td>${x.dienTich|| ""}</td>
+                                <td>${x.klDao|| ""}</td>
+                                <td>${x.trangThaiThiCongDaoDat|| ""}</td>
+                                <td>${x.cRongDayNhoDemCat|| ""}</td>
+                                <td>${x.cRongDayLonDemCat|| ""}</td>
+                                <td>${x.dienTichDapCat1|| ""}</td>
+                                <td>${x.klDemCat|| ""}</td>
+                                <td>${x.cRongDayNhoDapCat|| ""}</td>
+                                <td>${x.cRongDayLonDapCat|| ""}</td>
+                                <td>${x.dienTichDapCat2|| ""}</td>
+                                <td>${x.klDapCat|| ""}</td>
+                                <td>${x.hangMucKlDapCat|| ""}</td>
+                                <td>${x.loaiKlDapCat|| ""}</td>
+                                <td>${x.kLDapCat_KlOngCCho|| ""}</td>
+                                <td>${x.klDapCatSauCCho|| ""}</td>
+                                <td>${x.trangThaiThiCongDapCat|| ""}</td>
+                                <td>${x.cRongDayNhoDapDat|| ""}</td>
+                                <td>${x.cRongDayLonDapDat|| ""}</td>
+                                <td>${x.dienTichDapDat|| ""}</td>
+                                <td>${x.klDapDat|| ""}</td>
+                                <td>${x.hangMucKlDapDat|| ""}</td>
+                                <td>${x.loaiKlDapDat|| ""}</td>
+                                <td>${x.kLDapDat_KlOngCCho|| ""}</td>
+                                <td>${x.klDapDatSauCCho|| ""}</td>
+                                <td>${x.trangThaiThiCongDapDat|| ""}</td>
+                                <td>${x.hangMucKlDatThua|| ""}</td>
+                                <td>${x.loaiKlDatThua|| ""}</td>
+                                <td>${x.klDatThua|| ""}</td>
+                                <td>${x.trangThaiThiCongDatThua|| ""}</td>
+                                <td>${x.x1|| ""}</td>
+                                <td>${x.y1|| ""}</td>
+                                <td>${x.x2|| ""}</td>
+                                <td>${x.y2|| ""}</td>
+                                <td>${x.isStatus|| ""}</td>
+                                <td>${x.createBy || ""}</td>
+                            <td>${x.createAt ? new Date(x.createAt).toLocaleString() : ""}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        </div>`;
+    }
+    // Duyệt
+    async function duyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn duyệt?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/Duyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Duyệt thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Duyệt thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi duyệt!");
+        }
+    }
+
+    // Hủy duyệt
+    async function huyDuyet(id) {
+        if (!confirm('Bạn có chắc chắn muốn hủy duyệt?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/HuyDuyet?id=${id}`,
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Hủy duyệt thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Hủy duyệt thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi hủy duyệt!");
+        }
+    }
+
+    // Chỉnh sửa
+    async function editCaiDat(id) {
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/GetById?id=${id}`,
+                method: "GET",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success && res.data) {
+                showModalTaoMoi(true, res.data);
+            } else {
+                showToastError(res.message || "Không lấy được dữ liệu để chỉnh sửa!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi lấy dữ liệu chỉnh sửa!");
+        }
+    }
+
+    // Xóa
+    async function deleteCaiDat(id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa này?')) return;
+        const resUser = await getJwtToken();
+        const token = resUser.token;
+        try {
+            const res = await $.ajax({
+                url: `/api/PKKLOngNhua1TtChungNSachDoc/${id}`,
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (res.success) {
+                showToastSuccess("Xóa thành công!");
+                loadData();
+            } else {
+                showToastError(res.message || "Xóa thất bại!");
+            }
+        } catch (err) {
+            showToastError("Lỗi hệ thống khi xóa!");
+        }
+    }
+
+    function showHuongDanNghiepVu() {
+        const headerHtml =
+            `<div><div class="card-header">
+                     <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
+                     <form id="SearchInfo">
+                         <select id="ChiNhanhInfo" class="form-control">
+                             <option value="">-- Chọn  --</option>
+                         </select>
+                     </form>
+                     <div class="btn-actions-pane-right">
+                         <div role="group" class="btn-group-sm nav btn-group">
+                             <a data-toggle="tab" href="#tab-hdsd" class="btn-shadow active btn btn-primary">Hướng dẫn sử dụng</a>
+                             <a data-toggle="tab" href="#tab-ttd" class="btn-shadow  btn btn-primary">Thứ tự duyệt</a>
+                         </div>
+                     </div>
+                 </div>`;
+
+        const tabsHtml = `
+                 <div class="card-body">
+                     <div class="tab-content">
+                         <div class="tab-pane tabs-animation fade active show" id="tab-hdsd" role="tabpanel">
+                             <div class="p-3">Nội dung hướng dẫn sử dụng...</div>
+                         </div>
+                         <div class="tab-pane tabs-animation fade" id="tab-ttd" role="tabpanel">
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <div>
+                                         <div class="mb-3">
+                                             <div role="group" class="btn-group-sm nav btn-group">
+                                                 <a data-toggle="tab" href="#tab-them" class="btn-pill pl-3 btn btn-warning active show">Thêm</a>
+                                                 <a data-toggle="tab" href="#tab-sua" class="btn btn-warning show">Sửa</a>
+                                                 <a data-toggle="tab" href="#tab-xoa" class="btn-pill pr-3 btn btn-warning show">Xóa</a>
+                                             </div>
+                                         </div>
+                                         <div class="tab-content">
+                                             <div class="tab-pane show active" id="tab-them" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-them"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-them">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="tab-pane show" id="tab-sua" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-sua"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-sua">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="tab-pane show" id="tab-xoa" role="tabpanel">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <ul class="list-group" id="ul-xoa"></ul>
+                                                     </div>
+                                                     <div class="col-md-8">
+                                                         <div class="card-body" id="content-xoa">Chọn phòng ban để xem chi tiết</div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             `;
+
+        const bodyHtml = headerHtml + tabsHtml;
+        const footerHtml = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>`;
+
+        showGlobalModal("Thông tin nghiệp vụ", bodyHtml, footerHtml);
+
+        // Lấy groupId và token, sau đó gọi API lấy danh sách
+        getJwtToken().then(function (resUser) {
+            const groupId = resUser.userInfor.groupId;
+            $.ajax({
+                url: `/api/caidatsoluotduyet/GetChiNhanhsForCompanyId?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                const $ddl = $('#ChiNhanhInfo');
+                $ddl.empty().append('<option value="">-- Chọn  --</option>');
+                if (res.success && Array.isArray(res.data)) {
+                    res.data.forEach(function (item) {
+                        $ddl.append(`<option value="${item.id}">${item.tenChiNhanh}</option>`);
+                    });
+                }
+            }).fail(function (err) {
+                $('#ChiNhanhInfo').empty().append('<option value="">Lỗi tải </option>');
+            });
+
+            // Sau khi gọi API ListDept thành công
+            $.ajax({
+                url: `/api/caidatphongbanduyet/ListDept?groupId=${groupId}`,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + resUser.token
+                }
+            }).done(function (res) {
+                let htmlUl = "";
+                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    var stt = 1;
+                    res.data.forEach(function (item, idx) {
+                        htmlUl += `<li class="list-group-item" data-idx="${idx}" style="cursor:pointer;">
+                                 <b>${stt + "." + item.deptName}</b><br/>
+                                 <span>Trạng thái: ${item.isActive ? "Hoạt động" : "Ngừng"}</span>
+                             </li>`;
+                        stt++;
+                    });
+                } else {
+                    htmlUl = `<li class="list-group-item text-muted">Không có dữ liệu phòng ban.</li>`;
+                }
+                // Render cho cả 3 tab
+                $('#ul-them').html(htmlUl);
+                $('#ul-sua').html(htmlUl);
+                $('#ul-xoa').html(htmlUl);
+
+                function bindDeptClick(tab, data, groupId) {
+                    // Map tab to permissionId
+                    const permissionMap = {
+                        'them': '9da16f13-2f9b-4a65-bc07-f76f2edf9c05',
+                        'sua': 'fc95aaf9-1764-466a-95b8-2c0b6154a165',
+                        'xoa': '8f827684-ed1f-4c43-95d6-a7c138811fbd'
+                    };
+                    const permissionId = permissionMap[tab];
+
+                    $(`#ul-${tab}`).off('click').on('click', 'li', function () {
+                        const idx = $(this).data('idx');
+                        const dept = data[idx];
+                        let content = '';
+
+                        if (dept) {
+                            // Call API with correct permissionId
+                            $.ajax({
+                                url: `/api/caidatsoluotduyet/ListStepSetting?groupId=${groupId}&majorId=7de2a606-abd2-4cae-96e7-472a5622e73f&departmentId=${dept.id || 0}&permissionId=${permissionId}`,
+                                method: "GET",
+                                headers: {
+                                    "Authorization": "Bearer " + resUser.token
+                                }
+                            }).done(function (res) {
+                                if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+                                    let stepsHtml = `<h5>${dept.deptName}</h5>`;
+                                    stepsHtml += `<ul class="list-group mb-2">`;
+                                    res.data.forEach((step, i) => {
+                                        stepsHtml += `<li class="list-group-item">
+                                                 <b>Bước ${i + 1}:</b> ${step.content || 0}
+                                                 <span class="badge badge-info ml-2">${step.isStatus || 0}</span>
+                                             </li>`;
+                                    });
+                                    stepsHtml += `</ul>`;
+                                    content = stepsHtml;
+                                } else {
+                                    content = `<div class="text-muted">Không có dữ liệu bước duyệt.</div>`;
+                                }
+                                $(`#content-${tab}`).html(content);
+                            }).fail(function (err) {
+                                $(`#content-${tab}`).html('<div class="text-danger">Lỗi khi tải dữ liệu bước duyệt.</div>');
+                            });
+                        } else {
+                            $(`#content-${tab}`).html("Không có dữ liệu chi tiết.");
+                        }
+                        $(`#ul-${tab} li`).removeClass('active');
+                        $(this).addClass('active');
+                    });
+                }
+                bindDeptClick('them', res.data, groupId);
+                bindDeptClick('sua', res.data, groupId);
+                bindDeptClick('xoa', res.data, groupId);
+            }).fail(function (err) {
+                $('#ul-them, #ul-sua, #ul-xoa').html('<li class="list-group-item text-danger">Lỗi khi tải dữ liệu phòng ban.</li>');
+                $('#content-them, #content-sua, #content-xoa').html('');
+            });
+        });
+
+        // Khởi tạo select2 nếu cần
+        if (window.$ && $.fn.select2) {
+            $('#ChiNhanhInfo').select2();
+        }
+        $('#ChiNhanhInfo').off('change').on('change', function () {
+            if (typeof onSelectChange === 'function') {
+                onSelectChange($(this).val());
+            }
+        });
+
+    }
+
+    //tính toán
+    function dinhDuongOngThuongLuu(dongChayThuongLuu, duongKinhNgoaiOngNhua, cDayOngOngNhua) {
+        return Math.round((dongChayThuongLuu + duongKinhNgoaiOngNhua - cDayOngOngNhua) * 100) / 100;
+    }
+    function dinhDemCatThuongLuu(t, x, j) {
+        const loaiHopLe = [
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất"
+        ];
+
+        if (loaiHopLe.includes(t)) {
+            return Math.round((x - j) * 100) / 100;
+        }
+        return 0;
+    }
+    function z(t, ab, aa) {
+        const loaiHopLe = [
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất"
+        ];
+
+        if (loaiHopLe.includes(t)) {
+            return Math.round((ab - aa) * 100) / 100;
+        }
+        return 0;
+    }
+
+    $(document).on('change', '#form_caidat input, #form_caidat select', function () {
+        autoCalculate()
+    });
+
+    $(document).on('input', '#form_caidat input', function () {
+        debounce(autoCalculate, 400)
+    });
+
+    const calcMap = {
+        "dinhDuongOngThuongLuu": {
+            func: dinhDuongOngThuongLuu,
+            inputs: ["dongChayThuongLuu", "duongKinhNgoaiOngNhua", "cDayOngOngNhua"]
+        },
+        "dinhDemCatThuongLuu": {
+            func: dinhDemCatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayThuongLuu", "cDayOngOngNhua"]
+        },
+        "cDoDayDemCatThuongLuu": {
+            func: cDoDayDemCatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dinhDemCatThuongLuu", "cDayDemCatThuongLuu"]
+        },
+        "dayDaoThuongLuu": {
+            func: dayDaoThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayThuongLuu", "cDayOngOngNhua", "cDoDayDemCatThuongLuu"]
+        },
+        "chieuSauDaoThuongLuu": {
+            func: chieuSauDaoThuongLuu,
+            inputs: ["hTrangTruocKhiDaoThuongLuu", "dayDaoThuongLuu"]
+        },
+        "tongChieuDayDemDapCatThuongLuu": {
+            func: tongChieuDayDemDapCatThuongLuu,
+            inputs: ["cDayDemCatThuongLuu", "cDayDapCatThuongLuu"]
+        },
+        "dapDatCatThuongLuu": {
+            func: dapDatCatThuongLuu,
+            inputs: ["tongChieuDayDemDapCatThuongLuu", "chieuDayDapDatThuongLuu"]
+        },
+        "chenhDapSoVoiDaoThuongLuu": {
+            func: chenhDapSoVoiDaoThuongLuu,
+            inputs: ["chieuSauDaoThuongLuu", "dapDatCatThuongLuu"]
+        },
+        "dinhDuongOngHaLuu": {
+            func: dinhDuongOngHaLuu,
+            inputs: ["dongChayHaLuu", "duongKinhNgoaiOngNhua", "cDayOngOngNhua"]
+        },
+        "dinhDemCatHaLuu": {
+            func: dinhDemCatHaLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayHaLuu", "cDayOngOngNhua"]
+        },
+        "dinhDapCatThuongLuu": {
+            func: dinhDapCatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dayDapCatThuongLuu", "cDayDapCatThuongLuu"]
+        },
+        "cDoDayDapDatThuongLuu": {
+            func: cDoDayDapDatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayThuongLuu", "cDayOngOngNhua", "dinhDapCatThuongLuu", "dinhDemCatThuongLuu"]
+        },
+        "dinhDapDatThuongLuu": {
+            func: dinhDapDatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "cDoDayDapDatThuongLuu", "chieuDayDapDatThuongLuu"]
+        },
+        "dayDapCatThuongLuu": {
+            func: dayDapCatThuongLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayThuongLuu", "cDayOngOngNhua", "dinhDemCatThuongLuu", "dinhDapDatThuongLuu"]
+        },
+        "dayDaoHaLuu": {
+            func: dayDaoHaLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayHaLuu", "cDayOngOngNhua", "cDoDayDemCatHaLuu"]
+        },
+        "chieuSauDaoHaLuu": {
+            func: chieuSauDaoHaLuu,
+            inputs: ["hTrangTruocKhiDaoHaLuu", "dayDaoHaLuu"]
+        },
+        "cDoDayDemCatHaLuu": {
+            func: cDoDayDemCatHaLuu,
+            inputs: ["id_HinhThucDapTra", "dinhDemCatHaLuu", "cDayDemCatHaLuu"]
+        },
+        "tongChieuDayDemDapCatHaLuu": {
+            func: tongChieuDayDemDapCatHaLuu,
+            inputs: ["cDayDemCatHaLuu", "cDayDapCatHaLuu"]
+        },
+        "dinhDapDatHaLuu": {
+            func: dinhDapDatHaLuu,
+            inputs: ["id_HinhThucDapTra", "cDoDayDapDatHaLuu", "chieuDayDapDatHaLuu"]
+        },
+        "dayDapCatHaLuu": {
+            func: dayDapCatHaLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayHaLuu", "cDayOngOngNhua", "dinhDemCatHaLuu", "dinhDapDatHaLuu"]
+        },
+        "dinhDapCatHaLuu": {
+            func: dinhDapCatHaLuu,
+            inputs: ["id_HinhThucDapTra", "dayDapCatHaLuu", "cDayDapCatHaLuu"]
+        },
+        "cDoDayDapDatHaLuu": {
+            func: cDoDayDapDatHaLuu,
+            inputs: ["id_HinhThucDapTra", "dongChayHaLuu", "cDayOngOngNhua", "dinhDapCatHaLuu", "dinhDemCatHaLuu"]
+        },
+        "dapDatCatHaLuu": {
+            func: dapDatCatHaLuu,
+            inputs: ["tongChieuDayDemDapCatHaLuu", "chieuDayDapDatHaLuu"]
+        },
+        "chenhDapSoVoiDaoHaLuu": {
+            func: chenhDapSoVoiDaoHaLuu,
+            inputs: ["chieuSauDaoHaLuu", "dapDatCatHaLuu"]
+        },
+        "cDoDayDemCat": {
+            func: cDoDayDemCat,
+            inputs: ["cDoDayDemCatThuongLuu", "cDoDayDemCatHaLuu"]
+        },
+        "cDoDinhDemCat": {
+            func: cDoDinhDemCat,
+            inputs: ["dinhDemCatThuongLuu", "dinhDemCatHaLuu"]
+        },
+        "chieuDayDemCat": {
+            func: chieuDayDemCat,
+            inputs: ["cDoDinhDemCat", "cDoDayDemCat"]
+        },
+        "cDoDayDapCat": {
+            func: cDoDayDapCat,
+            inputs: ["dayDapCatThuongLuu", "dayDapCatHaLuu"]
+        },
+        "cDoDinhDapCat": {
+            func: cDoDinhDapCat,
+            inputs: ["dinhDapCatThuongLuu", "dinhDapCatHaLuu"]
+        },
+        "chieuDayDapCat": {
+            func: chieuDayDapCat,
+            inputs: ["cDoDinhDapCat", "cDoDayDapCat"]
+        },
+        "cDoDayDapDat": {
+            func: cDoDayDapDat,
+            inputs: ["cDoDayDapDatThuongLuu", "cDoDayDapDatHaLuu"]
+        },
+        "cDoDinhDapDat": {
+            func: cDoDinhDapDat,
+            inputs: ["dinhDapDatThuongLuu", "dinhDapDatHaLuu"]
+        },
+        "chieuDayDapDat": {
+            func: chieuDayDapDat,
+            inputs: ["cDoDinhDapDat", "cDoDayDapDat"]
+        },
+        "cRongDayNhoTBinh": {
+            func: cRongDayNhoTBinh,
+            inputs: ["cRongDayNhoHLuu", "cRongDayNhoTLuu"]
+        },
+        "chieuSauDaoTrungBinh": {
+            func: chieuSauDaoTrungBinh,
+            inputs: ["chieuSauDaoThuongLuu", "chieuSauDaoHaLuu"]
+        },
+        "cRongDayLonTrungBinh": {
+            func: cRongDayLonTrungBinh,
+            inputs: ["chieuSauDaoTrungBinh", "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cRongDayNhoTBinh"]
+        },
+        "dienTich": {
+            func: dienTich,
+            inputs: ["cRongDayNhoTBinh", "cRongDayLonTrungBinh", "chieuSauDaoTrungBinh"]
+        },
+        "klDao": {
+            func: klDao,
+            inputs: ["dienTich", "chieuDaiOngNhua"]
+        },
+        "cRongDayNhoDemCat": {
+            func: cRongDayNhoDemCat,
+            inputs: ["id_HinhThucDapTra", "cRongDayNhoTBinh"]
+        },
+        "cRongDayLonDemCat": {
+            func: cRongDayLonDemCat,
+            inputs: ["chieuDayDemCat", "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cRongDayNhoDemCat"]
+        },
+        "dienTichDapCat1": {
+            func: dienTichDapCat1,
+            inputs: ["cRongDayNhoDemCat", "cRongDayLonDemCat", "chieuDayDemCat"]
+        },
+        "klDemCat": {
+            func: klDemCat,
+            inputs: ["dienTichDapCat1", "chieuDaiOngNhua"]
+        },
+        "cRongDayNhoDapCat": {
+            func: cRongDayNhoDapCat,
+            inputs: [
+                "id_HinhThucDapTra", "cDoDinhDemCat", "cDoDayDemCat",
+                "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cRongDayNhoTBinh", "chieuDayDapDat"
+            ]
+        },
+        "cRongDayLonDapCat": {
+            func: cRongDayLonDapCat,
+            inputs: ["chieuDayDapCat", "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cRongDayNhoDapCat"]
+        },
+        "dienTichDapCat2": {
+            func: dienTichDapCat2,
+            inputs: ["cRongDayNhoDapCat", "cRongDayLonDapCat", "chieuDayDapCat"]
+        },
+        "klDapCat": {
+            func: klDapCat,
+            inputs: ["dienTichDapCat2", "chieuDaiOngNhua"]
+        },
+        "kLDapCat_KlOngCCho": {
+            func: kLDapCat_KlOngCCho,
+            inputs: [
+                "cDoDayDapCat", "cDoDinhDapCat", "dongChayThuongLuu", "dongChayHaLuu",
+                "cDayOngOngNhua", "dinhDuongOngThuongLuu", "dinhDuongOngHaLuu",
+                "duongKinhNgoaiOngNhua", "chieuDaiOngNhua"
+            ]
+        },
+        "klDapCatSauCCho": {
+            func: klDapCatSauCCho,
+            inputs: ["klDapCat", "kLDapCat_KlOngCCho"]
+        },
+        "cRongDayNhoDapDat": {
+            func: cRongDayNhoDapDat,
+            inputs: [
+                "id_HinhThucDapTra", "cRongDayNhoTBinh", "cDoDinhDemCat", "cDoDayDemCat",
+                "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cDoDinhDapCat", "cDoDayDapCat",
+                "chieuDayDemCat", "chieuDayDapCat"
+            ]
+        },
+        "cRongDayLonDapDat": {
+            func: cRongDayLonDapDat,
+            inputs: ["chieuDayDapDat", "tyLeMoMai", "soMaiTrai", "soMaiPhai", "cRongDayNhoDapDat"]
+        },
+        "dienTichDapDat": {
+            func: dienTichDapDat,
+            inputs: ["cRongDayNhoDapDat", "cRongDayLonDapDat", "chieuDayDapDat"]
+        },
+        "klDapDat": {
+            func: klDapDat,
+            inputs: ["dienTichDapDat", "chieuDaiOngNhua"]
+        },
+        "kLDapDat_KlOngCCho": {
+            func: kLDapDat_KlOngCCho,
+            inputs: [
+                "cDoDayDapDat", "cDoDinhDapDat", "dongChayThuongLuu", "dongChayHaLuu",
+                "cDayOngOngNhua", "dinhDuongOngThuongLuu", "dinhDuongOngHaLuu",
+                "duongKinhNgoaiOngNhua", "chieuDaiOngNhua"
+            ]
+        },
+        "klDapDatSauCCho": {
+            func: klDapDatSauCCho,
+            inputs: ["klDapDat", "kLDapDat_KlOngCCho"]
+        },
+        "klDatThua": {
+            func: klDatThua,
+            inputs: ["kLDapCat_KlOngCCho", "kLDapDat_KlOngCCho"]
+        }
+    };
+
+    // Hàm tổng quát để gọi các phép tính và set lại giá trị
+    function autoCalculate() {
+        try {
+            Object.keys(calcMap).forEach(function (resultId) {
+                const { func, inputs } = calcMap[resultId];
+                const args = inputs.map(id => {
+                    const $el = $('#' + id);
+
+                    if ($el.is('select')) {
+                        return $el.find(':selected').text();
+                    }
+
+                    const inputType = $el.attr('type');
+                    const val = $el.val();
+
+                    if (inputType === "text") {
+                        return (val === null || typeof val === "undefined") ? "" : val;
+                    }
+
+                    if (val === "" || val === null || typeof val === "undefined") return 0;
+                    const num = parseFloat(val);
+                    return isNaN(num) ? 0 : num;
+                });
+
+                let result = func.apply(null, args);
+
+                if (typeof result === "number" && isNaN(result)) result = "";
+                $('#' + resultId).val(result);
+            });
+        } catch (err) {
+            console.error('Lỗi tổng thể trong autoCalculate:', err);
+        }
+    }
+
+    function debounce(fn, delay) {
+        let timer = null;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn.apply(this, args), delay);
+        };
+    }
+
+    //tính toán
+
+    function dinhDuongOngThuongLuu(dongChayThuongLuu, duongKinhNgoaiOngNhua, cDayOngOngNhua) {
+        return Math.round((dongChayThuongLuu + duongKinhNgoaiOngNhua - cDayOngOngNhua) * 100) / 100;
+    }
+    function dinhDemCatThuongLuu(id_HinhThucDapTra, dongChayThuongLuu, cDayOngOngNhua) {
+        const loaiHopLe = [
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất"
+        ];
+
+        if (loaiHopLe.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayThuongLuu - cDayOngOngNhua) * 100) / 100;
+        }
+        return 0;
+    }
+    function cDoDayDemCatThuongLuu(id_HinhThucDapTra, dinhDemCatThuongLuu, cDayDemCatThuongLuu) {
+        const loaiHopLe = [
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất"
+        ];
+
+        if (loaiHopLe.includes(id_HinhThucDapTra)) {
+            return Math.round((dinhDemCatThuongLuu - cDayDemCatThuongLuu) * 100) / 100;
+        }
+        return 0;
+    }
+    function dayDaoThuongLuu(id_HinhThucDapTra, dongChayThuongLuu, cDayOngOngNhua, cDoDayDemCatThuongLuu) {
+        const loai1 = ["Đắp đất", "Đắp đất + đắp cát", "Đắp cát + đắp đất", "Đắp cát"];
+        const loai2 = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất", "Đệm cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayThuongLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return cDoDayDemCatThuongLuu;
+        } else {
+            return 0;
+        }
+    }
+    function chieuSauDaoThuongLuu(hTrangTruocKhiDaoThuongLuu, dayDaoThuongLuu) {
+        return hTrangTruocKhiDaoThuongLuu > 0 ? hTrangTruocKhiDaoThuongLuu - dayDaoThuongLuu : 0;
+    }
+    function tongChieuDayDemDapCatThuongLuu(cDayDemCatThuongLuu, cDayDapCatThuongLuu) {
+        return Math.round((cDayDemCatThuongLuu + cDayDapCatThuongLuu) * 100) / 100;
+    }
+    function dapDatCatThuongLuu(tongChieuDayDemDapCatThuongLuu, chieuDayDapDatThuongLuu) {
+        return Math.round((tongChieuDayDemDapCatThuongLuu + chieuDayDapDatThuongLuu) * 100) / 100;
+    }
+    function chenhDapSoVoiDaoThuongLuu(chieuSauDaoThuongLuu, dapDatCatThuongLuu) {
+        return Math.round((chieuSauDaoThuongLuu - dapDatCatThuongLuu) * 100) / 100;
+    }
+    function dinhDuongOngHaLuu(dongChayHaLuu, duongKinhNgoaiOngNhua, cDayOngOngNhua) {
+        return Math.round((dongChayHaLuu + duongKinhNgoaiOngNhua - cDayOngOngNhua) * 100) / 100;
+    }
+    function dinhDemCatHaLuu(id_HinhThucDapTra, dongChayHaLuu, cDayOngOngNhua) {
+        const loai = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất", "Đệm cát + đắp đất"];
+        return loai.includes(id_HinhThucDapTra) ? Math.round((dongChayHaLuu - cDayOngOngNhua) * 100) / 100 : 0;
+    }
+    function dinhDapCatThuongLuu(id_HinhThucDapTra, dayDapCatThuongLuu, cDayDapCatThuongLuu) {
+        const loai = [
+            "Đắp đất + đắp cát",
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đắp cát + đắp đất",
+            "Đắp cát"
+        ];
+        return loai.includes(id_HinhThucDapTra) ? Math.round((dayDapCatThuongLuu + cDayDapCatThuongLuu) * 100) / 100 : 0;
+    }
+    function cDoDayDapDatThuongLuu(id_HinhThucDapTra, dongChayThuongLuu, cDayOngOngNhua, dinhDapCatThuongLuu, dinhDemCatThuongLuu) {
+        const loai1 = ["Đắp đất", "Đắp đất + đắp cát"];
+        const loai2 = ["Đệm cát + đắp cát + đắp đất", "Đắp cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayThuongLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return dinhDapCatThuongLuu;
+        } else if (id_HinhThucDapTra === "Đệm cát + đắp đất") {
+            return dinhDemCatThuongLuu;
+        } else {
+            return 0;
+        }
+    }
+    function dinhDapDatThuongLuu(id_HinhThucDapTra, cDoDayDapDatThuongLuu, chieuDayDapDatThuongLuu) {
+        const loai = [
+            "Đắp đất",
+            "Đắp đất + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất",
+            "Đắp cát + đắp đất"
+        ];
+
+        if (loai.includes(id_HinhThucDapTra)) {
+            var a = Math.round((cDoDayDapDatThuongLuu + chieuDayDapDatThuongLuu) * 100) / 100;
+            return a;
+        } else {
+            return 0;
+        }
+    }
+    function dayDapCatThuongLuu(id_HinhThucDapTra, dongChayThuongLuu, cDayOngOngNhua, dinhDemCatThuongLuu, dinhDapDatThuongLuu) {
+        const loai1 = ["Đắp cát", "Đắp cát + đắp đất"];
+        const loai2 = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayThuongLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return dinhDemCatThuongLuu;
+        } else if (id_HinhThucDapTra === "Đắp đất + đắp cát") {
+            return dinhDapDatThuongLuu;
+        } else {
+            return 0;
+        }
+    }
+    function dayDaoHaLuu(id_HinhThucDapTra, dongChayHaLuu, cDayOngOngNhua, cDoDayDemCatHaLuu) {
+        const loai1 = ["Đắp đất", "Đắp đất + đắp cát", "Đắp cát + đắp đất", "Đắp cát"];
+        const loai2 = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất", "Đệm cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayHaLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return cDoDayDemCatHaLuu;
+        } else {
+            return 0;
+        }
+    }
+    function chieuSauDaoHaLuu(hTrangTruocKhiDaoHaLuu, dayDaoHaLuu) {
+        return hTrangTruocKhiDaoHaLuu > 0 ? Math.round((hTrangTruocKhiDaoHaLuu - dayDaoHaLuu) * 100) / 100 : 0;
+    }
+    function cDoDayDemCatHaLuu(id_HinhThucDapTra, dinhDemCatHaLuu, cDayDemCatHaLuu) {
+        const loai = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất", "Đệm cát + đắp đất"];
+        return loai.includes(id_HinhThucDapTra) ? Math.round((dinhDemCatHaLuu - cDayDemCatHaLuu) * 100) / 100 : 0;
+    }
+    function tongChieuDayDemDapCatHaLuu(cDayDemCatHaLuu, cDayDapCatHaLuu) {
+        return Math.round((cDayDemCatHaLuu + cDayDapCatHaLuu) * 100) / 100;
+    }
+    function dinhDapDatHaLuu(id_HinhThucDapTra, cDoDayDapDatHaLuu, chieuDayDapDatHaLuu) {
+        const loai = [
+            "Đắp đất",
+            "Đắp đất + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đệm cát + đắp đất",
+            "Đắp cát + đắp đất"
+        ];
+
+        if (loai.includes(id_HinhThucDapTra)) {
+            return Math.round((cDoDayDapDatHaLuu + chieuDayDapDatHaLuu) * 100) / 100;
+        } else {
+            return 0;
+        }
+    }
+    function dayDapCatHaLuu(id_HinhThucDapTra, dongChayHaLuu, cDayOngOngNhua, dinhDemCatHaLuu, dinhDapDatHaLuu) {
+        const loai1 = ["Đắp cát", "Đắp cát + đắp đất"];
+        const loai2 = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayHaLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return dinhDemCatHaLuu;
+        } else if (id_HinhThucDapTra === "Đắp đất + đắp cát") {
+            return dinhDapDatHaLuu;
+        } else {
+            return 0;
+        }
+    }
+    function dinhDapCatHaLuu(id_HinhThucDapTra, dayDapCatHaLuu, cDayDapCatHaLuu) {
+        const loai = [
+            "Đắp đất + đắp cát",
+            "Đệm cát + đắp cát",
+            "Đệm cát + đắp cát + đắp đất",
+            "Đắp cát + đắp đất",
+            "Đắp cát"
+        ];
+
+        if (loai.includes(id_HinhThucDapTra)) {
+            return Math.round((dayDapCatHaLuu + cDayDapCatHaLuu) * 100) / 100;
+        } else {
+            return 0;
+        }
+    }
+    function cDoDayDapDatHaLuu(id_HinhThucDapTra, dongChayHaLuu, cDayOngOngNhua, dinhDapCatHaLuu, dinhDemCatHaLuu) {
+        const loai1 = ["Đắp đất", "Đắp đất + đắp cát"];
+        const loai2 = ["Đệm cát + đắp cát + đắp đất", "Đắp cát + đắp đất"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round((dongChayHaLuu - cDayOngOngNhua) * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return dinhDapCatHaLuu;
+        } else if (id_HinhThucDapTra === "Đệm cát + đắp đất") {
+            return dinhDemCatHaLuu;
+        } else {
+            return 0;
+        }
+    }
+    function dapDatCatHaLuu(tongChieuDayDemDapCatHaLuu, chieuDayDapDatHaLuu) {
+        return Math.round((tongChieuDayDemDapCatHaLuu + chieuDayDapDatHaLuu) * 100) / 100;
+    }
+    function chenhDapSoVoiDaoHaLuu(chieuSauDaoHaLuu, dapDatCatHaLuu) {
+        return Math.round((chieuSauDaoHaLuu - dapDatCatHaLuu) * 100) / 100;
+    }
+    function cDoDayDemCat(cDoDayDemCatThuongLuu, cDoDayDemCatHaLuu) {
+        return Math.round(((cDoDayDemCatThuongLuu + cDoDayDemCatHaLuu) / 2) * 100) / 100;
+    }
+    function cDoDinhDemCat(dinhDemCatThuongLuu, dinhDemCatHaLuu) {
+        return Math.round(((dinhDemCatThuongLuu + dinhDemCatHaLuu) / 2) * 100) / 100;
+    }
+    function chieuDayDemCat(cDoDinhDemCat, cDoDayDemCat) {
+        return Math.round((cDoDinhDemCat - cDoDayDemCat) * 100) / 100;
+    }
+    function cDoDayDapCat(dayDapCatThuongLuu, dayDapCatHaLuu) {
+        return Math.round(((dayDapCatThuongLuu + dayDapCatHaLuu) / 2) * 100) / 100;
+    }
+    function cDoDinhDapCat(dinhDapCatThuongLuu, dinhDapCatHaLuu) {
+        return Math.round(((dinhDapCatThuongLuu + dinhDapCatHaLuu) / 2) * 100) / 100;
+    }
+    function chieuDayDapCat(cDoDinhDapCat, cDoDayDapCat) {
+        return Math.round((cDoDinhDapCat - cDoDayDapCat) * 100) / 100;
+    }
+    function cDoDayDapDat(cDoDayDapDatThuongLuu, cDoDayDapDatHaLuu) {
+        return Math.round(((cDoDayDapDatThuongLuu + cDoDayDapDatHaLuu) / 2) * 100) / 100;
+    }
+    function cDoDinhDapDat(dinhDapDatThuongLuu, dinhDapDatHaLuu) {
+        return Math.round(((dinhDapDatThuongLuu + dinhDapDatHaLuu) / 2) * 100) / 100;
+    }
+    function chieuDayDapDat(cDoDinhDapDat, cDoDayDapDat) {
+        return Math.round((cDoDinhDapDat - cDoDayDapDat) * 100) / 100;
+    }
+    function cRongDayNhoTBinh(cRongDayNhoHLuu, cRongDayNhoTLuu) {
+        return Math.round(((cRongDayNhoHLuu + cRongDayNhoTLuu) / 2) * 100) / 100;
+    }
+    function chieuSauDaoTrungBinh(chieuSauDaoThuongLuu, chieuSauDaoHaLuu) {
+        return Math.round(((chieuSauDaoThuongLuu + chieuSauDaoHaLuu) / 2) * 100) / 100;
+    }
+    function cRongDayLonTrungBinh(chieuSauDaoTrungBinh, tyLeMoMai, soMaiTrai, soMaiPhai, cRongDayNhoTBinh) {
+        return Math.round((chieuSauDaoTrungBinh * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoTBinh) * 100) / 100;
+    }
+    function dienTich(cRongDayNhoTBinh, cRongDayLonTrungBinh, chieuSauDaoTrungBinh) {
+        if (cRongDayNhoTBinh <= 0) return 0;
+        return Math.round(((cRongDayNhoTBinh + cRongDayLonTrungBinh) * chieuSauDaoTrungBinh) / 2 * 100) / 100;
+    }
+    function klDao(dienTich, chieuDaiOngNhua) {
+        return Math.round(dienTich * chieuDaiOngNhua * 100) / 100;
+    }
+    function cRongDayNhoDemCat(id_HinhThucDapTra, cRongDayNhoTBinh) {
+        const loai = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất", "Đệm cát + đắp đất"];
+        return loai.includes(id_HinhThucDapTra) ? cRongDayNhoTBinh : 0;
+    }
+    function cRongDayLonDemCat(chieuDayDemCat, tyLeMoMai, soMaiTrai, soMaiPhai, cRongDayNhoDemCat) {
+        return Math.round((chieuDayDemCat * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoDemCat) * 100) / 100;
+    }
+    function dienTichDapCat1(cRongDayNhoDemCat, cRongDayLonDemCat, chieuDayDemCat) {
+        return Math.round(((cRongDayNhoDemCat + cRongDayLonDemCat) * chieuDayDemCat) / 2 * 100) / 100;
+    }
+    function klDemCat(dienTichDapCat1, chieuDaiOngNhua) {
+        return Math.round(dienTichDapCat1 * chieuDaiOngNhua * 100) / 100;
+    }
+    function cRongDayNhoDapCat(id_HinhThucDapTra, cDoDinhDemCat, cDoDayDemCat, tyLeMoMai, soMaiTrai, soMaiPhai, cRongDayNhoTBinh, chieuDayDapDat) {
+        const loai1 = ["Đệm cát + đắp cát", "Đệm cát + đắp cát + đắp đất"];
+        const loai2 = ["Đắp cát + đắp đất", "Đắp cát"];
+
+        if (loai1.includes(id_HinhThucDapTra)) {
+            return Math.round(((cDoDinhDemCat - cDoDayDemCat) * tyLeMoMai * (soMaiTrai + soMaiPhai)) + cRongDayNhoTBinh * 100) / 100;
+        } else if (loai2.includes(id_HinhThucDapTra)) {
+            return cRongDayNhoTBinh;
+        } else if (id_HinhThucDapTra === "Đắp đất + đắp cát") {
+            return Math.round((chieuDayDapDat * tyLeMoMai * (soMaiTrai + soMaiPhai)) + cRongDayNhoTBinh * 100) / 100;
+        } else {
+            return 0;
+        }
+    }
+    function cRongDayLonDapCat(chieuDayDapCat, tyLeMoMai, soMaiTrai, soMaiPhai, cRongDayNhoDapCat) {
+        return Math.round((chieuDayDapCat * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoDapCat) * 100) / 100;
+    }
+    function dienTichDapCat2(cRongDayNhoDapCat, cRongDayLonDapCat, chieuDayDapCat) {
+        return Math.round(((cRongDayNhoDapCat + cRongDayLonDapCat) * chieuDayDapCat) / 2 * 100) / 100;
+    }
+    function klDapCat(dienTichDapCat2, chieuDaiOngNhua) {
+        return Math.round(dienTichDapCat2 * chieuDaiOngNhua * 100) / 100;
+    }
+    function kLDapCat_KlOngCCho(cDoDayDapCat, cDoDinhDapCat, dongChayThuongLuu, dongChayHaLuu, cDayOngOngNhua, dinhDuongOngThuongLuu, dinhDuongOngHaLuu, duongKinhNgoaiOngNhua, chieuDaiOngNhua) {
+        const avg1 = (dongChayThuongLuu + dongChayHaLuu) / 2 - cDayOngOngNhua;
+        const avg2 = (dinhDuongOngThuongLuu + dinhDuongOngHaLuu) / 2;
+
+        let numerator = 0;
+
+        if (cDoDayDapCat >= avg1 && cDoDinhDapCat <= avg2) {
+            numerator = cDoDinhDapCat - cDoDayDapCat;
+        } else if (cDoDayDapCat < avg2 && cDoDinhDapCat > avg2) {
+            numerator = avg2 - cDoDayDapCat;
+        } else {
+            numerator = 0;
+        }
+
+        const fraction = numerator / duongKinhNgoaiOngNhua;
+        const area = (3.14 * duongKinhNgoaiOngNhua * duongKinhNgoaiOngNhua) / 4;
+
+        return Math.round(fraction * area * chieuDaiOngNhua * 100) / 100;
+    }
+    function klDapCatSauCCho(klDapCat, kLDapCat_KlOngCCho) {
+        return Math.round((klDapCat - kLDapCat_KlOngCCho) * 100) / 100;
+    }
+    function cRongDayNhoDapDat(id_HinhThucDapTra, cRongDayNhoTBinh, cDoDinhDemCat, cDoDayDemCat, tyLeMoMai, soMaiTrai, soMaiPhai, cDoDinhDapCat, cDoDayDapCat, chieuDayDemCat, chieuDayDapCat) {
+        if (id_HinhThucDapTra === "Đắp đất" || id_HinhThucDapTra === "Đắp đất + đắp cát") {
+            return cRongDayNhoTBinh;
+        }
+        if (id_HinhThucDapTra === "Đệm cát + đắp đất") {
+            return Math.round(((cDoDinhDemCat - cDoDayDemCat) * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoTBinh) * 100) / 100;
+        }
+        if (id_HinhThucDapTra === "Đắp cát + đắp đất") {
+            return Math.round(((cDoDinhDapCat - cDoDayDapCat) * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoTBinh) * 100) / 100;
+        }
+        if (id_HinhThucDapTra === "Đệm cát + đắp cát + đắp đất") {
+            return Math.round(((chieuDayDemCat + chieuDayDapCat) * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoTBinh) * 100) / 100;
+        }
+        return 0;
+    }
+    function cRongDayLonDapDat(chieuDayDapDat, tyLeMoMai, soMaiTrai, soMaiPhai, cRongDayNhoDapDat) {
+        var a = Math.round((chieuDayDapDat * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoDapDat) * 100) / 100;
+        return Math.round((chieuDayDapDat * tyLeMoMai * (soMaiTrai + soMaiPhai) + cRongDayNhoDapDat) * 100) / 100;
+    }
+    function dienTichDapDat(cRongDayNhoDapDat, cRongDayLonDapDat, chieuDayDapDat) {
+        var b = Math.round(((cRongDayNhoDapDat + cRongDayLonDapDat) * chieuDayDapDat / 2) * 100) / 100;
+        return Math.round(((cRongDayNhoDapDat + cRongDayLonDapDat) * chieuDayDapDat / 2) * 100) / 100;
+    }
+    function klDapDat(dienTichDapDat, chieuDaiOngNhua) {
+        var c=  Math.round(dienTichDapDat * chieuDaiOngNhua * 100) / 100;
+        return Math.round(dienTichDapDat * chieuDaiOngNhua * 100) / 100;
+    }
+    function kLDapDat_KlOngCCho(cDoDayDapDat, cDoDinhDapDat, dongChayThuongLuu, dongChayHaLuu, cDayOngOngNhua, dinhDuongOngThuongLuu, dinhDuongOngHaLuu, duongKinhNgoaiOngNhua, chieuDaiOngNhua) {
+        const halfX = (dongChayThuongLuu + dongChayHaLuu) / 2 - cDayOngOngNhua;
+        const halfY = (dinhDuongOngThuongLuu + dinhDuongOngHaLuu) / 2;
+        let numerator = 0;
+
+        if (cDoDayDapDat >= halfX && cDoDinhDapDat <= halfY) {
+            numerator = cDoDinhDapDat - cDoDayDapDat;
+        } else if (cDoDayDapDat < halfY && cDoDinhDapDat > halfY) {
+            numerator = halfY - cDoDayDapDat;
+        } else {
+            numerator = 0;
+        }
+
+        const ratio = numerator / duongKinhNgoaiOngNhua;
+        const area = (3.14 * duongKinhNgoaiOngNhua * duongKinhNgoaiOngNhua) / 4;
+
+        return Math.round(ratio * area * chieuDaiOngNhua * 100) / 100;
+    }
+    function klDapDatSauCCho(klDapDat, kLDapDat_KlOngCCho) {
+        return Math.round((klDapDat - kLDapDat_KlOngCCho) * 100) / 100;
+    }
+    function klDatThua(kLDapCat_KlOngCCho, kLDapDat_KlOngCCho) {
+        return Math.round((kLDapCat_KlOngCCho + kLDapDat_KlOngCCho) * 100) / 100;
+    }
+
+</script>

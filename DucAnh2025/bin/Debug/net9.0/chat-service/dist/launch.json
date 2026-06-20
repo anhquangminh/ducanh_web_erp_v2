@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Chat Service",
+      "type": "node",
+      "request": "launch",
+
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "debug"],
+
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+
+      "sourceMaps": true
+    }
+  ]
+}
